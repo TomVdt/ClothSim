@@ -1,6 +1,11 @@
 #pragma once
 #include <iostream>  // for std::ostream
 
+
+// TODO: move to a seperate file (globals.h?)
+constexpr double EPSILON(1e-10);
+
+
 class Vector3D {
 private:
     double x, y, z;
@@ -9,7 +14,7 @@ public:
     // Constructors
     Vector3D();
     Vector3D(double, double, double);
-    // Copie par défaut suffisante?
+    // TODO: Copie par défaut suffisante?
     // Vector3D(const Vector3D&);
 
     // Getters
@@ -32,6 +37,10 @@ public:
     const Vector3D operator/(double) const;
     const Vector3D operator-() const;
 
+    // Alternatives to .dot() and .cross()
+    const double operator*(const Vector3D&) const;
+    const Vector3D operator^(const Vector3D&) const;
+
     bool operator==(const Vector3D&) const;
     bool operator!=(const Vector3D&) const;
 
@@ -49,7 +58,6 @@ public:
 const Vector3D operator+(Vector3D, const Vector3D&);
 const Vector3D operator-(Vector3D, const Vector3D&);
 const Vector3D operator*(double, const Vector3D&);
-const Vector3D operator/(double, const Vector3D&);
 
 // "Print"
 std::ostream& operator<<(std::ostream&, const Vector3D&);
