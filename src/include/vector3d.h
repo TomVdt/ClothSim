@@ -35,9 +35,10 @@ public:
     bool operator!=(const Vector3D&) const;
 
     // Methods
-    double norm() const;
     double normSq() const;
-    Vector3D normalize();
+    double norm() const;
+    void normalize();
+    Vector3D normalized() const;
     double dot(const Vector3D&) const;
     Vector3D cross(const Vector3D&) const;
 };
