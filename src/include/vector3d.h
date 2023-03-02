@@ -9,17 +9,18 @@ public:
     // Constructors
     Vector3D();
     Vector3D(double, double, double);
-    Vector3D(const Vector3D&);
+    // Copie par défaut suffisante?
+    // Vector3D(const Vector3D&);
 
     // Getters
-    double getX() const;
-    double getY() const;
-    double getZ() const;
+    double getX() const {return x;};
+    double getY() const {return y;};
+    double getZ() const {return z;};
 
     // Setters
-    void setX(double);
-    void setY(double);
-    void setZ(double);
+    void setX(double x_) {x = x_;};
+    void setY(double y_) {y = y_;};
+    void setZ(double z_) {z = z_;};
 
     // Internal operator overloading
     Vector3D& operator+=(const Vector3D&);
@@ -27,9 +28,9 @@ public:
     Vector3D& operator*=(double);
     Vector3D& operator/=(double);
 
-    const Vector3D operator*(double);
-    const Vector3D operator/(double);
-    const Vector3D operator-();
+    const Vector3D operator*(double) const;
+    const Vector3D operator/(double) const;
+    const Vector3D operator-() const;
 
     bool operator==(const Vector3D&) const;
     bool operator!=(const Vector3D&) const;
@@ -51,4 +52,4 @@ const Vector3D operator*(double, const Vector3D&);
 const Vector3D operator/(double, const Vector3D&);
 
 // "Print"
-std::ostream& operator<<(std::ostream, const Vector3D&);
+std::ostream& operator<<(std::ostream&, const Vector3D&);
