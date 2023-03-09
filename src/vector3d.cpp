@@ -1,6 +1,6 @@
-#include "include/vector3d.h"
 #include <cmath>
-
+#include "include/vector3d.h"
+#include "include/constants.h"
 
 // Constructeurs
 Vector3D::Vector3D() : x(0.0), y(0.0), z(0.0) {}
@@ -102,9 +102,9 @@ const Vector3D Vector3D::operator-() const {
 
 bool Vector3D::operator==(const Vector3D& vec) const {
     return (
-        (abs(x - vec.x) < EPSILON) and
-        (abs(y - vec.y) < EPSILON) and
-        (abs(z - vec.z) < EPSILON)
+        (abs(x - vec.x) < CONSTANTS::EPSILON) and
+        (abs(y - vec.y) < CONSTANTS::EPSILON) and
+        (abs(z - vec.z) < CONSTANTS::EPSILON)
     );
 }
 

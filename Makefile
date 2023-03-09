@@ -10,13 +10,16 @@ all:: build test
 
 test: build bin/tests/testVector3d
 
-build/vector3d.o: src/vector3d.cpp src/include/vector3d.h
+build/vector3d.o: src/vector3d.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-build/testVector3d.o: src/test/testVector3d.cpp src/include/vector3d.h
+build/constants.o: src/constants.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-bin/tests/testVector3d: build/testVector3d.o build/vector3d.o
+build/testVector3d.o: src/test/testVector3d.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+bin/tests/testVector3d: build/testVector3d.o build/vector3d.o build/constants.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 build:

@@ -1,10 +1,6 @@
 #pragma once
 #include <iostream>  // for std::ostream
-
-
-// TODO: move to a seperate file (globals.h?)
-constexpr double EPSILON(1e-10);
-
+#include "constants.h"
 
 class Vector3D {
 private:
