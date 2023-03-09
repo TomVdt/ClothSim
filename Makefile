@@ -4,26 +4,33 @@ CXXFLAGS = -std=c++17 -Wall
 
 # CXXFLAGS += -g
 CXXFLAGS += -O2
+CXXFLAGS += -I src
 
-SRC_DIR = src
-BUILD_DIR = build
-BIN_DIR = bin
+all:: build test
 
-CXXFLAGS += -I $(SRC_DIR)
+test: build bin/tests/testVector3d
 
-all:: test
+build/vector3d.o: src/vector3d.cpp src/include/vector3d.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-test: testVector3d
+build/testVector3d.o: src/test/testVector3d.cpp src/include/vector3d.h
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-vector3d.o: src/vector3d.cpp src/include/vector3d.h
-	$(CXX) $(CXXFLAGS) -c $< -o $(BUILD_DIR)/$@
+bin/tests/testVector3d: build/testVector3d.o build/vector3d.o
+	$(CXX) $(CXXFLAGS) $^ -o $@
 
-testVector3d.o: src/test/testVector3d.cpp src/include/vector3d.h
-	$(CXX) $(CXXFLAGS) -c $< -o $(BUILD_DIR)/$@
+build:
+	mkdir bin
+	mkdir bin
+	mkdir bin/app
+	mkdir bin/tests
 
-testVector3d: testVector3d.o vector3d.o
-	$(CXX) $(CXXFLAGS) $(addprefix $(BUILD_DIR)/, $^) -o $(BIN_DIR)/tests/$@
+run_tests: test
+	for file in bin/tests/*; do ./$$file; done;
 
 clean:
 	@echo Removing compiled object files...
-	rm -f $(BUILD_DIR)/*.o;
+	rm -f build/*.o
+	@echo Removing executables...
+	rm -f bin/app/*
+	rm -f bin/tests/*
