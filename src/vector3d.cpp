@@ -17,13 +17,15 @@ double Vector3D::normSq() const {
     return x*x + y*y + z*z;
 }
 
-void Vector3D::normalize() {
+Vector3D& Vector3D::normalize() {
     // TODO : division par zéro
     double norme = norm();
     *this /= norme;
+    return *this;
 }
 
 Vector3D Vector3D::normalized() const {
+    // Renvoie un nouveau vecteur, copie le vecteur actuel
     Vector3D vec(*this);
     vec.normalize();
     return vec;
@@ -33,7 +35,6 @@ double Vector3D::dot(const Vector3D& vec) const {
     return x*vec.x + y*vec.y + z*vec.z;
 }
 
-// actuel cross l'argument
 Vector3D Vector3D::cross(const Vector3D& vec) const {
     return Vector3D(y*vec.z - z*vec.y, z*vec.x - x*vec.z, x*vec.y - y*vec.x);
 }
@@ -69,17 +70,22 @@ Vector3D& Vector3D::operator/=(double k) {
 }
 
 const Vector3D Vector3D::operator*(double k) const {
+    // Copie necessaire car nouveau vecteur
     Vector3D vec(*this);
     vec *= k;
     return vec;
 }
 
 const double Vector3D::operator*(const Vector3D& vec) const{
-    return this->dot(vec);
+    return dot(vec);
 }
 
 const Vector3D Vector3D::operator^(const Vector3D& vec) const {
-    return this->cross(vec);
+    return cross(vec);
+}
+
+const Vector3D Vector3D::operator~() const {
+    return normalized();
 }
 
 const Vector3D Vector3D::operator/(double k) const {
@@ -96,14 +102,14 @@ const Vector3D Vector3D::operator-() const {
 
 bool Vector3D::operator==(const Vector3D& vec) const {
     return (
-        (abs(x - vec.x) < EPSILON) &&
-        (abs(y - vec.y) < EPSILON) &&
+        (abs(x - vec.x) < EPSILON) and
+        (abs(y - vec.y) < EPSILON) and
         (abs(z - vec.z) < EPSILON)
     );
 }
 
 bool Vector3D::operator!=(const Vector3D& vec) const {
-    return !((*this) == vec);
+    return !(operator==(vec));
 }
 
 

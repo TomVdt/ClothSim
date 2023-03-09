@@ -6,10 +6,10 @@ using std::cout;
 using std::endl;
 
 int main() {
-    Vector3D vec1(1.0, 2.0, -0.1);
-    Vector3D vec2(2.6, 3.5, 4.1);
-    Vector3D zero(0.0, 0.0, 0.0);
-    Vector3D random(1.0, 2.0, 3.0);
+    const Vector3D vec1(1.0, 2.0, -0.1);
+    const Vector3D vec2(2.6, 3.5, 4.1);
+    const Vector3D zero(0.0, 0.0, 0.0);
+    const Vector3D random(1.0, 2.0, 3.0);
     Vector3D tobeset(6.9, 4.2, 6.0);
 
     cout << "=== Sanity check ===" << endl;
@@ -23,12 +23,13 @@ int main() {
     SHOW_TEST("Copie", Vector3D(vec1), vec1);
 
     cout << "=== Interface ===" << endl;
-    Vector3D threezerozero(3.0, 0.0, 0.0);
+    const Vector3D threezerozero(3.0, 0.0, 0.0);
+    Vector3D zerofivezero_to_mod(0.0, 5.0, 0.0);
     SHOW_TEST("Norme", threezerozero.norm(), 3.0);
     SHOW_TEST("Norme2", vec1.normSq(), 5.01);  // eq on double
     SHOW_TEST("Norme2", vec2.normSq(), 35.82);  // eq on double
     SHOW_TEST("Unitaire", threezerozero.normalized(), Vector3D(1.0, 0.0, 0.0));
-    SHOW_TEST("Unitaire", Vector3D(1.0, 0.0, 0.0).normalized(), Vector3D(1.0, 0.0, 0.0));
+    SHOW_TEST("Unitaire en-place", zerofivezero_to_mod.normalize(), Vector3D(0.0, 1.0, 0.0));
     SHOW_TEST("Scalaire", vec1.dot(vec2), 9.19);
     SHOW_TEST("Scalaire commutatif", vec2.dot(vec1), 9.19);
     SHOW_TEST("Vectoriel", vec1.cross(vec2), Vector3D(8.55, -4.36, -1.7));
@@ -52,6 +53,7 @@ int main() {
 
     SHOW_TEST("Scalaire", vec1 * vec2, 9.19);
     SHOW_TEST("Vectoriel", vec1 ^ vec2, Vector3D(8.55, -4.36, -1.7));
+    SHOW_TEST("Unitaire", ~threezerozero, Vector3D(1.0, 0.0, 0.0));
     
     SHOW_TEST("Egalite", vec1 == vec1, true);
     SHOW_TEST("Egalite", vec1 == vec2, false);

@@ -33,13 +33,14 @@ public:
     Vector3D& operator*=(double);
     Vector3D& operator/=(double);
 
+    const Vector3D operator-() const;
     const Vector3D operator*(double) const;
     const Vector3D operator/(double) const;
-    const Vector3D operator-() const;
 
-    // Alternatives to .dot() and .cross()
+    // Alternatives to .dot() and .cross() and .normalized()
     const double operator*(const Vector3D&) const;
     const Vector3D operator^(const Vector3D&) const;
+    const Vector3D operator~() const;
 
     bool operator==(const Vector3D&) const;
     bool operator!=(const Vector3D&) const;
@@ -47,7 +48,7 @@ public:
     // Methods
     double normSq() const;
     double norm() const;
-    void normalize();
+    Vector3D& normalize();
     Vector3D normalized() const;
     double dot(const Vector3D&) const;
     Vector3D cross(const Vector3D&) const;
