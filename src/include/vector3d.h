@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>  // for std::ostream
-#include "constants.h"
+
 
 class Vector3D {
 private:
