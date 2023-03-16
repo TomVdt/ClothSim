@@ -29,14 +29,11 @@ public:
     Vector3D& operator*=(double);
     Vector3D& operator/=(double);
 
-    const Vector3D operator-() const;
-    const Vector3D operator*(double) const;
-    const Vector3D operator/(double) const;
 
     // Alternatives to .dot() and .cross() and .normalized()
-    const double operator*(const Vector3D&) const;
-    const Vector3D operator^(const Vector3D&) const;
-    const Vector3D operator~() const;
+    double operator*(const Vector3D&) const;
+    Vector3D operator^(const Vector3D&) const;
+    Vector3D operator~() const;
 
     bool operator==(const Vector3D&) const;
     bool operator!=(const Vector3D&) const;
@@ -52,9 +49,12 @@ public:
 
 
 // External operator overloads
-const Vector3D operator+(Vector3D, const Vector3D&);
-const Vector3D operator-(Vector3D, const Vector3D&);
-const Vector3D operator*(double, const Vector3D&);
+Vector3D operator+(Vector3D, const Vector3D&);
+Vector3D operator-(Vector3D);
+Vector3D operator-(Vector3D, const Vector3D&);
+Vector3D operator*(Vector3D, double);
+Vector3D operator*(double, const Vector3D&);
+Vector3D operator/(Vector3D, double);
 
 // "Print"
 std::ostream& operator<<(std::ostream&, const Vector3D&);
