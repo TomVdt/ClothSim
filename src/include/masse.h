@@ -1,26 +1,25 @@
 #pragma once
 #include "include/vector3d.h"
-#include "include/spring.h"
+
 #include <vector>
-#include <memory>
 #include <iostream>
+
+class Spring;
 
 typedef std::vector<Spring*> ManySprings; 
 
-
 class Masse {                                       // a faire: fichier tests
 private:
-    Vector3D pos;
-    Vector3D vel;
     double mass;
     double lambda;
+    Vector3D pos;
+    Vector3D vel;
     Vector3D force;
     ManySprings springList;
 
 
 public:
-    Masse(double mass, double lambda, const Vector3D& pos, const Vector3D& vel);
-
+    Masse(double mass, double lambda = 0.0, const Vector3D& pos = Vector3D(), const Vector3D& vel = Vector3D());
 
     Vector3D getPos() const {return pos;}
     Vector3D getVel() const {return vel;}
@@ -28,13 +27,20 @@ public:
     double getMass() const {return mass;}
     double getLambda() const {return lambda;}
 
+    void setPos(const Vector3D& vec) { pos = vec; }
+    void setVel(const Vector3D& vec) { vel = vec; }
+
     Vector3D acceleration() const;
 
+    void connectSpring(Spring* spring);
+    void disconnectSpring(Spring* spring);
+    void disconnect();
 
     void addForce(const Vector3D& df);
 
     void updateForce();
 
+    void display(std::ostream&) const;
 };
 
 
