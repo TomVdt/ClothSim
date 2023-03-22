@@ -1,11 +1,11 @@
 # Réponses
 
-## Exercice 1
+## P1
 
 > Comment représentez-vous ces vecteurs ? Comment sont-ils organisés : quels attributs ? quelles méthodes ? quels droits d'accès ?
 
 Les vecteurs sont représentés avec 3 `double` privés `x`, `y` et `z`. Ce sont les seuls attributs de la classe.
-Nous aurions bien sur aussi pu utiliser un array de taille 3 (`std::array` ou array à la C), mais notre choix semble plus naturel et plus ergonomique à utiliser.
+Nous aurions bien sur aussi pu utiliser un array de taille 3 (`std::array` ou array à la C), mais notre choix semble plus naturel, plus performant et plus ergonomique à utiliser.
 Utiliser un array serait probablement mieux si nous voulions pouvoir étendre la classe à N-dimensions.
 
 Nous avons des méthodes publiques:
@@ -18,4 +18,32 @@ Nous avons des méthodes publiques:
 
   Cela facilitera l'utilisation de ces vecteurs
 
-Pour l'instant, aucune méthode privée n'est nécessaire.
+Aucune méthode privée n'est nécessaire pour nous.
+
+## P4
+
+> 	Avez-vous ajouté un constructeur de copie ? Pourquoi (justifiez votre choix) ?
+
+Nous n'avons pasa rajouté de constructeur de copie car la copie par défaut (copie de surface) suffit, nous n'avons pas d'allocation dynamique.
+
+> Si l'on souhaitait ajouter un constructeur par coordonnées sphériques (deux angles et une longueur)
+> 1. que cela impliquerait-il au niveau des attributs de la classe ?
+> 2. quelle serait la difficulté majeure (voire l'impossibilité) de sa réalisation en C++ ? (C'est d'ailleurs pour cela qu'on ne vous demande pas de faire un tel constructeur !)
+
+On pourrait envisager de convertir les coordonnées sphériques en coordonnées cartésiennes dans un nouveau constructeur (ou à travers une méthode statique, pour différencier du constructeur `x`, `y`, `z`), et continuer à utiliser le vecteur comme un vecteur en coordonnées cartésiennes.
+
+On pourrait aussi rajouter des attributs (privés) `rho`, `theta` et `r` que nous devrons mettre à jour à chaque changement dans le vecteur, ce qui peut être très couteux en calculs. Alternativement, nous pourrions rajouter uniquement des getters qui calculent `rho`, `theta` et `r` quand on en a besoin, à l'aide des fonctions trigonométriques (couteux en calcul!).
+
+Cependant, si nous voulions majoritairement utiliser les vecteurs avec la représentation en coordonnées sphériques, il serait préférable de créer une classe `Vector3D` qui manipule des coordonnées sphériques, au cout de temps de calcul pour convertir en coordonnées cartésiennes, si nécessaire.
+
+Pour notre utilisation des vecteurs, les `Vector3D` en coordonnées cartésiennes sont préférables, car on a surtout des mouvements de translation et non de rotation.
+
+> Quels opérateurs avez vous introduits ?
+
+Nous avons introduit les opérateurs `<<` et `==` pour faire le role de `affiche` et `compare`, ainsi que d'autre opérateurs, qui sont documentés dans `CONCEPTION.md` (en résumé: opérateurs arithmétiques, normalisation `~`, produit scalaire et vectoriel).
+
+## P5
+
+> Comment avez-vous implémenté l'ensemble de ressorts ?
+
+L'ensemble de ressorts est un `vector<Spring*>`. On utilise des `Spring*`, pointeurs "a la C" vers des `Spring`s et non des `unique_ptr` car un ressort connecte 2 masses ensemble, qui doivent chacun garder une référence vers leurs ressorts. On ne peut pas utiliser de références par limitation de la classe `vector`. Une autre option serait d'utiliser des `shared_ptr` mais ils pourraient poser des problèmes de référence circulaire entre `Spring` et `Masse`, même s'ils simplifiraient la gestion de mémoire.
