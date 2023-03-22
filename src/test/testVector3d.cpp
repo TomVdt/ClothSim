@@ -45,18 +45,20 @@ int main() {
     SHOW_TEST("Soustraction", vec1 - vec2, Vector3D(-1.6, -1.5, -4.2));
     SHOW_TEST("Soustraction self", vec1 - vec1, zero);
     SHOW_TEST("Oppose", -vec1, Vector3D(-1, -2, 0.1));
-    SHOW_TEST("Multiplication entier", vec1 * 2, Vector3D(2, 4, 0.2));
-    SHOW_TEST("Multiplication", vec1 * 2.0, Vector3D(2, 4, 0.2));
-    SHOW_TEST("Multiplication commutative", 2.0 * vec1, Vector3D(2, 4, 0.2));
-    SHOW_TEST("Division entier", vec1 / 2, Vector3D(0.5, 1, 0.05));
-    SHOW_TEST("Division", vec1 / 2.0, Vector3D(0.5, 1, 0.05));
+    SHOW_TEST("Multiplication entier", vec1 * 2, Vector3D(2, 4, -0.2));
+    SHOW_TEST("Multiplication", vec1 * 2.0, Vector3D(2, 4, -0.2));
+    SHOW_TEST("Multiplication commutative", 2.0 * vec1, Vector3D(2, 4, -0.2));
+    SHOW_TEST("Division entier", vec1 / 2, Vector3D(0.5, 1, -0.05));
+    SHOW_TEST("Division", vec1 / 2.0, Vector3D(0.5, 1, -0.05));
 
     SHOW_TEST("Scalaire", vec1 * vec2, 9.19);
     SHOW_TEST("Vectoriel", vec1 ^ vec2, Vector3D(8.55, -4.36, -1.7));
     SHOW_TEST("Unitaire", ~threezerozero, Vector3D(1.0, 0.0, 0.0));
     
+    Vector3D presqueZero(0.01, 0.0, 0.0);
     SHOW_TEST("Egalite", vec1 == vec1, true);
     SHOW_TEST("Egalite", vec1 == vec2, false);
+    SHOW_TEST("Egalite proche", zero == presqueZero, false);
     SHOW_TEST("Different", vec1 != vec1, false);
     SHOW_TEST("Different", vec1 != vec2, true);
 

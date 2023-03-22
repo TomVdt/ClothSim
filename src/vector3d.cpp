@@ -92,9 +92,9 @@ Vector3D Vector3D::operator~() const {
 
 bool Vector3D::operator==(const Vector3D& vec) const {
     return (
-        (abs(x - vec.x) < CONSTANTS::EPSILON) and
-        (abs(y - vec.y) < CONSTANTS::EPSILON) and
-        (abs(z - vec.z) < CONSTANTS::EPSILON)
+        (std::abs(x - vec.x) < CONSTANTS::EPSILON) and
+        (std::abs(y - vec.y) < CONSTANTS::EPSILON) and
+        (std::abs(z - vec.z) < CONSTANTS::EPSILON)
     );
 }
 
