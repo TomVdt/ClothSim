@@ -22,3 +22,18 @@
 - Documentation de `Vector3D`
 - Refonte du `Makefile`: nouvelles cibles `run_tests`, `build`, réécriture des autres cibles
 - Fichier pour les constantes `constants.cpp`, déplacement de `EPSILON` du `vector3d.h`
+
+## Semaine 4
+
+- Début de création de `Masse`
+- Début de création de `Spring`
+- Correction de bugs dans `Vector3D`
+- Beaucoup, beaucoup de lecture de documentation de Qt5
+- Début de travail sur la partie graphique (fenetre, 3d, caméra)
+
+## TODO
+
+- Documentation `Masse`
+- Documentation `Spring`
+- Tests `Masse`
+- Tests `Spring`
