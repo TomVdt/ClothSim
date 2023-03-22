@@ -22,11 +22,11 @@ public:
     Masse(double mass, double lambda, const Vector3D& pos, const Vector3D& vel);
 
 
-    Vector3D getPos() const {return pos;};
-    Vector3D getVel() const {return vel;};
-    Vector3D getForce() const {return force;};
-    double getMass() const {return mass;};
-    double getLambda() const {return lambda};
+    Vector3D getPos() const {return pos;}
+    Vector3D getVel() const {return vel;}
+    Vector3D getForce() const {return force;}
+    double getMass() const {return mass;}
+    double getLambda() const {return lambda;}
 
     Vector3D acceleration() const;
 
