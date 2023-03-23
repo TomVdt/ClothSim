@@ -47,3 +47,13 @@ Nous avons introduit les opérateurs `<<` et `==` pour faire le role de `affiche
 > Comment avez-vous implémenté l'ensemble de ressorts ?
 
 L'ensemble de ressorts est un `vector<Spring*>`. On utilise des `Spring*`, pointeurs "a la C" vers des `Spring`s et non des `unique_ptr` car un ressort connecte 2 masses ensemble, qui doivent chacun garder une référence vers leurs ressorts. On ne peut pas utiliser de références par limitation de la classe `vector`. Une autre option serait d'utiliser des `shared_ptr` mais ils pourraient poser des problèmes de référence circulaire entre `Spring` et `Masse`, même s'ils simplifiraient la gestion de mémoire.
+
+## P7
+
+> Comment avez vous conçu votre classe Integrateur ?
+
+La classe `Integrator` est une classe abstraite. Elle contient juste une méthode virtuelle pure publique `integrate` qui prend un pointeur sur une `Masse` et un `dt`.
+
+> Quelle est la relation entre les classes Integrateur et IntegrateurEulerCromer ?
+
+`EulerCromerIntegrator` "est-un" `Integrator`, c'est à dire qu'il hérite en public les méthodes d'`Integrator`.
