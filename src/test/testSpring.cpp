@@ -27,6 +27,7 @@ int main() {
     spring2.connect(&mass1, &mass2);
     spring3.connect(&mass1, &mass2);
 
+    // TODO: reverifier si les forces font sens...
     SHOW_TEST("Ressort 1 stable", spring1.springForce(&mass1), Vector3D());
     SHOW_TEST("Ressort 1 stable", spring1.springForce(&mass2), Vector3D());
     SHOW_TEST("Ressort 2 etendu", spring2.springForce(&mass1), Vector3D(1, 0, 0));

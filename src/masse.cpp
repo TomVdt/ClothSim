@@ -80,7 +80,7 @@ void Masse::display(std::ostream& out) const {
         << "position: " << pos << ", " 
         << "vitesse: " << vel << ", "
         << "force: " << force << ", "
-        << "ressorts: ";
+        << "ressorts: [";
 
     size_t n(springList.size());
     for (size_t i(0); i < n; ++i) {
@@ -89,6 +89,8 @@ void Masse::display(std::ostream& out) const {
             out << ", ";
         }
     }
+
+    out << "]}";
 }
 
 std::ostream& operator<<(std::ostream & out, const Masse & mass) {
