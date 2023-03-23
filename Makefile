@@ -8,7 +8,7 @@ CXXFLAGS += -I src
 
 all:: build test
 
-test: build bin/tests/testVector3d bin/tests/testSpring
+test: build bin/tests/testVector3d bin/tests/testSpring bin/tests/testMasse
 
 build/vector3d.o: src/vector3d.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -33,6 +33,15 @@ bin/tests/testVector3d: build/testVector3d.o build/vector3d.o build/constants.o
 
 bin/tests/testSpring: build/testSpring.o build/spring.o build/vector3d.o build/masse.o build/constants.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
+
+
+build/testMasse.o: src/test/testMasse.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+bin/tests/testMasse: build/testMasse.o build/spring.o build/vector3d.o build/masse.o build/constants.o
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+
 
 build:
 	mkdir bin
