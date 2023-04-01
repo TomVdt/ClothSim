@@ -31,9 +31,18 @@
 - Beaucoup, beaucoup de lecture de documentation de Qt5
 - Début de travail sur la partie graphique (fenetre, 3d, caméra)
 
-## TODO
+## Semaine 5
 
 - Documentation `Masse`
 - Documentation `Spring`
 - Tests `Masse`
 - Tests `Spring`
+- Début des `Integrator`
+
+# Semaine 6
+
+- Création de `EulerCromerIntegrator`
+- Tests intégrateurs
+- Visualisation et vérification de cohérence des tests avec `python` + `matplotlib`
+- Classe `Tissu` simple
+- Petits ajustements aux `Spring` et `Masse`
