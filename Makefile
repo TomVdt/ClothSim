@@ -8,7 +8,14 @@ CXXFLAGS += -I src
 
 all:: build test
 
-test: build bin/tests/testVector3d bin/tests/testSpring bin/tests/testMasse bin/tests/testIntegrator1 bin/tests/testIntegrator2
+test:: build \
+	bin/tests/testVector3d \
+	bin/tests/testSpring \
+	bin/tests/testMasse \
+	bin/tests/testIntegrator1 \
+	bin/tests/testIntegrator2 \
+	bin/tests/testIntegrator3 \
+	bin/tests/testIntegrator4
 
 # Compilation modules
 
@@ -41,6 +48,12 @@ build/testIntegrator1.o: src/test/testIntegrator1.cpp
 build/testIntegrator2.o: src/test/testIntegrator2.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+build/testIntegrator3.o: src/test/testIntegrator3.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+build/testIntegrator4.o: src/test/testIntegrator4.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
 # Linking tests
 
 bin/tests/testVector3d: build/testVector3d.o build/vector3d.o build/constants.o
@@ -49,18 +62,22 @@ bin/tests/testVector3d: build/testVector3d.o build/vector3d.o build/constants.o
 bin/tests/testSpring: build/testSpring.o build/spring.o build/vector3d.o build/masse.o build/constants.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-
 build/testMasse.o: src/test/testMasse.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 bin/tests/testMasse: build/testMasse.o build/spring.o build/vector3d.o build/masse.o build/constants.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
-
 bin/tests/testIntegrator1: build/testIntegrator1.o build/integrator.o build/vector3d.o build/masse.o build/spring.o build/constants.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 bin/tests/testIntegrator2: build/testIntegrator2.o build/integrator.o build/vector3d.o build/masse.o build/spring.o build/constants.o
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+bin/tests/testIntegrator3: build/testIntegrator3.o build/integrator.o build/vector3d.o build/masse.o build/spring.o build/constants.o
+	$(CXX) $(CXXFLAGS) $^ -o $@
+
+bin/tests/testIntegrator4: build/testIntegrator4.o build/integrator.o build/vector3d.o build/masse.o build/spring.o build/constants.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 build:
