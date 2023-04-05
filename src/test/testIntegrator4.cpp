@@ -15,7 +15,7 @@ void log(std::ostream& file, const Vector3D& vec) {
 }
 
 int main() {
-    EuleurCromerIntegrator grator;
+    EulerCromerIntegrator grator;
 
     // rotation autour d'un point
     Masse mass1(1, 0.3, {0, 0, 0}, {0, 0, 0});

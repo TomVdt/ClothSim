@@ -15,7 +15,7 @@ void log(std::ostream& file, const Vector3D& vec) {
 }
 
 int main() {
-    EuleurCromerIntegrator grator;
+    EulerCromerIntegrator grator;
     
     // chute libre: vitesse initiale, vitesse initiale nulle, uniquement vers le haut, λ non nul
     Masse mass1(0.127, 0, {0, 1, 0}, {1, 2, 0});

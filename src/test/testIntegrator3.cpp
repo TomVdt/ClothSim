@@ -15,7 +15,7 @@ void log(std::ostream& file, const Vector3D& vec) {
 }
 
 int main() {
-    EuleurCromerIntegrator grator;
+    EulerCromerIntegrator grator;
 
     Masse mass1(0.33, 0.3, {0, -3, 0}, {0, 0, 0});
     Masse mass2(1, 0.3, {-2, 0, 0}, {0, 0, 0});

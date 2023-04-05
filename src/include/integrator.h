@@ -13,7 +13,7 @@ public:
     // virtual void display(std::ostream&) const = 0;
 };
 
-class EuleurCromerIntegrator : public Integrator {
+class EulerCromerIntegrator : public Integrator {
 public:
     virtual void integrate(Masse*, double dt = CONSTANTS::PHYSICS_DT) const override;
 };
