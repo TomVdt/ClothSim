@@ -1,5 +1,6 @@
 #include <iostream>
 #include "include/test.h"
+#include "include/vector3d.h"
 #include "include/masse.h"
 #include "include/spring.h"
 

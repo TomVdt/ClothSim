@@ -1,3 +1,4 @@
+#pragma once
 #include "include/constants.h"
 
 // #include <iostream>

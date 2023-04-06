@@ -50,14 +50,13 @@ L'ensemble de ressorts est un `vector<Spring*>`. On utilise des `Spring*`, point
 
 ## P7
 
-> Comment avez vous conçu votre classe Integrateur ?
+> Comment avez vous conçu votre classe `Integrateur` ?
 
 La classe `Integrator` est une classe abstraite. Elle contient juste une méthode virtuelle pure publique `integrate` qui prend un pointeur sur une `Masse` et un `dt`.
 
-> Quelle est la relation entre les classes Integrateur et IntegrateurEulerCromer ?
+> Quelle est la relation entre les classes `Integrateur` et `IntegrateurEulerCromer` ?
 
 `EulerCromerIntegrator` "est-un" `Integrator`, c'est à dire qu'il hérite en public les méthodes d'`Integrator`.
-
 
 ## P8
 
@@ -70,3 +69,21 @@ La méthode `connect()` alloue un nouvel emplacement mémoire pour un ressort co
 Notre implémentation garanti que les deux masses correspondantes sont connectées à chque ressort quand il est crée donc une méthode connecteMasse() ne nous serait pas utile.
 
 La méthode publique `check()` permet de vérifier la cohérence du ressort, elle doit donc être disponible à l'utilisateur.
+
+## P9
+
+> En termes de POO, quelle est donc la nature de la méthode `dessine_sur()` ? 
+
+Notre méthode `draw()` est une méthode virtuelle pure, rendant la classe `Drawable` abstraite
+
+> Comment représentez vous la classe `Systeme` ?
+
+La classe `System` contient 2 attributs privés:
+- Un tableau dynamique de `Cloth*` pour permettre une collection hétérogène de différents tissus plus tard dans le projet
+- Un `Integrator*`, pour permettre du polymorphisme (plusieurs types d'intégrateurs, changeable au temps de l'execution)
+
+Pour les méthodes nous avons implémenté:
+- La méthode `draw`, nécessaire à implémenter avec `Drawable`
+- `display` pour la représentation en format texte (utilisé dans la surcharge de `<<` pour `ostream`)
+
+Nous avons aussi un destructeur (virtuel) pour libérer les ressources allouées (`Cloth` et `Integrator`)

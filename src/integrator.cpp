@@ -3,7 +3,7 @@
 #include "include/vector3d.h"
 
 
-void EuleurCromerIntegrator::integrate(Masse* mass, double dt) const {
+void EulerCromerIntegrator::integrate(Masse* mass, double dt) const {
     // Calcule le nouvel état
     const Vector3D vel(mass->getVel() + mass->acceleration() * dt);
     const Vector3D pos(mass->getPos() + vel * dt);

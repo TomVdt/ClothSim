@@ -10,8 +10,6 @@ public:
     // Constructors
     Vector3D();
     Vector3D(double, double, double);
-    // TODO: Copie par défaut suffisante?
-    // Vector3D(const Vector3D&);
 
     // Getters
     double getX() const {return x;};
