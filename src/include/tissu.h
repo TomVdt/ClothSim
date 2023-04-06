@@ -2,6 +2,7 @@
 #include "include/vector3d.h"
 #include "include/spring.h"
 #include "include/masse.h"
+#include "integrator.h"
 #include <vector>
 
 
@@ -26,5 +27,10 @@ public:
 
     /* vérifie pour tous les ressorts et toutes les masses que les connections sont valides */
     bool check() const;
+
+    /* met à jour les forces sur les masses */
+    void updateForce();
+
+    void evolve(Integrator* integratator, double dt);
 
 };

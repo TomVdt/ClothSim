@@ -32,12 +32,28 @@ bool Tissu::check() const {
     for(auto spring:springList) {
         if (not spring->valid()) return false;
         for(auto mass:massList) {
-            if( mass->springConnected(spring) != spring->massConnected(mass) ) return false;
+            if( mass->springConnected(spring) != spring->massConnected(mass) ) {
+                return false;
+            }
             /* le test d'égalité sur des booléens sert de xor afin de vérifier que 
             soit il ne sont pas connectés ni l'un ni l'autre 
             soit ils sont tous les deux connectés entre eux */
         }
     }
-    
+
     return true;
+}
+
+
+void Tissu::updateForce() {
+    for(auto mass:massList) {
+        mass->updateForce();
+    }
+}
+
+
+void Tissu::evolve(Integrator* integratator, double dt) {
+    for(auto mass:massList) {
+        integratator->integrate(mass, dt);
+    }
 }

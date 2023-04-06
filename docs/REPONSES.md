@@ -57,3 +57,16 @@ La classe `Integrator` est une classe abstraite. Elle contient juste une méthod
 > Quelle est la relation entre les classes Integrateur et IntegrateurEulerCromer ?
 
 `EulerCromerIntegrator` "est-un" `Integrator`, c'est à dire qu'il hérite en public les méthodes d'`Integrator`.
+
+
+## P8
+
+> Lesquelles des méthodes précédentes avez-vous implémentées ? Les avez-vous mises en public ou private ? Précisez pour chacune et expliquez pourquoi.
+
+Nous avons suivi les conseils pour le constructeur qui reçoit une liste de pointeurs vers des masses.
+
+La méthode `connect()` alloue un nouvel emplacement mémoire pour un ressort connecté aux deux masses passées en argument. C'est une méthode publique pour permettre à l'utilisateur de créer les liens dans le tissu (après avoir fourni dans le constructeur les masses du tissu).
+
+Notre implémentation garanti que les deux masses correspondantes sont connectées à chque ressort quand il est crée donc une méthode connecteMasse() ne nous serait pas utile.
+
+La méthode publique `check()` permet de vérifier la cohérence du ressort, elle doit donc être disponible à l'utilisateur.
