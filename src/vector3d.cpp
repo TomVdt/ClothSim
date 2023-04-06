@@ -1,12 +1,13 @@
-#include <cmath>
 #include "include/vector3d.h"
 #include "include/constants.h"
+#include "include/exceptions.h"
+
+#include <cmath>
 
 // Constructeurs
 Vector3D::Vector3D() : x(0.0), y(0.0), z(0.0) {}
 
 Vector3D::Vector3D(double x_, double y_, double z_) : x(x_), y(y_), z(z_) {}
-
 
 // Methodes sur les vecteurs
 // Norme
@@ -21,8 +22,10 @@ double Vector3D::normSq() const {
 
 // Normalise le vecteur
 Vector3D& Vector3D::normalize() {
-    // TODO : division par zéro
     double norme = norm();
+    if (std::abs(norme) < CONSTANTS::EPSILON) {
+        throw NullVectorNormalisationException("Can't normalize null Vector3D");
+    }
     *this /= norme;
     return *this;
 }
