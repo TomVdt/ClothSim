@@ -39,6 +39,9 @@ build/integrator.o: src/integrator.cpp
 build/testVector3d.o: src/test/testVector3d.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+build/testMasse.o: src/test/testMasse.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
 build/testSpring.o: src/test/testSpring.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
@@ -61,9 +64,6 @@ bin/tests/testVector3d: build/testVector3d.o build/vector3d.o build/constants.o
 
 bin/tests/testSpring: build/testSpring.o build/spring.o build/vector3d.o build/masse.o build/constants.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
-
-build/testMasse.o: src/test/testMasse.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 bin/tests/testMasse: build/testMasse.o build/spring.o build/vector3d.o build/masse.o build/constants.o
 	$(CXX) $(CXXFLAGS) $^ -o $@
