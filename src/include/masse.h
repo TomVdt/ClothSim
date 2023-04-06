@@ -60,6 +60,9 @@ public:
     /* déconnecte tous les ressorts */
     void disconnect();
 
+    /*test si ce ressort est connecté*/
+    bool springConnected(Spring* spring);
+
 };
 
 /* surcharge externe de l'opérateur << pour les masses */

@@ -52,6 +52,9 @@ public:
      * Déconnecte le ressort des masses si la configuration est valide */
     void disconnect();
 
+    /*test si cette masse est connectée*/
+    bool massConnected(Masse* mass);
+
     /* Le ressort est-il valide?
      * Un ressort valide est un ressort:
      * - Où les extrémités ne sont pas de `nullptr`

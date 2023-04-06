@@ -66,7 +66,14 @@ void Spring::disconnect() {
     mass2 = nullptr;
 }
 
-void Spring::display(std::ostream& out) const {
+bool Spring::massConnected(Masse* mass) {
+    if (mass == mass1 or mass == mass2) return true;
+    return false;
+}
+
+
+void Spring::display(std::ostream &out) const
+{
     out << "Spring " << this << " {\n"
         << "  k: " << k << ",\n"
         << "  l0: " << l0 << ",\n"

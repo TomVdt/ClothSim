@@ -72,6 +72,11 @@ void Masse::disconnect() {
     springList.clear();
 }
 
+bool Masse::springConnected(Spring* spring) {
+    if (std::find(springList.begin(), springList.end(), spring) == springList.end()) return false;
+    return true;
+}
+
 
 void Masse::display(std::ostream& out) const {
     out << "Masse " << this << " {"
