@@ -15,7 +15,6 @@ CXXFLAGS += -I src
 vpath %.h src/include
 vpath %.cpp src src/test
 vpath %.o build
-vpath % bin/app bin/tests
 
 # Tout compiler et linker
 
