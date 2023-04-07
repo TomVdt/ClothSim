@@ -2,13 +2,27 @@ CXX = g++
 CC = $(CXX)
 CXXFLAGS = -std=c++17 -Wall
 
+# Debug
 # CXXFLAGS += -g
+# Optimisation
 CXXFLAGS += -O2
+# Où chercher les .h
 CXXFLAGS += -I src
 
-all:: build test
+# Où chercher les fichiers source
+# https://makefiletutorial.com/#the-vpath-directive
 
-test:: build \
+vpath %.h src/include
+vpath %.cpp src src/test
+vpath %.o build
+vpath % bin/app bin/tests
+
+# Tout compiler et linker
+
+.PHONY: all dir clean
+all: dir test
+
+test: dir \
 	bin/tests/testVector3d \
 	bin/tests/testSpring \
 	bin/tests/testMasse \
@@ -17,81 +31,65 @@ test:: build \
 	bin/tests/testIntegrator3 \
 	bin/tests/testIntegrator4
 
-# Compilation modules
+# Compilation
+# ne surtout pas avoir 2 fichiers de même nom...
 
-build/vector3d.o: src/vector3d.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-build/constants.o: src/constants.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-build/masse.o: src/masse.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-build/spring.o: src/spring.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-build/integrator.o: src/integrator.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-# Compilation tests
-
-build/testVector3d.o: src/test/testVector3d.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-build/testMasse.o: src/test/testMasse.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-build/testSpring.o: src/test/testSpring.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-build/testIntegrator1.o: src/test/testIntegrator1.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-build/testIntegrator2.o: src/test/testIntegrator2.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-build/testIntegrator3.o: src/test/testIntegrator3.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-build/testIntegrator4.o: src/test/testIntegrator4.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o build/$@
 
 # Linking tests
 
-bin/tests/testVector3d: build/testVector3d.o build/vector3d.o build/constants.o
-	$(CXX) $(CXXFLAGS) $^ -o $@
+bin/tests/testVector3d: testVector3d.o vector3d.o constants.o
+	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testSpring: build/testSpring.o build/spring.o build/vector3d.o build/masse.o build/constants.o
-	$(CXX) $(CXXFLAGS) $^ -o $@
+bin/tests/testSpring: testSpring.o spring.o vector3d.o masse.o constants.o
+	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testMasse: build/testMasse.o build/spring.o build/vector3d.o build/masse.o build/constants.o
-	$(CXX) $(CXXFLAGS) $^ -o $@
+bin/tests/testMasse: testMasse.o spring.o vector3d.o masse.o constants.o
+	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testIntegrator1: build/testIntegrator1.o build/integrator.o build/vector3d.o build/masse.o build/spring.o build/constants.o
-	$(CXX) $(CXXFLAGS) $^ -o $@
+bin/tests/testIntegrator1: testIntegrator1.o integrator.o vector3d.o masse.o spring.o constants.o
+	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testIntegrator2: build/testIntegrator2.o build/integrator.o build/vector3d.o build/masse.o build/spring.o build/constants.o
-	$(CXX) $(CXXFLAGS) $^ -o $@
+bin/tests/testIntegrator2: testIntegrator2.o integrator.o vector3d.o masse.o spring.o constants.o
+	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testIntegrator3: build/testIntegrator3.o build/integrator.o build/vector3d.o build/masse.o build/spring.o build/constants.o
-	$(CXX) $(CXXFLAGS) $^ -o $@
+bin/tests/testIntegrator3: testIntegrator3.o integrator.o vector3d.o masse.o spring.o constants.o
+	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testIntegrator4: build/testIntegrator4.o build/integrator.o build/vector3d.o build/masse.o build/spring.o build/constants.o
-	$(CXX) $(CXXFLAGS) $^ -o $@
+bin/tests/testIntegrator4: testIntegrator4.o integrator.o vector3d.o masse.o spring.o constants.o
+	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-build:
-	mkdir bin
-	mkdir bin
-	mkdir bin/app
-	mkdir bin/tests
+# Executer un test précis
+# Ex: `make run_testIntegrator1`
 
-run_tests: test
-	@for file in bin/tests/*; do echo "Running $$file"; ./$$file; done;
+run_test%: bin/tests/test%
+	@bin/tests/test$*
+
+# Créer les dossiers necessaires à la compilation (éviter de mettre des .o partout)
+
+dir:
+	@echo Creating necessary directories...
+	@mkdir -p build bin bin/tests
+
+# Supprime les réultats de compilation précédents
 
 clean:
 	@echo Removing compiled object files...
-	rm -f build/*.o
+	@rm -r build
 	@echo Removing executables...
-	rm -f bin/app/*
-	rm -f bin/tests/*
+	@rm -r bin
+
+clena: cowsay_CLENA clean
+
+.PHONY: cowsay_% clean
+cowsay_%:
+	@echo " -------"
+	@echo "| $(*F) |"
+	@echo " -------"
+	@echo "        \\   ^__^"
+	@echo "         \\  (oo)\\_______"
+	@echo "            (__)\\       )\\/\\"
+	@echo "                ||----w |"
+	@echo "                ||     ||"
+	@echo
