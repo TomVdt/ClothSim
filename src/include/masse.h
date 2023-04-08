@@ -21,10 +21,10 @@ private:
 
 public:
 
-    /* constructeur masse nécesssaire ensuite lambda, pos et vel peuvent etre par defaut */
+    /* constructeur masse nécesssaire ensuite lambda, pos et vel peuvent etre par defaut
+     * N'est pas propriétaire des springs */
     Masse(double mass, double lambda = 0.0, const Vector3D& pos = Vector3D(), const Vector3D& vel = Vector3D());
-    virtual ~Masse() = default;
-
+    Masse(const Masse&) = delete;
 
     /* getters de la masse */
     Vector3D getPos() const {return pos;}
@@ -53,16 +53,16 @@ public:
     void display(std::ostream&) const;
 
     /* connecte un nouveau ressort à la masse en vérifiant 
-    s'il est valide ou s'il n'est pas déjà connecté */
-    void connectSpring(Spring* spring);
+     * s'il est valide ou s'il n'est pas déjà connecté
+     * NECESSITE DE L'ALLOCATION DYNAMIQUE avec shared_ptr */
+    void connectSpring(Spring& spring);
     /* trouve le ressort et le déconnecte */
-    void disconnectSpring(Spring* spring);
+    void disconnectSpring(Spring& spring);
     /* déconnecte tous les ressorts */
     void disconnect();
 
-    /*test si ce ressort est connecté*/
-    bool springConnected(Spring* spring);
-
+    /* test si ce ressort est connecté */
+    bool springConnected(Spring& spring);
 };
 
 /* surcharge externe de l'opérateur << pour les masses */

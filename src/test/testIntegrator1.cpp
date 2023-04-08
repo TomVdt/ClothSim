@@ -46,10 +46,10 @@ int main() {
         mass2.updateForce();
         mass3.updateForce();
         mass4.updateForce();
-        grator.integrate(&mass1, 0.01);
-        grator.integrate(&mass2, 0.01);
-        grator.integrate(&mass3, 0.01);
-        grator.integrate(&mass4, 0.01);
+        grator.integrate(mass1, 0.01);
+        grator.integrate(mass2, 0.01);
+        grator.integrate(mass3, 0.01);
+        grator.integrate(mass4, 0.01);
     }
 
     file.close();

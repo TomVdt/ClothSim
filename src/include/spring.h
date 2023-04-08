@@ -22,13 +22,11 @@ private:
 
 public:
     /* Constructeur
-     * Si des masses (optionnelles) sont données, vérifie la configuration
-     * avant de connecter le ressort aux masses */
-    Spring(double k, double l0, Masse* mass1 = nullptr, Masse* mass2 = nullptr);
-
-    /* Destructeur par défaut virtuel
-     * Virtuel  */
-    virtual ~Spring() = default;
+     * Initialise constante de raideur et longueur à vide
+     * Les extremités peuvent être données 
+     * Le ressort n'est pas propriétaire des masses */
+    Spring(double k, double l0) : k(k), l0(l0), mass1(nullptr), mass2(nullptr) {}
+    Spring(double k, double l0, Masse& mass1, Masse& mass2) : k(k), l0(l0), mass1(&mass1), mass2(&mass2) {}
 
     /* Pas de copie de ressorts
      * Comment / pourquoi copier des masses?
@@ -42,18 +40,16 @@ public:
     double getL0() const { return l0; }
 
     /* Retourne la force exercée par le ressort sur une masse */
-    Vector3D springForce(Masse*) const;
+    Vector3D springForce(Masse&) const;
 
-    /* Rajoute des masses aux extrémités
-     * Connecte le ressort aux masses si la configuration est valide */
-    void connect(Masse* mass1, Masse* mass2);
+    /* Rajoute des masses aux extrémités */
+    void connect(Masse&, Masse&);
 
-    /* Enlève les masses des extrémités
-     * Déconnecte le ressort des masses si la configuration est valide */
+    /* Enlève les masses des extrémités  */
     void disconnect();
 
-    /*test si cette masse est connectée*/
-    bool massConnected(Masse* mass);
+    /* test si cette masse est connectée */
+    bool massConnected(Masse&);
 
     /* Le ressort est-il valide?
      * Un ressort valide est un ressort:

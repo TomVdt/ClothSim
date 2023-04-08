@@ -11,7 +11,17 @@ public:
     NullVectorNormalisationException(char const* const message) throw() : BaseException(message) {}
 };
 
-class NoRendererException : public BaseException {
+class OutOfBoundsException : public BaseException {
 public:
-    NoRendererException(char const* const message) throw() : BaseException(message) {}
+    OutOfBoundsException(char const* const message) throw() : BaseException(message) {}
+};
+
+class InvalidValueException : public BaseException {
+public:
+    InvalidValueException(char const* const message) throw() : BaseException(message) {}
+};
+
+class PerpetualMotionException : public InvalidValueException {
+public:
+    PerpetualMotionException(char const* const message) throw() : InvalidValueException(message) {}
 };

@@ -15,13 +15,20 @@ void log(std::ostream& file, const Vector3D& vec) {
     file << vec.getX() << "," << vec.getY() << "," << vec.getZ();
 }
 
+void connectMassSpring(Masse& m1, Masse& m2, Spring& s) {
+    s.connect(m1, m2);
+    m1.connectSpring(s);
+    m2.connectSpring(s);
+}
+
 int main() {
     EulerCromerIntegrator grator;
 
     // rotation autour d'un point
     Masse mass1(1, 0.3, {0, 0, 0}, {0, 0, 0});
     Masse mass2(1, 0.3, {2, 0, 0}, {0, 0, -1});
-    Spring spring1(0.6, 3, &mass1, &mass2);
+    Spring spring1(0.6, 3);
+    connectMassSpring(mass1, mass2, spring1);
     
     std::ofstream file("testIntegrator4.txt", std::ofstream::out | std::ofstream::trunc);
     
@@ -45,8 +52,8 @@ int main() {
         // fixe la masse 1
         mass1.addForce(-mass1.getForce());
 
-        grator.integrate(&mass1, 0.1);
-        grator.integrate(&mass2, 0.1);
+        grator.integrate(mass1, 0.1);
+        grator.integrate(mass2, 0.1);
     }
     
     file.close();

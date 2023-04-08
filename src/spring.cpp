@@ -2,27 +2,18 @@
 #include "include/masse.h"
 #include "include/spring.h"
 
-#include <iomanip>
 
-
-Spring::Spring(double k, double l0, Masse* mass1, Masse* mass2) : k(k), l0(l0), mass1(mass1), mass2(mass2) {
-    // Vérifie la connection
-    connect(mass1, mass2);
-}
-
-Vector3D Spring::springForce(Masse* mass) const {
+Vector3D Spring::springForce(Masse& mass) const {
     if (not valid()) {
         // Le ressort est "inactif"
         return Vector3D();
     }
 
     Vector3D vecMassMass;
-    if (mass == mass1) {
-        // Sens masse 1 -> masse 2
-        vecMassMass = mass2->getPos() - mass->getPos();
-    } else if (mass == mass2) {
-        // Sens masse 2 -> masse 1
-        vecMassMass = mass1->getPos() - mass->getPos();
+    if (&mass == mass2) {
+        vecMassMass = mass1->getPos() - mass.getPos();
+    } else if (&mass == mass1) {
+        vecMassMass = mass2->getPos() - mass.getPos();
     } else {
         // la masse n'appartient pas au spring, pas de force
         return Vector3D();
@@ -38,39 +29,19 @@ Vector3D Spring::springForce(Masse* mass) const {
     return k * (dist - l0) * dir;
 }
 
-void Spring::connect(Masse* m1, Masse* m2) {
-    disconnect();
-
-    mass1 = m1;
-    mass2 = m2;
-
-    // Seulement connecter si le ressort est valide
-    // Garanti que les masses auront seulement des ressorts valides
-    if (valid()) {
-        mass1->connectSpring(this);
-        mass2->connectSpring(this);
-    }
+void Spring::connect(Masse& m1, Masse& m2) {
+    mass1 = &m1;
+    mass2 = &m2;
 }
 
 void Spring::disconnect() {
-    // Seulement deconnecter si le ressort est valide
-    // Garanti que les masses auront seulement des ressorts valides
-    if (not valid()) {
-        return;
-    }
-
-    mass1->disconnectSpring(this);
-    mass2->disconnectSpring(this);
-
     mass1 = nullptr;
     mass2 = nullptr;
 }
 
-bool Spring::massConnected(Masse* mass) {
-    if (mass == mass1 or mass == mass2) return true;
-    return false;
+bool Spring::massConnected(Masse& mass) {
+    return &mass == mass1 or &mass == mass2;
 }
-
 
 void Spring::display(std::ostream &out) const
 {
@@ -97,7 +68,7 @@ void Spring::display(std::ostream &out) const
 }
 
 bool Spring::valid() const {
-    return mass1 != nullptr and mass2 != nullptr and mass1 != mass2;
+    return (mass1 != nullptr) and (mass2 != nullptr) and (mass1 != mass2);
 }
 
 std::ostream& operator<<(std::ostream& out, const Spring& spring) {

@@ -2,8 +2,12 @@ CXX = g++
 CC = $(CXX)
 CXXFLAGS = -std=c++17 -Wall
 
+# Pointer debugging avec libasan
+# CXXFLAGS += -fsanitize=address
+# LDFLAGS += -fsanitize=address
+
 # Debug
-# CXXFLAGS += -g
+CXXFLAGS += -g
 # Optimisation
 CXXFLAGS += -O2
 # Où chercher les .h
@@ -43,7 +47,7 @@ test: dir \
 bin/tests/testVector3d: testVector3d.o vector3d.o constants.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testSpring: testSpring.o spring.o vector3d.o masse.o constants.o
+bin/tests/testSpring: testSpring.o spring.o vector3d.o masse.o constants.o spring.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
 bin/tests/testMasse: testMasse.o spring.o vector3d.o masse.o constants.o
@@ -71,7 +75,7 @@ bin/tests/testTissu2: testTissu2.o integrator.o vector3d.o masse.o spring.o cons
 # Executer un test précis
 # Ex: `make run_testIntegrator1`
 
-run_test%: bin/tests/test%
+run_test%: dir bin/tests/test%
 	@bin/tests/test$*
 
 # Créer les dossiers necessaires à la compilation (éviter de mettre des .o partout)
