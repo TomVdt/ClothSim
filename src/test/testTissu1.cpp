@@ -35,7 +35,8 @@ int main() {
     T1.connect(1, 2, 5.5, 1.25);
     // T1.connect(1, 3, 2.3, 1.45);
     // T1.connect(2, 3, 4.2, 1.65);
-    
+
+
 
     std::ofstream file("testTissu1.txt", std::ofstream::out | std::ofstream::trunc);
     
@@ -43,6 +44,13 @@ int main() {
     if (file.fail()) {
         cout << "# WARNING: le fichier n'a pas pu être ouvert." << endl;
     }
+
+    if (T1.check()) {out << "le tissu est cohérent yey" << endl;}
+    else {out << "problème notre tissu a transcendé la réalité pour atteindre de nouveaux plans d'existence" << endl;
+        file.close();
+        return 1;
+    }
+    
 
     // "Header" du txt
     out << "# x1, y1, z1, x2, y2, z2, x3, y3, z3" << endl;

@@ -36,6 +36,13 @@ int main() {
         cout << "# WARNING: le fichier n'a pas pu être ouvert." << endl;
     }
 
+
+    if (T2.check()) {out << "le tissu est cohérent yey" << endl;}
+    else {out << "problème notre tissu a transcendé la réalité pour atteindre de nouveaux plans d'existence" << endl;
+        file.close();
+        return 1;
+    }
+
     // "Header" du txt
     out << "# x1, y1, z1, x2, y2, z2, x3, y3, z3" << endl;
 
