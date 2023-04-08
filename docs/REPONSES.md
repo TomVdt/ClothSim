@@ -64,7 +64,7 @@ La classe `Integrator` est une classe abstraite. Elle contient juste une méthod
 
 Nous avons suivi les conseils pour le constructeur qui reçoit une liste de pointeurs vers des masses.
 
-La méthode `connect()` alloue un nouvel emplacement mémoire pour un ressort connecté aux deux masses passées en argument. C'est une méthode publique pour permettre à l'utilisateur de créer les liens dans le tissu (après avoir fourni dans le constructeur les masses du tissu).
+La méthode `connect()` alloue un nouvel emplacement mémoire pour un ressort connecté aux deux masses dont l'indice est passé en argument. C'est une méthode publique pour permettre à l'utilisateur de créer les liens dans le tissu (après avoir fourni dans le constructeur les masses du tissu).
 
 Notre implémentation garanti que les deux masses correspondantes sont connectées à chque ressort quand il est crée donc une méthode connecteMasse() ne nous serait pas utile.
 
