@@ -4,7 +4,7 @@
 #include <vector>
 #include <iostream>
 
-class Mass;
+class Masse;
 
 class Spring {
 private:

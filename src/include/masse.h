@@ -6,11 +6,11 @@
 
 class Spring;
 
-typedef std::vector<Spring*> ManySprings; 
 
 
 class Masse {
 private:
+    typedef std::vector<Spring*> ManySprings; 
     double mass;
     double lambda;
     Vector3D pos;
