@@ -9,7 +9,7 @@
 using std::cout;
 using std::endl;
 
-
+/* définition d'un nouvel affichage pour un Vector3D avec un autre formatage */
 void log(std::ostream& file, const Vector3D& vec) {
     file << vec.getX() << "," << vec.getY() << "," << vec.getZ();
 }
