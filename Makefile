@@ -28,7 +28,9 @@ test: dir \
 	bin/tests/testIntegrator1 \
 	bin/tests/testIntegrator2 \
 	bin/tests/testIntegrator3 \
-	bin/tests/testIntegrator4
+	bin/tests/testIntegrator4 \
+	bin/tests/testTissu1 \
+	bin/tests/testTissu2
 
 # Compilation
 # ne surtout pas avoir 2 fichiers de même nom...
@@ -59,6 +61,13 @@ bin/tests/testIntegrator3: testIntegrator3.o integrator.o vector3d.o masse.o spr
 bin/tests/testIntegrator4: testIntegrator4.o integrator.o vector3d.o masse.o spring.o constants.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
+bin/tests/testTissu1: testTissu1.o integrator.o vector3d.o masse.o spring.o constants.o tissu.o
+	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
+
+bin/tests/testTissu2: testTissu2.o integrator.o vector3d.o masse.o spring.o constants.o tissu.o
+	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
+
+
 # Executer un test précis
 # Ex: `make run_testIntegrator1`
 
@@ -71,7 +80,7 @@ dir:
 	@echo Creating necessary directories...
 	@mkdir -p build bin bin/tests
 
-# Supprime les réultats de compilation précédents
+# Supprime les résultats de compilation précédents
 
 clean:
 	@echo Removing compiled object files...

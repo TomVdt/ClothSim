@@ -31,6 +31,7 @@ public:
     /* met à jour les forces sur les masses */
     void updateForce();
 
+    /* utilise l'intégrateur pour mettre à jour les masses du tissu */
     void evolve(Integrator* integratator, double dt);
 
 };
