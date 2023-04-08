@@ -9,10 +9,11 @@ class Masse;
 class Spring;
 class Integrator;
 
+typedef std::vector<Masse*> ManyMass;
+typedef std::vector<Spring*> ManySpring;
+
 class Tissu : public Drawable {
 private:
-    typedef std::vector<Masse*> ManyMass;
-    typedef std::vector<Spring*> ManySpring;
     ManyMass massList;
     ManySpring springList;
 
@@ -40,6 +41,8 @@ public:
 
     /* utilise l'intégrateur pour mettre à jour les masses du tissu */
     void evolve(const Integrator& integratator, double dt = CONSTANTS::PHYSICS_DT);
+
+    virtual void draw(Renderer& dest) override;
 
     void display(std::ostream&) const;
 };

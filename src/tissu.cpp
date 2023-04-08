@@ -3,6 +3,7 @@
 #include "include/masse.h"
 #include "include/exceptions.h"
 #include "include/integrator.h"
+#include "include/renderer.h"
 
 #include <iostream>
 
@@ -31,8 +32,7 @@ void Tissu::connect(size_t m1, size_t m2, double k, double l0) {
         springList.push_back(s);
     } else {
         throw OutOfBoundsException("y a pas autant de masses dans le tissu je tiens à mon cpu");
-    }class Tissu;
-
+    }
 }
 
 bool Tissu::check() const {
@@ -81,6 +81,10 @@ void Tissu::display(std::ostream& out) const {
         out << "    " << *spring << std::endl;
     }
     out << "  ]" << std::endl << "}" << std::endl;
+}
+
+void Tissu::draw(Renderer& dest) {
+    dest.draw(*this);
 }
 
 std::ostream& operator<<(std::ostream out, const Tissu& tissu) {
