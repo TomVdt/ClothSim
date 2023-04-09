@@ -51,7 +51,7 @@ bool Spring::valid() const {
 }
 
 bool Spring::areEndsValid() const {
-    return mass1.springConnected(*this) and mass2.springConnected(*this);
+    return valid() and mass1.springConnected(*this) and mass2.springConnected(*this);
 }
 
 std::ostream& operator<<(std::ostream& out, const Spring& spring) {

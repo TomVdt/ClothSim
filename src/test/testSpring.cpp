@@ -9,15 +9,14 @@ using std::cout;
 using std::endl;
 
 void connectMassSpring(Masse& m1, Masse& m2, Spring& s) {
-    s.connect(m1, m2);
     m1.connectSpring(s);
     m2.connectSpring(s);
 }
 
 int main() {
-    Spring spring1(1, 1);
     Masse mass1(1, 0, { 0, 0, 0 });
     Masse mass2(1, 0, { 1, 0, 0 });
+    Spring spring1(1, 1, mass1, mass2);
 
     cout << "=== Pre-connection ===" << endl;
     cout << spring1 << endl;
@@ -28,8 +27,8 @@ int main() {
     cout << spring1 << endl;
 
     cout << endl << "=== Forces ressorts ===" << endl;
-    Spring spring2(1, 2);
-    Spring spring3(1, 0.5);
+    Spring spring2(1, 2, mass1, mass2);
+    Spring spring3(1, 0.5, mass1, mass2);
     connectMassSpring(mass1, mass2, spring2);
     connectMassSpring(mass1, mass2, spring3);
 
@@ -41,41 +40,48 @@ int main() {
     SHOW_TEST("Ressort 3 compresse", spring3.springForce(mass1), Vector3D(-0.5, 0, 0));
     SHOW_TEST("Ressort 3 compresse", spring3.springForce(mass2), Vector3D(0.5, 0, 0));
 
-    Spring spring4(1, 10);
     Masse mass3(1, 0, { 4, 3, 0 });
+    Spring spring4(1, 10, mass1, mass3);
     connectMassSpring(mass1, mass3, spring4);
     SHOW_TEST("Ressort 4 diagonal", spring4.springForce(mass1), Vector3D(4, 3, 0));
     SHOW_TEST("Ressort 4 diagonal", spring4.springForce(mass3), Vector3D(-4, -3, 0));
 
-    Spring spring5(1, 10);
     Masse mass4(1, 0, { 0.000001, 0, 0 });
+    Spring spring5(1, 10, mass1, mass4);
     connectMassSpring(mass1, mass4, spring5);
     SHOW_TEST("Surcompression", spring5.springForce(mass1), Vector3D(9.999999, 0, 0));
 
     cout << endl << "=== Springs malformés ===" << endl;
-    // le cas 1 masse, 1 nullptr est garanti de ne pas arriver
-    Spring spring6(1, 1);
-    SHOW_TEST("Pas de masses", spring6.valid(), false);
-    spring6.connect(mass1, mass1);
+    // On utilise des références, on est donc garanti d'avoir 2 masses connectées
+    Spring spring6(1, 1, mass1, mass1);
     SHOW_TEST("2 masses identiques", spring6.valid(), false);
     SHOW_TEST("Ressort correct", spring1.valid(), true);
 
     cout << endl << "=== Changement des masses (pos, vel, etc) ===" << endl;
-    Spring spring7(1, 1);
     Masse mass5(1.0);
     Masse mass6(2.0);
+    Spring spring7(1, 1, mass5, mass6);
     connectMassSpring(mass5, mass6, spring7);
 
-    cout << "Avant changement: " << spring7;
+    cout << "Avant changement: " << spring7 << endl;
 
     mass5.setPos({ 69, 42, 6 });
     mass6.setVel({ 420, 420, 420 });
 
-    cout << "Après changement: " << spring7;
+    cout << "Après changement: " << spring7 << endl;
 
     cout << endl << "=== Effets sur les masses ===" << endl;
 
     cout << "Masse 1: " << mass1 << endl;
+
+    cout << endl << "=== Methodes d'aide ===" << endl;
+
+    Spring spring8(1, 1, mass5, mass6);
+    SHOW_TEST("Connection incomplete", spring8.areEndsValid(), false);
+    connectMassSpring(mass5, mass5, spring8);
+    SHOW_TEST("Connection complete fausse", spring8.areEndsValid(), false);
+    connectMassSpring(mass5, mass6, spring8);
+    SHOW_TEST("Connection complete", spring8.areEndsValid(), true);
 
     return 0;
 }

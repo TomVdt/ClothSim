@@ -27,6 +27,7 @@ int main() {
     Masse mass3(1, 0.3, { 0, 0, 2 }, { 0, 0, 0 });
     // Masse mass4(1, 0.3, {2, 0, 2}, {0, 0, 0});
 
+    // TODO: risque de segfault?
     ManyMass init_mass({ &mass1, &mass2, &mass3 });
     Cloth T1(init_mass);
 

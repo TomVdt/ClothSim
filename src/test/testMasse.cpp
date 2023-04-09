@@ -12,13 +12,14 @@ int main() {
     Masse m1(12.2);
     cout << m1;
     Masse m2(4.5, 2.3, { 1.0, 1.0, 1.0 }, { 2.0, 2.0, 2.0 });
-    Spring s1(1.0, 1.0);
-    Spring s2(2.0, 2.0);
+    // Pour l'affichage de ressorts
+    Spring s1(1.0, 1.0, m2, m2);
+    Spring s2(2.0, 2.0, m2, m2);
     m2.connectSpring(s1);
     m2.connectSpring(s2);
-    cout << m2;
+    cout << m2 << endl;
 
-    cout << endl << endl;
+    cout << endl;
     cout << "===== Tests getters =====" << endl;
     SHOW_TEST("getter masse", m1.getMass(), 12.2);
     SHOW_TEST("getter lambda", m2.getLambda(), 2.3);
@@ -26,7 +27,7 @@ int main() {
     SHOW_TEST("getter vitesse", m2.getVel(), Vector3D(2.0, 2.0, 2.0));
     SHOW_TEST("getter force", m2.getForce(), Vector3D(0.0, -9.81 * 4.5, 0));
 
-    cout << endl << endl;
+    cout << endl;
     cout << "===== Tests setters =====" << endl;
     m1.setPos(Vector3D(3.0, 3.0, 3.0));
     SHOW_TEST("setter position", m1.getPos(), Vector3D(3.0, 3.0, 3.0));
@@ -53,7 +54,7 @@ int main() {
     cout << "devait afficher pour les ressorts: " << &s2 << endl;
     m2.disconnect();
     cout << "affiche: " << m2 << endl;
-    cout << "ne devait rien afficher pour les ressorts";
+    cout << "ne devait rien afficher pour les ressorts" << endl;
 
     return 0;
 }

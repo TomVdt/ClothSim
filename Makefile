@@ -34,7 +34,8 @@ test: dir \
 	bin/tests/testIntegrator3 \
 	bin/tests/testIntegrator4 \
 	bin/tests/testCloth1 \
-	bin/tests/testCloth2
+	bin/tests/testCloth2 \
+	bin/tests/testSystem
 
 # Compilation
 # ne surtout pas avoir 2 fichiers de même nom...
