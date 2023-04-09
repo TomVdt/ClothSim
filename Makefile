@@ -44,31 +44,31 @@ test: dir \
 
 # Linking tests
 
-bin/tests/testVector3d: testVector3d.o vector3d.o constants.o
+bin/tests/testVector3d: testVector3d.o vector3d.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testSpring: testSpring.o spring.o vector3d.o masse.o constants.o spring.o
+bin/tests/testSpring: testSpring.o spring.o vector3d.o masse.o spring.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testMasse: testMasse.o spring.o vector3d.o masse.o constants.o
+bin/tests/testMasse: testMasse.o spring.o vector3d.o masse.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testIntegrator1: testIntegrator1.o integrator.o vector3d.o masse.o spring.o constants.o
+bin/tests/testIntegrator1: testIntegrator1.o integrator.o vector3d.o masse.o spring.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testIntegrator2: testIntegrator2.o integrator.o vector3d.o masse.o spring.o constants.o
+bin/tests/testIntegrator2: testIntegrator2.o integrator.o vector3d.o masse.o spring.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testIntegrator3: testIntegrator3.o integrator.o vector3d.o masse.o spring.o constants.o
+bin/tests/testIntegrator3: testIntegrator3.o integrator.o vector3d.o masse.o spring.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testIntegrator4: testIntegrator4.o integrator.o vector3d.o masse.o spring.o constants.o
+bin/tests/testIntegrator4: testIntegrator4.o integrator.o vector3d.o masse.o spring.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testTissu1: testTissu1.o integrator.o vector3d.o masse.o spring.o constants.o tissu.o
+bin/tests/testTissu1: testTissu1.o integrator.o vector3d.o masse.o spring.o tissu.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testTissu2: testTissu2.o integrator.o vector3d.o masse.o spring.o constants.o tissu.o
+bin/tests/testTissu2: testTissu2.o integrator.o vector3d.o masse.o spring.o tissu.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
 

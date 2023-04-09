@@ -8,8 +8,8 @@ private:
 
 public:
     // Constructors
-    Vector3D();
-    Vector3D(double, double, double);
+    Vector3D() : x(0.0), y(0.0), z(0.0) {}
+    constexpr Vector3D(double x, double y, double z) : x(x), y(y), z(z) {}
 
     // Getters
     double getX() const {return x;};

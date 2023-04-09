@@ -4,11 +4,6 @@
 
 #include <cmath>
 
-// Constructeurs
-Vector3D::Vector3D() : x(0.0), y(0.0), z(0.0) {}
-
-Vector3D::Vector3D(double x_, double y_, double z_) : x(x_), y(y_), z(z_) {}
-
 // Methodes sur les vecteurs
 // Norme
 double Vector3D::norm() const {
@@ -23,7 +18,7 @@ double Vector3D::normSq() const {
 // Normalise le vecteur
 Vector3D& Vector3D::normalize() {
     double norme = norm();
-    if (std::abs(norme) < CONSTANTS::EPSILON) {
+    if (fabs(norme) < CONSTANTS::EPSILON) {
         throw NullVectorNormalisationException("Can't normalize null Vector3D");
     }
     *this /= norme;
@@ -95,9 +90,9 @@ Vector3D Vector3D::operator~() const {
 
 bool Vector3D::operator==(const Vector3D& vec) const {
     return (
-        (std::abs(x - vec.x) < CONSTANTS::EPSILON) and
-        (std::abs(y - vec.y) < CONSTANTS::EPSILON) and
-        (std::abs(z - vec.z) < CONSTANTS::EPSILON)
+        (fabs(x - vec.x) < CONSTANTS::EPSILON) and
+        (fabs(y - vec.y) < CONSTANTS::EPSILON) and
+        (fabs(z - vec.z) < CONSTANTS::EPSILON)
     );
 }
 
