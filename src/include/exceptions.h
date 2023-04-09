@@ -1,27 +1,27 @@
 #pragma once
 #include <stdexcept>
 
-class BaseException : public std::runtime_error {
+class BaseException: public std::runtime_error {
 public:
-    BaseException(char const* const message) throw() : std::runtime_error(message) {}
+    BaseException(char const* const message) throw(): std::runtime_error(message) {}
 };
 
-class NullVectorNormalisationException : public BaseException {
+class NullVectorNormalisationException: public BaseException {
 public:
-    NullVectorNormalisationException(char const* const message) throw() : BaseException(message) {}
+    NullVectorNormalisationException(char const* const message) throw(): BaseException(message) {}
 };
 
-class OutOfBoundsException : public BaseException {
+class OutOfBoundsException: public BaseException {
 public:
-    OutOfBoundsException(char const* const message) throw() : BaseException(message) {}
+    OutOfBoundsException(char const* const message) throw(): BaseException(message) {}
 };
 
-class InvalidValueException : public BaseException {
+class InvalidValueException: public BaseException {
 public:
-    InvalidValueException(char const* const message) throw() : BaseException(message) {}
+    InvalidValueException(char const* const message) throw(): BaseException(message) {}
 };
 
-class PerpetualMotionException : public InvalidValueException {
+class PerpetualMotionException: public InvalidValueException {
 public:
-    PerpetualMotionException(char const* const message) throw() : InvalidValueException(message) {}
+    PerpetualMotionException(char const* const message) throw(): InvalidValueException(message) {}
 };

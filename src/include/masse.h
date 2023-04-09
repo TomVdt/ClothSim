@@ -10,7 +10,7 @@ class Spring;
 
 class Masse {
 private:
-    typedef std::vector<Spring*> ManySprings; 
+    typedef std::vector<Spring*> ManySprings;
     double mass;
     double lambda;
     Vector3D pos;
@@ -27,11 +27,11 @@ public:
     Masse(const Masse&) = delete;
 
     /* getters de la masse */
-    Vector3D getPos() const {return pos;}
-    Vector3D getVel() const {return vel;}
-    Vector3D getForce() const {return force;}
-    double getMass() const {return mass;}
-    double getLambda() const {return lambda;}
+    Vector3D getPos() const { return pos; }
+    Vector3D getVel() const { return vel; }
+    Vector3D getForce() const { return force; }
+    double getMass() const { return mass; }
+    double getLambda() const { return lambda; }
 
     /* setters de la masse */
     void setPos(const Vector3D& vec) { pos = vec; }
@@ -44,7 +44,7 @@ public:
     /* rajoute une force à cette masse */
     void addForce(const Vector3D& df);
 
-    /* met à jour la force sur la masse avec 
+    /* met à jour la force sur la masse avec
     mg, -lambda*v et la somme des forces de rappel */
     void updateForce();
 
@@ -52,7 +52,7 @@ public:
     /* affichage chaque attribut de la masse et des pointeurs vers les ressorts*/
     void display(std::ostream&) const;
 
-    /* connecte un nouveau ressort à la masse en vérifiant 
+    /* connecte un nouveau ressort à la masse en vérifiant
      * s'il est valide ou s'il n'est pas déjà connecté
      * NECESSITE DE L'ALLOCATION DYNAMIQUE avec shared_ptr */
     void connectSpring(Spring& spring);
@@ -66,4 +66,4 @@ public:
 };
 
 /* surcharge externe de l'opérateur << pour les masses */
-std::ostream& operator<<(std::ostream& out, const Masse & mass);
+std::ostream& operator<<(std::ostream& out, const Masse& mass);

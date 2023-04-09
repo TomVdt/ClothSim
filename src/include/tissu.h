@@ -12,7 +12,7 @@ class Integrator;
 typedef std::vector<Masse*> ManyMass;
 typedef std::vector<Spring*> ManySpring;
 
-class Tissu : public Drawable {
+class Tissu: public Drawable {
 private:
     ManyMass massList;
     ManySpring springList;
@@ -20,7 +20,7 @@ private:
 public:
     /* constructeur prenant la liste des masses */
     Tissu(const ManyMass& init_mass);
-    
+
     /* le destructeur libère tous les espaces mémoires alloués pour les ressorts */
     virtual ~Tissu();
 
@@ -47,4 +47,4 @@ public:
     void display(std::ostream&) const;
 };
 
-std::ostream& operator<<(std::ostream, const Tissu&);
+std::ostream& operator<<(std::ostream&, const Tissu&);

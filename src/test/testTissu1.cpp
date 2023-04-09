@@ -22,12 +22,12 @@ void log(std::ostream& file, const Vector3D& vec) {
 int main() {
     EulerCromerIntegrator grator;
 
-    Masse mass1(1, 0.3, {0, 0, 0}, {0, 0, 0});
-    Masse mass2(1, 0.3, {2, 0, 0}, {0, 0, 0});
-    Masse mass3(1, 0.3, {0, 0, 2}, {0, 0, 0});
+    Masse mass1(1, 0.3, { 0, 0, 0 }, { 0, 0, 0 });
+    Masse mass2(1, 0.3, { 2, 0, 0 }, { 0, 0, 0 });
+    Masse mass3(1, 0.3, { 0, 0, 2 }, { 0, 0, 0 });
     // Masse mass4(1, 0.3, {2, 0, 2}, {0, 0, 0});
 
-    ManyMass init_mass({&mass1, &mass2, &mass3});
+    ManyMass init_mass({ &mass1, &mass2, &mass3 });
     Tissu T1(init_mass);
 
     T1.connect(0, 1, 9, 1.5);
@@ -39,18 +39,21 @@ int main() {
 
 
     std::ofstream file("testTissu1.txt", std::ofstream::out | std::ofstream::trunc);
-    
+
     std::ostream& out(file.fail() ? cout : file);
     if (file.fail()) {
         cout << "# WARNING: le fichier n'a pas pu être ouvert." << endl;
     }
 
-    if (T1.check()) {out << "le tissu est cohérent yey" << endl;}
-    else {out << "problème notre tissu a transcendé la réalité pour atteindre de nouveaux plans d'existence" << endl;
+    if (T1.check()) {
+        out << "le tissu est cohérent yey" << endl;
+    }
+    else {
+        out << "problème notre tissu a transcendé la réalité pour atteindre de nouveaux plans d'existence" << endl;
         file.close();
         return 1;
     }
-    
+
 
     // "Header" du txt
     out << "# x1, y1, z1, x2, y2, z2, x3, y3, z3" << endl;
@@ -66,11 +69,11 @@ int main() {
         T1.updateForce();
 
         double y(mass1.getForce().getY());
-        mass1.addForce({0, -y, 0});
+        mass1.addForce({ 0, -y, 0 });
         y = mass2.getForce().getY();
-        mass2.addForce({0, -y, 0});
+        mass2.addForce({ 0, -y, 0 });
         y = mass3.getForce().getY();
-        mass3.addForce({0, -y, 0});
+        mass3.addForce({ 0, -y, 0 });
 
         T1.evolve(grator, 0.1);
     }

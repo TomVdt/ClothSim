@@ -3,7 +3,6 @@
 #include "include/spring.h"
 #include "include/exceptions.h"
 
-
 // for std::swap
 #include <utility>
 #include <algorithm>
@@ -18,7 +17,7 @@ Masse::Masse(double mass, double lambda, const Vector3D& pos, const Vector3D& ve
     lambda(lambda),
     pos(pos),
     vel(vel),
-    force(mass * g),
+    force(mass* g),
     springList()
 {
     if (mass <= 0.0) {
@@ -30,7 +29,7 @@ Masse::Masse(double mass, double lambda, const Vector3D& pos, const Vector3D& ve
 }
 
 Vector3D Masse::acceleration() const {
-    return force/mass;
+    return force / mass;
 }
 
 void Masse::updateForce() {
@@ -39,7 +38,7 @@ void Masse::updateForce() {
         springForce += spring->springForce(*this);
     }
 
-    force = mass*g - lambda*vel + springForce;
+    force = mass * g - lambda * vel + springForce;
 }
 
 void Masse::addForce(const Vector3D& df) {
@@ -79,7 +78,7 @@ void Masse::display(std::ostream& out) const {
     out << "Masse " << this << " {"
         << "masse: " << mass << ", "
         << "lambda: " << lambda << ", "
-        << "position: " << pos << ", " 
+        << "position: " << pos << ", "
         << "vitesse: " << vel << ", "
         << "force: " << force << ", "
         << "ressorts: [";
@@ -95,7 +94,7 @@ void Masse::display(std::ostream& out) const {
     out << "]}";
 }
 
-std::ostream& operator<<(std::ostream & out, const Masse & mass) {
+std::ostream& operator<<(std::ostream& out, const Masse& mass) {
     mass.display(out);
     return out;
 }

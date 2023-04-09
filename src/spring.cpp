@@ -12,9 +12,11 @@ Vector3D Spring::springForce(Masse& mass) const {
     Vector3D vecMassMass;
     if (&mass == mass2) {
         vecMassMass = mass1->getPos() - mass.getPos();
-    } else if (&mass == mass1) {
+    }
+    else if (&mass == mass1) {
         vecMassMass = mass2->getPos() - mass.getPos();
-    } else {
+    }
+    else {
         // la masse n'appartient pas au spring, pas de force
         return Vector3D();
     }
@@ -43,16 +45,17 @@ bool Spring::massConnected(Masse& mass) {
     return &mass == mass1 or &mass == mass2;
 }
 
-void Spring::display(std::ostream &out) const
+void Spring::display(std::ostream& out) const
 {
     out << "Spring " << this << " {\n"
         << "  k: " << k << ",\n"
         << "  l0: " << l0 << ",\n"
         << "  masse 1: ";
-    
+
     if (mass1 != nullptr) {
         out << *mass1;
-    } else {
+    }
+    else {
         out << "nullptr";
     }
 
@@ -60,7 +63,8 @@ void Spring::display(std::ostream &out) const
 
     if (mass2 != nullptr) {
         out << *mass2;
-    } else {
+    }
+    else {
         out << "nullptr";
     }
 

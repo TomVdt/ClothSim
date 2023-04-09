@@ -12,7 +12,7 @@ double Vector3D::norm() const {
 
 // Norme² (optimisation)
 double Vector3D::normSq() const {
-    return x*x + y*y + z*z;
+    return x * x + y * y + z * z;
 }
 
 // Normalise le vecteur
@@ -35,12 +35,12 @@ Vector3D Vector3D::normalized() const {
 
 // Produit scalaire
 double Vector3D::dot(const Vector3D& vec) const {
-    return x*vec.x + y*vec.y + z*vec.z;
+    return x * vec.x + y * vec.y + z * vec.z;
 }
 
 // Produit vectoriel
 Vector3D Vector3D::cross(const Vector3D& vec) const {
-    return Vector3D(y*vec.z - z*vec.y, z*vec.x - x*vec.z, x*vec.y - y*vec.x);
+    return Vector3D(y * vec.z - z * vec.y, z * vec.x - x * vec.z, x * vec.y - y * vec.x);
 }
 
 
@@ -74,7 +74,7 @@ Vector3D& Vector3D::operator/=(double k) {
 }
 
 // Produit scalaire
-double Vector3D::operator*(const Vector3D& vec) const{
+double Vector3D::operator*(const Vector3D& vec) const {
     return dot(vec);
 }
 
@@ -93,7 +93,7 @@ bool Vector3D::operator==(const Vector3D& vec) const {
         (fabs(x - vec.x) < CONSTANTS::EPSILON) and
         (fabs(y - vec.y) < CONSTANTS::EPSILON) and
         (fabs(z - vec.z) < CONSTANTS::EPSILON)
-    );
+        );
 }
 
 bool Vector3D::operator!=(const Vector3D& vec) const {

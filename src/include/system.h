@@ -9,13 +9,13 @@
 
 class Tissu;
 
-class System : public Drawable {
+class System: public Drawable {
 private:
     std::unique_ptr<Integrator> integrator;
     std::vector<std::unique_ptr<Tissu>> cloths;
 
 public:
-    System() : integrator(std::make_unique<Integrator>(EulerCromerIntegrator())), cloths() {}
+    System(): integrator(std::make_unique<Integrator>(EulerCromerIntegrator())), cloths() {}
 
     virtual ~System();
 

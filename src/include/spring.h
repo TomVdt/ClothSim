@@ -23,10 +23,10 @@ private:
 public:
     /* Constructeur
      * Initialise constante de raideur et longueur à vide
-     * Les extremités peuvent être données 
+     * Les extremités peuvent être données
      * Le ressort n'est pas propriétaire des masses */
-    Spring(double k, double l0) : k(k), l0(l0), mass1(nullptr), mass2(nullptr) {}
-    Spring(double k, double l0, Masse& mass1, Masse& mass2) : k(k), l0(l0), mass1(&mass1), mass2(&mass2) {}
+    Spring(double k, double l0): k(k), l0(l0), mass1(nullptr), mass2(nullptr) {}
+    Spring(double k, double l0, Masse& mass1, Masse& mass2): k(k), l0(l0), mass1(&mass1), mass2(&mass2) {}
 
     /* Pas de copie de ressorts
      * Comment / pourquoi copier des masses?

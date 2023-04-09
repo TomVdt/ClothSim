@@ -11,7 +11,7 @@ int main() {
     cout << "===== Test affichage =====" << endl;
     Masse m1(12.2);
     cout << m1;
-    Masse m2(4.5, 2.3, {1.0, 1.0, 1.0}, {2.0, 2.0, 2.0});
+    Masse m2(4.5, 2.3, { 1.0, 1.0, 1.0 }, { 2.0, 2.0, 2.0 });
     Spring s1(1.0, 1.0);
     Spring s2(2.0, 2.0);
     m2.connectSpring(s1);
@@ -37,9 +37,9 @@ int main() {
     cout << "===== accélération et force =====" << endl;
     SHOW_TEST("acceleration", m2.acceleration(), Vector3D(0.0, -9.81, 0.0));
     m2.addForce(Vector3D(1.0, 1.0, 1.0));
-    SHOW_TEST("add force", m2.getForce(), Vector3D(1.0, -9.81*4.5 + 1.0, 1.0));
+    SHOW_TEST("add force", m2.getForce(), Vector3D(1.0, -9.81 * 4.5 + 1.0, 1.0));
     m2.updateForce();
-    SHOW_TEST("maj force", m2.getForce(), Vector3D(-2.3 * 2.0, -9.81*4.5 - 2.3*2.0, -2.3*2.0));
+    SHOW_TEST("maj force", m2.getForce(), Vector3D(-2.3 * 2.0, -9.81 * 4.5 - 2.3 * 2.0, -2.3 * 2.0));
 
     cout << endl << endl;
     cout << "===== connections aux ressorts =====" << endl;
@@ -54,6 +54,6 @@ int main() {
     m2.disconnect();
     cout << "affiche: " << m2 << endl;
     cout << "ne devait rien afficher pour les ressorts";
-    
+
     return 0;
 }

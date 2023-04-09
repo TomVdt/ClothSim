@@ -25,13 +25,13 @@ int main() {
     EulerCromerIntegrator grator;
 
     // rotation autour d'un point
-    Masse mass1(1, 0.3, {0, 0, 0}, {0, 0, 0});
-    Masse mass2(1, 0.3, {2, 0, 0}, {0, 0, -1});
+    Masse mass1(1, 0.3, { 0, 0, 0 }, { 0, 0, 0 });
+    Masse mass2(1, 0.3, { 2, 0, 0 }, { 0, 0, -1 });
     Spring spring1(0.6, 3);
     connectMassSpring(mass1, mass2, spring1);
-    
+
     std::ofstream file("testIntegrator4.txt", std::ofstream::out | std::ofstream::trunc);
-    
+
     std::ostream& out(file.fail() ? cout : file);
 
     if (file.fail()) {
@@ -55,7 +55,7 @@ int main() {
         grator.integrate(mass1, 0.1);
         grator.integrate(mass2, 0.1);
     }
-    
+
     file.close();
 
     return 0;

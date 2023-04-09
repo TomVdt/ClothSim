@@ -19,16 +19,16 @@ void log(std::ostream& file, const Vector3D& vec) {
 int main() {
     EulerCromerIntegrator grator;
 
-    Masse mass1(0.33, 0.3, {0, -3, 0}, {0, 0, 0});
-    Masse mass2(1, 0.3, {-2, 0, 0}, {0, 0, 0});
-    Masse mass3(1, 0.3, {0.5, 0, 0}, {0, 0, 0});
-    ManyMass init_mass({&mass1, &mass2, &mass3});
+    Masse mass1(0.33, 0.3, { 0, -3, 0 }, { 0, 0, 0 });
+    Masse mass2(1, 0.3, { -2, 0, 0 }, { 0, 0, 0 });
+    Masse mass3(1, 0.3, { 0.5, 0, 0 }, { 0, 0, 0 });
+    ManyMass init_mass({ &mass1, &mass2, &mass3 });
 
     Tissu T2(init_mass);
 
     T2.connect(0, 1, 0.6, 2.5);
     T2.connect(0, 2, 0.6, 2.5);
-    
+
     std::ofstream file("testTissu2.txt", std::ofstream::out | std::ofstream::trunc);
 
     std::ostream& out(file.fail() ? cout : file);
@@ -37,8 +37,11 @@ int main() {
     }
 
 
-    if (T2.check()) {out << "le tissu est cohérent yey" << endl;}
-    else {out << "problème notre tissu a transcendé la réalité pour atteindre de nouveaux plans d'existence" << endl;
+    if (T2.check()) {
+        out << "le tissu est cohérent yey" << endl;
+    }
+    else {
+        out << "problème notre tissu a transcendé la réalité pour atteindre de nouveaux plans d'existence" << endl;
         file.close();
         return 1;
     }

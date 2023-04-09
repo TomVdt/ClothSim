@@ -24,9 +24,9 @@ void connectMassSpring(Masse& m1, Masse& m2, Spring& s) {
 int main() {
     EulerCromerIntegrator grator;
 
-    Masse mass1(1, 0.3, {0, 0, 0}, {0, 0, 0});
-    Masse mass2(1, 0.3, {2, 0, 0}, {0, 0, 0});
-    Masse mass3(1, 0.3, {0, 0, 2}, {0, 0, 0});
+    Masse mass1(1, 0.3, { 0, 0, 0 }, { 0, 0, 0 });
+    Masse mass2(1, 0.3, { 2, 0, 0 }, { 0, 0, 0 });
+    Masse mass3(1, 0.3, { 0, 0, 2 }, { 0, 0, 0 });
     Spring spring1(9, 1.5);
     connectMassSpring(mass1, mass2, spring1);
     Spring spring2(1.9, 1.75);
@@ -35,7 +35,7 @@ int main() {
     connectMassSpring(mass2, mass3, spring3);
 
     std::ofstream file("testIntegrator2.txt", std::ofstream::out | std::ofstream::trunc);
-    
+
     std::ostream& out(file.fail() ? cout : file);
     if (file.fail()) {
         cout << "# WARNING: le fichier n'a pas pu être ouvert." << endl;
@@ -56,11 +56,11 @@ int main() {
         mass3.updateForce();
 
         double y(mass1.getForce().getY());
-        mass1.addForce({0, -y, 0});
+        mass1.addForce({ 0, -y, 0 });
         y = mass2.getForce().getY();
-        mass2.addForce({0, -y, 0});
+        mass2.addForce({ 0, -y, 0 });
         y = mass3.getForce().getY();
-        mass3.addForce({0, -y, 0});
+        mass3.addForce({ 0, -y, 0 });
 
         grator.integrate(mass1, 0.1);
         grator.integrate(mass2, 0.1);

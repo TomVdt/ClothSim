@@ -16,7 +16,7 @@ int main() {
     SHOW_TEST("Coords", vec1.getX(), 1.0);
     SHOW_TEST("Coords", vec1.getY(), 2.0);
     SHOW_TEST("Coords", vec1.getZ(), -0.1);
-    SHOW_TEST("Setter", {tobeset.setX(42.0); tobeset.getX();}, 42.0);
+    SHOW_TEST("Setter", { tobeset.setX(42.0); tobeset.getX(); }, 42.0);
     SHOW_TEST("Affichage", vec1, vec1);  // auto-pass (arbitrary)
     SHOW_TEST("Constructeur 1", Vector3D(), zero);
     SHOW_TEST("Constructeur 2", Vector3D(1, 2.0, 3), random);
@@ -51,10 +51,10 @@ int main() {
     SHOW_TEST("Division entier", vec1 / 2, Vector3D(0.5, 1, -0.05));
     SHOW_TEST("Division", vec1 / 2.0, Vector3D(0.5, 1, -0.05));
 
-    SHOW_TEST("Scalaire", vec1 * vec2, 9.19);
-    SHOW_TEST("Vectoriel", vec1 ^ vec2, Vector3D(8.55, -4.36, -1.7));
+    SHOW_TEST("Scalaire", vec1* vec2, 9.19);
+    SHOW_TEST("Vectoriel", vec1^ vec2, Vector3D(8.55, -4.36, -1.7));
     SHOW_TEST("Unitaire", ~threezerozero, Vector3D(1.0, 0.0, 0.0));
-    
+
     Vector3D presqueZero(0.01, 0.0, 0.0);
     SHOW_TEST("Egalite", vec1 == vec1, true);
     SHOW_TEST("Egalite", vec1 == vec2, false);

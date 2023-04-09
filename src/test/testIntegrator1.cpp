@@ -16,15 +16,15 @@ void log(std::ostream& file, const Vector3D& vec) {
 
 int main() {
     EulerCromerIntegrator grator;
-    
+
     // chute libre: vitesse initiale, vitesse initiale nulle, uniquement vers le haut, λ non nul
-    Masse mass1(0.127, 0, {0, 1, 0}, {1, 2, 0});
-    Masse mass2(0.127, 0, {0, 1, 0}, {0, 0, 0});
-    Masse mass3(0.127, 0, {0, 1, 0}, {0, 2, 0});
-    Masse mass4(0.127, 0.3, {0, 1, 0}, {1, 2, 0});
+    Masse mass1(0.127, 0, { 0, 1, 0 }, { 1, 2, 0 });
+    Masse mass2(0.127, 0, { 0, 1, 0 }, { 0, 0, 0 });
+    Masse mass3(0.127, 0, { 0, 1, 0 }, { 0, 2, 0 });
+    Masse mass4(0.127, 0.3, { 0, 1, 0 }, { 1, 2, 0 });
 
     std::ofstream file("testIntegrator1.txt", std::ofstream::out | std::ofstream::trunc);
-    
+
     std::ostream& out(file.fail() ? cout : file);
     if (file.fail()) {
         cout << "# WARNING: le fichier n'a pas pu être ouvert." << endl;

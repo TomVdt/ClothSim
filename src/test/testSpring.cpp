@@ -16,8 +16,8 @@ void connectMassSpring(Masse& m1, Masse& m2, Spring& s) {
 
 int main() {
     Spring spring1(1, 1);
-    Masse mass1(1, 0, {0, 0, 0});
-    Masse mass2(1, 0, {1, 0, 0});
+    Masse mass1(1, 0, { 0, 0, 0 });
+    Masse mass2(1, 0, { 1, 0, 0 });
 
     cout << "=== Pre-connection ===" << endl;
     cout << spring1 << endl;
@@ -42,13 +42,13 @@ int main() {
     SHOW_TEST("Ressort 3 compresse", spring3.springForce(mass2), Vector3D(0.5, 0, 0));
 
     Spring spring4(1, 10);
-    Masse mass3(1, 0, {4, 3, 0});
+    Masse mass3(1, 0, { 4, 3, 0 });
     connectMassSpring(mass1, mass3, spring4);
     SHOW_TEST("Ressort 4 diagonal", spring4.springForce(mass1), Vector3D(4, 3, 0));
     SHOW_TEST("Ressort 4 diagonal", spring4.springForce(mass3), Vector3D(-4, -3, 0));
-    
+
     Spring spring5(1, 10);
-    Masse mass4(1, 0, {0.000001, 0, 0});
+    Masse mass4(1, 0, { 0.000001, 0, 0 });
     connectMassSpring(mass1, mass4, spring5);
     SHOW_TEST("Surcompression", spring5.springForce(mass1), Vector3D(9.999999, 0, 0));
 
@@ -68,8 +68,8 @@ int main() {
 
     cout << "Avant changement: " << spring7;
 
-    mass5.setPos({69, 42, 6});
-    mass6.setVel({420, 420, 420});
+    mass5.setPos({ 69, 42, 6 });
+    mass6.setVel({ 420, 420, 420 });
 
     cout << "Après changement: " << spring7;
 
