@@ -1,12 +1,10 @@
 #pragma once
 #include "include/vector3d.h"
+
 #include <vector>
 #include <iostream>
 
-
 class Spring;
-
-
 
 class Masse {
 private:
@@ -24,45 +22,60 @@ public:
     /* constructeur masse nécesssaire ensuite lambda, pos et vel peuvent etre par defaut
      * N'est pas propriétaire des springs */
     Masse(double mass, double lambda = 0.0, const Vector3D& pos = Vector3D(), const Vector3D& vel = Vector3D());
+    
+    /* Pas de copie de masse: à quels ressorts connecter? */
     Masse(const Masse&) = delete;
 
-    /* getters de la masse */
+    /* Position */
     Vector3D getPos() const { return pos; }
+
+    /* Vitesse */
     Vector3D getVel() const { return vel; }
+    
+    /* Force */
     Vector3D getForce() const { return force; }
+    
+    /* Masse */
     double getMass() const { return mass; }
+    
+    /* Coefficient de frottement */
     double getLambda() const { return lambda; }
 
-    /* setters de la masse */
+    /* Set postion */
     void setPos(const Vector3D& vec) { pos = vec; }
+    
+    /* Set vitesse*/
     void setVel(const Vector3D& vec) { vel = vec; }
 
-    /* renvoie l'acceleration de la masse */
+    /* Acceleration de la masse */
     Vector3D acceleration() const;
 
 
-    /* rajoute une force à cette masse */
+    /* Rajoute une force à cette masse */
     void addForce(const Vector3D& df);
 
-    /* met à jour la force sur la masse avec
-    mg, -lambda*v et la somme des forces de rappel */
+    /* Met à jour la force sur la masse avec
+     * mg, -lambda*v et la somme des forces de rappel */
     void updateForce();
 
-
-    /* affichage chaque attribut de la masse et des pointeurs vers les ressorts*/
-    void display(std::ostream&) const;
-
-    /* connecte un nouveau ressort à la masse en vérifiant
-     * s'il est valide ou s'il n'est pas déjà connecté
-     * NECESSITE DE L'ALLOCATION DYNAMIQUE avec shared_ptr */
+    /* Connecte un nouveau ressort à la masse en vérifiant
+     * s'il est valide ou s'il n'est pas déjà connecté */
     void connectSpring(Spring& spring);
-    /* trouve le ressort et le déconnecte */
-    void disconnectSpring(Spring& spring);
-    /* déconnecte tous les ressorts */
+
+    /* Déconnecte la masse du ressort donné */
+    void disconnectSpring(const Spring& spring);
+    
+    /* Déconnecte tous les ressorts */
     void disconnect();
 
-    /* test si ce ressort est connecté */
-    bool springConnected(Spring& spring);
+    /* Vérifie si le ressort est connecté */
+    bool springConnected(const Spring& spring) const;
+
+    /* Alloue dynamiquement une copie de la masse ne contenant *pas* les ressorts */
+    Masse* copy() const;
+
+    /* Représentation de la masse dans un flot */
+    void display(std::ostream& out, size_t level = 0) const;
 };
 
 /* surcharge externe de l'opérateur << pour les masses */

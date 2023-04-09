@@ -1,15 +1,20 @@
 #include "include/system.h"
-#include "include/tissu.h"
+#include "include/cloth.h"
 #include "include/renderer.h"
 #include "include/exceptions.h"
+#include "include/util.h"
 
 
-System::~System() {}
+void System::addCloth(std::unique_ptr<Cloth> cloth) {
+    cloths.push_back(std::move(cloth));
+}
 
-void System::update(double dt = CONSTANTS::PHYSICS_DT) {
+// void System::createCloth()
+
+void System::update(double dt) {
     for (auto& cloth : cloths) {
         cloth->updateForce();
-        cloth->evolve(*integrator, dt);
+        cloth->evolve(integrator, dt);
     }
 }
 
@@ -18,20 +23,22 @@ void System::draw(Renderer& dest) {
     // throw NoRendererException("No usable renderer was given");
 }
 
-void System::display(std::ostream& out) const {
-    out << "System " << this << " {" << std::endl
-        << "  cloths: [" << std::endl;
+void System::display(std::ostream& out, size_t level) const {
     unsigned int massCount(0);
     unsigned int springCount(0);
+
+    out << indent(level) << "System " << this << " {" << std::endl
+        << indent(level + 1) << "tissus: [" << std::endl;
     for (const auto& cloth : cloths) {
-        out << cloth.get() << std::endl;
+        cloth->display(out, level + 2);
+        out << std::endl;
         massCount += cloth->getMassCount();
         springCount += cloth->getSpringCount();
     }
-    out << "  ]," << std::endl
-        << "  masses: " << massCount << "," << std::endl
-        << "  ressorts: " << springCount << std::endl
-        << "}" << std::endl;
+    out << indent(level + 1) << "]," << std::endl
+        << indent(level + 1) << "masses: " << massCount << "," << std::endl
+        << indent(level + 1) << "ressorts: " << springCount << std::endl
+        << indent(level) << "}";
 }
 
 std::ostream& operator<<(std::ostream& out, const System& system) {

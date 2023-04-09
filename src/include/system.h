@@ -7,23 +7,23 @@
 #include <vector>
 #include <memory>
 
-class Tissu;
+class Cloth;
 
 class System: public Drawable {
 private:
-    std::unique_ptr<Integrator> integrator;
-    std::vector<std::unique_ptr<Tissu>> cloths;
+    Integrator& integrator;
+    std::vector<std::unique_ptr<Cloth>> cloths;
 
 public:
-    System(): integrator(std::make_unique<Integrator>(EulerCromerIntegrator())), cloths() {}
+    System(Integrator& integrator): integrator(integrator), cloths() {}
 
-    virtual ~System();
+    void addCloth(std::unique_ptr<Cloth>);
 
     void update(double dt = CONSTANTS::PHYSICS_DT);
 
     virtual void draw(Renderer& dest) override;
 
-    void display(std::ostream&) const;
+    void display(std::ostream& out, size_t level = 0) const;
 };
 
-std::ostream& operator<<(std::ostream&, const Tissu&);
+std::ostream& operator<<(std::ostream&, const System&);

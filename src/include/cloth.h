@@ -12,17 +12,19 @@ class Integrator;
 typedef std::vector<Masse*> ManyMass;
 typedef std::vector<Spring*> ManySpring;
 
-class Tissu: public Drawable {
+class Cloth: public Drawable {
 private:
     ManyMass massList;
     ManySpring springList;
 
 public:
     /* constructeur prenant la liste des masses */
-    Tissu(const ManyMass& init_mass);
+    Cloth(const ManyMass& init_mass);
 
-    /* le destructeur libère tous les espaces mémoires alloués pour les ressorts */
-    virtual ~Tissu();
+    Cloth(const ManyMass& init_mass, const std::vector<std::pair<size_t, size_t>>& connections);
+
+    /* le destructeur libère tous les espaces mémoires alloués pour les ressorts et masses */
+    virtual ~Cloth();
 
     /* Nombre de masses dans le tissu */
     unsigned int getMassCount() const;
@@ -42,9 +44,12 @@ public:
     /* utilise l'intégrateur pour mettre à jour les masses du tissu */
     void evolve(const Integrator& integratator, double dt = CONSTANTS::PHYSICS_DT);
 
+    /* Alloue dynamiquement une copie du tissu contenant *que* les masses non connectées*/
+    Cloth* copy() const;
+
     virtual void draw(Renderer& dest) override;
 
-    void display(std::ostream&) const;
+    void display(std::ostream&, size_t level = 0) const;
 };
 
-std::ostream& operator<<(std::ostream&, const Tissu&);
+std::ostream& operator<<(std::ostream&, const Cloth&);

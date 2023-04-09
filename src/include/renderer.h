@@ -1,7 +1,7 @@
 #pragma once
 
 class Masse;
-class Tissu;
+class Cloth;
 class System;
 
 class Renderer {
@@ -10,6 +10,6 @@ public:
     Renderer(const Renderer&) = delete;
 
     virtual void draw(Masse&) = 0;
-    virtual void draw(Tissu&) = 0;
+    virtual void draw(Cloth&) = 0;
     virtual void draw(System&) = 0;
 };

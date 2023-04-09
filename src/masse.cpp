@@ -2,6 +2,7 @@
 #include "include/masse.h"
 #include "include/spring.h"
 #include "include/exceptions.h"
+#include "include/util.h"
 
 // for std::swap
 #include <utility>
@@ -51,7 +52,7 @@ void Masse::connectSpring(Spring& spring) {
     }
 }
 
-void Masse::disconnectSpring(Spring& spring) {
+void Masse::disconnectSpring(const Spring& spring) {
     for (size_t i(0); i < springList.size(); ++i) {
         if (&spring == springList[i]) {
             swap(springList[i], springList.back());
@@ -65,7 +66,7 @@ void Masse::disconnect() {
     springList.clear();
 }
 
-bool Masse::springConnected(Spring& spring) {
+bool Masse::springConnected(const Spring& spring) const {
     for (const auto& s : springList) {
         if (&spring == s) {
             return true;
@@ -74,8 +75,12 @@ bool Masse::springConnected(Spring& spring) {
     return false;
 }
 
-void Masse::display(std::ostream& out) const {
-    out << "Masse " << this << " {"
+Masse* Masse::copy() const {
+    return new Masse(mass, lambda, pos, vel);
+}
+
+void Masse::display(std::ostream& out, size_t level) const {
+    out << indent(level) << "Masse " << this << " {"
         << "masse: " << mass << ", "
         << "lambda: " << lambda << ", "
         << "position: " << pos << ", "

@@ -1,8 +1,7 @@
 .vscode
 
 build/*
-bin/tests/*
-bin/app/*
+bin/*
 
 qtexplorer/
 testIntegrator*

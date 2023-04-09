@@ -1,6 +1,7 @@
 #include "include/vector3d.h"
 #include "include/masse.h"
 #include "include/spring.h"
+#include "include/util.h"
 
 
 Vector3D Spring::springForce(Masse& mass) const {
@@ -10,11 +11,11 @@ Vector3D Spring::springForce(Masse& mass) const {
     }
 
     Vector3D vecMassMass;
-    if (&mass == mass2) {
-        vecMassMass = mass1->getPos() - mass.getPos();
+    if (&mass == &mass2) {
+        vecMassMass = mass1.getPos() - mass.getPos();
     }
-    else if (&mass == mass1) {
-        vecMassMass = mass2->getPos() - mass.getPos();
+    else if (&mass == &mass1) {
+        vecMassMass = mass2.getPos() - mass.getPos();
     }
     else {
         // la masse n'appartient pas au spring, pas de force
@@ -31,48 +32,26 @@ Vector3D Spring::springForce(Masse& mass) const {
     return k * (dist - l0) * dir;
 }
 
-void Spring::connect(Masse& m1, Masse& m2) {
-    mass1 = &m1;
-    mass2 = &m2;
-}
-
-void Spring::disconnect() {
-    mass1 = nullptr;
-    mass2 = nullptr;
-}
-
 bool Spring::massConnected(Masse& mass) {
-    return &mass == mass1 or &mass == mass2;
+    return &mass == &mass1 or &mass == &mass2;
 }
 
-void Spring::display(std::ostream& out) const
+void Spring::display(std::ostream& out, size_t level) const
 {
-    out << "Spring " << this << " {\n"
-        << "  k: " << k << ",\n"
-        << "  l0: " << l0 << ",\n"
-        << "  masse 1: ";
-
-    if (mass1 != nullptr) {
-        out << *mass1;
-    }
-    else {
-        out << "nullptr";
-    }
-
-    out << ",\n  masse 2: ";
-
-    if (mass2 != nullptr) {
-        out << *mass2;
-    }
-    else {
-        out << "nullptr";
-    }
-
-    out << "\n}\n";
+    out << indent(level) << "Spring " << this << " {" << std::endl
+        << indent(level + 1) << "k: " << k << "," << std::endl
+        << indent(level + 1) << "l0: " << l0 << "," << std::endl
+        << indent(level + 1) << "masse 1: " << mass1 << "," << std::endl
+        << indent(level + 1) << "masse 2: " << mass2 << std::endl
+        << indent(level) << "}";
 }
 
 bool Spring::valid() const {
-    return (mass1 != nullptr) and (mass2 != nullptr) and (mass1 != mass2);
+    return (&mass1 != &mass2);
+}
+
+bool Spring::areEndsValid() const {
+    return mass1.springConnected(*this) and mass2.springConnected(*this);
 }
 
 std::ostream& operator<<(std::ostream& out, const Spring& spring) {

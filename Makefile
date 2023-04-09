@@ -17,7 +17,7 @@ CXXFLAGS += -I src
 # https://makefiletutorial.com/#the-vpath-directive
 
 vpath %.h src/include
-vpath %.cpp src src/test
+vpath %.cpp src src/test exercices/P9
 vpath %.o build
 
 # Tout compiler et linker
@@ -33,8 +33,8 @@ test: dir \
 	bin/tests/testIntegrator2 \
 	bin/tests/testIntegrator3 \
 	bin/tests/testIntegrator4 \
-	bin/tests/testTissu1 \
-	bin/tests/testTissu2
+	bin/tests/testCloth1 \
+	bin/tests/testCloth2
 
 # Compilation
 # ne surtout pas avoir 2 fichiers de même nom...
@@ -47,28 +47,34 @@ test: dir \
 bin/tests/testVector3d: testVector3d.o vector3d.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testSpring: testSpring.o spring.o vector3d.o masse.o spring.o
+bin/tests/testSpring: testSpring.o spring.o vector3d.o masse.o spring.o util.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testMasse: testMasse.o spring.o vector3d.o masse.o
+bin/tests/testMasse: testMasse.o spring.o vector3d.o masse.o util.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testIntegrator1: testIntegrator1.o integrator.o vector3d.o masse.o spring.o
+bin/tests/testIntegrator1: testIntegrator1.o integrator.o vector3d.o masse.o spring.o util.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testIntegrator2: testIntegrator2.o integrator.o vector3d.o masse.o spring.o
+bin/tests/testIntegrator2: testIntegrator2.o integrator.o vector3d.o masse.o spring.o util.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testIntegrator3: testIntegrator3.o integrator.o vector3d.o masse.o spring.o
+bin/tests/testIntegrator3: testIntegrator3.o integrator.o vector3d.o masse.o spring.o util.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testIntegrator4: testIntegrator4.o integrator.o vector3d.o masse.o spring.o
+bin/tests/testIntegrator4: testIntegrator4.o integrator.o vector3d.o masse.o spring.o util.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testTissu1: testTissu1.o integrator.o vector3d.o masse.o spring.o tissu.o
+bin/tests/testCloth1: testCloth1.o integrator.o vector3d.o masse.o spring.o cloth.o util.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
-bin/tests/testTissu2: testTissu2.o integrator.o vector3d.o masse.o spring.o tissu.o
+bin/tests/testCloth2: testCloth2.o integrator.o vector3d.o masse.o spring.o cloth.o util.o
+	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
+
+bin/tests/testSystem: testSystem.o integrator.o vector3d.o masse.o spring.o cloth.o system.o util.o
+	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
+
+bin/exos/exerciceP9: exerciceP9.o integrator.o vector3d.o masse.o spring.o cloth.o system.o util.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
 
@@ -82,7 +88,7 @@ run_test%: dir bin/tests/test%
 
 dir:
 	@echo Creating necessary directories...
-	@mkdir -p build bin bin/tests
+	@mkdir -p build bin bin/tests bin/exos
 
 # Supprime les résultats de compilation précédents
 
