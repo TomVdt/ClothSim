@@ -12,14 +12,14 @@ public:
     constexpr Vector3D(double x, double y, double z) : x(x), y(y), z(z) {}
 
     // Getters
-    double getX() const { return x; };
-    double getY() const { return y; };
-    double getZ() const { return z; };
+    double getX() const { return x; }
+    double getY() const { return y; }
+    double getZ() const { return z; }
 
     // Setters
-    void setX(double x_) { x = x_; };
-    void setY(double y_) { y = y_; };
-    void setZ(double z_) { z = z_; };
+    void setX(double x_) { x = x_; }
+    void setY(double y_) { y = y_; }
+    void setZ(double z_) { z = z_; }
 
     // Internal operator overloading
     Vector3D& operator+=(const Vector3D&);

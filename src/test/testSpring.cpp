@@ -32,24 +32,23 @@ int main() {
     connectMassSpring(mass1, mass2, spring2);
     connectMassSpring(mass1, mass2, spring3);
 
-    // TODO: reverifier si les forces font sens...
     SHOW_TEST("Ressort 1 stable", spring1.springForce(mass1), Vector3D());
     SHOW_TEST("Ressort 1 stable", spring1.springForce(mass2), Vector3D());
-    SHOW_TEST("Ressort 2 etendu", spring2.springForce(mass1), Vector3D(1, 0, 0));
-    SHOW_TEST("Ressort 2 etendu", spring2.springForce(mass2), Vector3D(-1, 0, 0));
-    SHOW_TEST("Ressort 3 compresse", spring3.springForce(mass1), Vector3D(-0.5, 0, 0));
-    SHOW_TEST("Ressort 3 compresse", spring3.springForce(mass2), Vector3D(0.5, 0, 0));
+    SHOW_TEST("Ressort 2 compressé", spring2.springForce(mass1), Vector3D(-1, 0, 0));
+    SHOW_TEST("Ressort 2 compressé", spring2.springForce(mass2), Vector3D(1, 0, 0));
+    SHOW_TEST("Ressort 3 étendu", spring3.springForce(mass1), Vector3D(0.5, 0, 0));
+    SHOW_TEST("Ressort 3 étendu", spring3.springForce(mass2), Vector3D(-0.5, 0, 0));
 
     Masse mass3(1, 0, { 4, 3, 0 });
     Spring spring4(1, 10, mass1, mass3);
     connectMassSpring(mass1, mass3, spring4);
-    SHOW_TEST("Ressort 4 diagonal", spring4.springForce(mass1), Vector3D(4, 3, 0));
-    SHOW_TEST("Ressort 4 diagonal", spring4.springForce(mass3), Vector3D(-4, -3, 0));
+    SHOW_TEST("Ressort 4 diagonal", spring4.springForce(mass1), Vector3D(-4, -3, 0));
+    SHOW_TEST("Ressort 4 diagonal", spring4.springForce(mass3), Vector3D(4, 3, 0));
 
     Masse mass4(1, 0, { 0.000001, 0, 0 });
     Spring spring5(1, 10, mass1, mass4);
     connectMassSpring(mass1, mass4, spring5);
-    SHOW_TEST("Surcompression", spring5.springForce(mass1), Vector3D(9.999999, 0, 0));
+    SHOW_TEST("Surcompression", spring5.springForce(mass1), Vector3D(-9.999999, 0, 0));
 
     cout << endl << "=== Springs malformés ===" << endl;
     // On utilise des références, on est donc garanti d'avoir 2 masses connectées

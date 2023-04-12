@@ -58,8 +58,8 @@ public:
      * mg, -lambda*v et la somme des forces de rappel */
     void updateForce();
 
-    /* Connecte un nouveau ressort à la masse en vérifiant
-     * s'il est valide ou s'il n'est pas déjà connecté */
+    /* Connecte un nouveau ressort à la masse en 
+    * vérifiant s'il n'est pas déjà connecté */
     void connectSpring(Spring& spring);
 
     /* Déconnecte la masse du ressort donné */

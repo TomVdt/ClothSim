@@ -8,11 +8,12 @@ using std::cout;
 using std::endl;
 
 int main() {
-    cout << "===== Test affichage =====" << endl;
+    cout << endl << "===== Test affichage =====" << endl;
     Masse m1(12.2);
-    cout << m1;
+    cout << m1 << endl;
     Masse m2(4.5, 2.3, { 1.0, 1.0, 1.0 }, { 2.0, 2.0, 2.0 });
-    // Pour l'affichage de ressorts
+    /* Les deux ressorts crée sont inactifs (les deux extrémités sur la même masse)
+    * ils servent juste à vérifier le bon fonctionnement de l'affichage */
     Spring s1(1.0, 1.0, m2, m2);
     Spring s2(2.0, 2.0, m2, m2);
     m2.connectSpring(s1);
@@ -29,21 +30,20 @@ int main() {
 
     cout << endl;
     cout << "===== Tests setters =====" << endl;
-    m1.setPos(Vector3D(3.0, 3.0, 3.0));
-    SHOW_TEST("setter position", m1.getPos(), Vector3D(3.0, 3.0, 3.0));
-    m1.setVel(Vector3D(1.0, 2.0, 3.0));
-    SHOW_TEST("setetr vitesse", m1.getVel(), Vector3D(1.0, 2.0, 3.0));
+    SHOW_TEST("setter position", { m1.setPos(Vector3D(3.0, 3.0, 3.0)); m1.getPos(); }, Vector3D(3.0, 3.0, 3.0));
+    SHOW_TEST("setetr vitesse", { m1.setVel(Vector3D(1.0, 2.0, 3.0)); m1.getVel(); }, Vector3D(1.0, 2.0, 3.0));
 
     cout << endl << endl;
     cout << "===== accélération et force =====" << endl;
     SHOW_TEST("acceleration", m2.acceleration(), Vector3D(0.0, -9.81, 0.0));
-    m2.addForce(Vector3D(1.0, 1.0, 1.0));
-    SHOW_TEST("add force", m2.getForce(), Vector3D(1.0, -9.81 * 4.5 + 1.0, 1.0));
-    m2.updateForce();
-    SHOW_TEST("maj force", m2.getForce(), Vector3D(-2.3 * 2.0, -9.81 * 4.5 - 2.3 * 2.0, -2.3 * 2.0));
+    SHOW_TEST("add force", { m2.addForce(Vector3D(1.0, 1.0, 1.0)); m2.getForce(); }, Vector3D(1.0, -9.81 * 4.5 + 1.0, 1.0));
+    // affichage dans le terminal faux pour addForce car SHOW_TEST a des effets de bords
+    // TODO: au secooooours cryptom y a des effets de bord aaaaaaaaaaaaaaaaaah ca affiche 2 au lieu de 1
+    SHOW_TEST("maj force", { m2.updateForce(); m2.getForce(); }, Vector3D(-2.3 * 2.0, -9.81 * 4.5 - 2.3 * 2.0, -2.3 * 2.0));      // les ressorts de m2 sont inactifs
 
+    /* vérification manuelle des adresses */
     cout << endl << endl;
-    cout << "===== connections aux ressorts =====" << endl;
+    cout << "===== connections aux ressorts =====" << endl;         // TODO: faire une vraie vérification des adresses contenues dans springList?
     m1.connectSpring(s1);
     m1.connectSpring(s2);
     m1.connectSpring(s1);
