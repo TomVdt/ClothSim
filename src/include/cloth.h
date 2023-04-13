@@ -12,18 +12,26 @@ class Integrator;
 typedef std::vector<Masse*> ManyMass;
 typedef std::vector<Spring*> ManySpring;
 
+enum ShapeCloth {square, rectangle};
+enum Connections {borders, diagonals};
+
 class Cloth: public Drawable {
 private:
     ManyMass massList;
     ManySpring springList;
 
 public:
-    /* constructeur prenant la liste des masses */
+    /* constructeur prenant la liste des masses attention
+    * celles ci sont détruites à la fin de vie du tissu*/
     Cloth(const ManyMass& init_mass);
 
+    /* constructeur prenant la liste des masses et les connections à faire entre elles */
     Cloth(const ManyMass& init_mass, const std::vector<std::pair<size_t, size_t>>& connections);
 
-    /* le destructeur libère tous les espaces mémoires alloués pour les ressorts et masses */
+    /* constructeur permettant de faire des formes de base */
+    Cloth(ShapeCloth shape, double mass, double distance, int number_width, int number_height = 1, Connections connections = borders);
+
+    /* le destructeur libère tous les espaces mémoires des ressorts et des masses */
     virtual ~Cloth();
 
     /* Nombre de masses dans le tissu */
