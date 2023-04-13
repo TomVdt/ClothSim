@@ -46,7 +46,7 @@ Cloth::Cloth(ShapeCloth shape, double mass, double distance, int number_width, i
                 connect(current, current + 1);
                 connect(current, current + number_width);
                 // fait les liens en diagonale si nécessaire
-                if (connections = diagonals) {
+                if (connections == diagonals) {
                     connect(current, current + number_width + 1);
                 }
             }
