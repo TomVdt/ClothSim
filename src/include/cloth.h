@@ -29,8 +29,10 @@ public:
     Cloth(const ManyMass& init_mass, const std::vector<std::pair<size_t, size_t>>& connections);
 
     /* constructeur permettant de faire des formes de base */
+    // WARNING PAS TESTE WEEWOO
     Cloth(ShapeCloth shape, double mass, double distance, int number_width, int number_height = 1, Connections connections = borders);
-
+    // WARNING PAS TESTE WEEWOO
+    
     /* le destructeur libère tous les espaces mémoires des ressorts et des masses */
     virtual ~Cloth();
 
