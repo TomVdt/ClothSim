@@ -19,27 +19,26 @@ void log(std::ostream& file, const Vector3D& vec) {
     file << vec.getX() << "," << vec.getY() << "," << vec.getZ();
 }
 
+
 int main() {
     EulerCromerIntegrator grator;
 
-    Masse mass1(1, 0.3, { 0, 0, 0 }, { 0, 0, 0 });
-    Masse mass2(1, 0.3, { 2, 0, 0 }, { 0, 0, 0 });
-    Masse mass3(1, 0.3, { 0, 0, 2 }, { 0, 0, 0 });
-    // Masse mass4(1, 0.3, {2, 0, 2}, {0, 0, 0});
+    // les espaces mémoires sont libérés par le destructeur du tissu
+    Masse* mass1(new Masse(1, 0.3, { 0, 0, 0 }, { 0, 0, 0 }));
+    Masse* mass2(new Masse(1, 0.3, { 2, 0, 0 }, { 0, 0, 0 }));
+    Masse* mass3(new Masse(1, 0.3, { 0, 0, 2 }, { 0, 0, 0 }));
 
-    // TODO: risque de segfault?
-    ManyMass init_mass({ &mass1, &mass2, &mass3 });
+
+    ManyMass init_mass({ mass1, mass2, mass3 });
     Cloth T1(init_mass);
 
     T1.connect(0, 1, 9, 1.5);
     T1.connect(0, 2, 1.9, 1.75);
     T1.connect(1, 2, 5.5, 1.25);
-    // T1.connect(1, 3, 2.3, 1.45);
-    // T1.connect(2, 3, 4.2, 1.65);
 
 
 
-    std::ofstream file("testTissu1.txt", std::ofstream::out | std::ofstream::trunc);
+    std::ofstream file("testCloth1.txt", std::ofstream::out | std::ofstream::trunc);
 
     std::ostream& out(file.fail() ? cout : file);
     if (file.fail()) {
@@ -60,21 +59,21 @@ int main() {
     out << "# x1, y1, z1, x2, y2, z2, x3, y3, z3" << endl;
 
     for (int i(0); i < 201; ++i) {
-        log(out, mass1.getPos());
+        log(out, mass1->getPos());
         out << ",";
-        log(out, mass2.getPos());
+        log(out, mass2->getPos());
         out << ",";
-        log(out, mass3.getPos());
+        log(out, mass3->getPos());
         out << endl;
 
         T1.updateForce();
 
-        double y(mass1.getForce().getY());
-        mass1.addForce({ 0, -y, 0 });
-        y = mass2.getForce().getY();
-        mass2.addForce({ 0, -y, 0 });
-        y = mass3.getForce().getY();
-        mass3.addForce({ 0, -y, 0 });
+        double y(mass1->getForce().getY());
+        mass1->addForce({ 0, -y, 0 });
+        y = mass2->getForce().getY();
+        mass2->addForce({ 0, -y, 0 });
+        y = mass3->getForce().getY();
+        mass3->addForce({ 0, -y, 0 });
 
         T1.evolve(grator, 0.1);
     }

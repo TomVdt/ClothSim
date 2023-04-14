@@ -19,17 +19,17 @@ void log(std::ostream& file, const Vector3D& vec) {
 int main() {
     EulerCromerIntegrator grator;
 
-    Masse mass1(0.33, 0.3, { 0, -3, 0 }, { 0, 0, 0 });
-    Masse mass2(1, 0.3, { -2, 0, 0 }, { 0, 0, 0 });
-    Masse mass3(1, 0.3, { 0.5, 0, 0 }, { 0, 0, 0 });
-    ManyMass init_mass({ &mass1, &mass2, &mass3 });
+    Masse* mass1(new Masse(0.33, 0.3, { 0, -3, 0 }, { 0, 0, 0 }));
+    Masse* mass2(new Masse (1, 0.3, { -2, 0, 0 }, { 0, 0, 0 }));
+    Masse* mass3(new Masse(1, 0.3, { 0.5, 0, 0 }, { 0, 0, 0 }));
+    ManyMass init_mass({ mass1, mass2, mass3 });
 
     Cloth T2(init_mass);
 
     T2.connect(0, 1, 0.6, 2.5);
     T2.connect(0, 2, 0.6, 2.5);
 
-    std::ofstream file("testTissu2.txt", std::ofstream::out | std::ofstream::trunc);
+    std::ofstream file("testCloth2.txt", std::ofstream::out | std::ofstream::trunc);
 
     std::ostream& out(file.fail() ? cout : file);
     if (file.fail()) {
@@ -51,17 +51,17 @@ int main() {
 
     // Le 201ème point n'est pas loggé
     for (int i(0); i < 201; ++i) {
-        log(out, mass1.getPos());
+        log(out, mass1->getPos());
         out << ",";
-        log(out, mass2.getPos());
+        log(out, mass2->getPos());
         out << ",";
-        log(out, mass3.getPos());
+        log(out, mass3->getPos());
         out << endl;
         T2.updateForce();
 
         // fixe les masses 2 et 3
-        mass2.addForce(-mass2.getForce());
-        mass3.addForce(-mass3.getForce());
+        mass2->addForce(-mass2->getForce());
+        mass3->addForce(-mass3->getForce());
 
         T2.evolve(grator, 0.1);
     }

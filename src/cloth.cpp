@@ -50,7 +50,12 @@ Cloth::Cloth(ShapeCloth shape, double mass, double distance, int number_width, i
                     connect(current, current + number_width + 1);
                 }
             }
-        } 
+            connect((line + 1) * number_width - 1, (line + 2) * number_width - 1 );
+        }
+        for (int column(0); column < number_width-1; ++column) {
+            int current((number_height-1) * number_width + column);
+            connect(current, current + 1);
+        }
     }
 }                                   // TODO: dans la deuxieme grosse boucle for on utilise des int comme des size_t oupsi
 
