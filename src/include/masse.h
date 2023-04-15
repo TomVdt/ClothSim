@@ -1,12 +1,13 @@
 #pragma once
 #include "include/vector3d.h"
+#include "include/drawable.h"
 
 #include <vector>
 #include <iostream>
 
 class Spring;
 
-class Masse {
+class Masse: public Drawable {
 private:
     typedef std::vector<Spring*> ManySprings;
     double mass;
@@ -15,16 +16,23 @@ private:
     Vector3D vel;
     Vector3D force;
     ManySprings springList;
-
+    bool locked;
 
 public:
 
     /* constructeur masse nécesssaire ensuite lambda, pos et vel peuvent etre par defaut
      * N'est pas propriétaire des springs */
-    Masse(double mass, double lambda = 0.0, const Vector3D& pos = Vector3D(), const Vector3D& vel = Vector3D());
+    Masse(double mass, double lambda = 0.0, const Vector3D& pos = Vector3D(), const Vector3D& vel = Vector3D(), bool locked = false);
     
     /* Pas de copie de masse: à quels ressorts connecter? */
     Masse(const Masse&) = delete;
+    Masse& operator=(const Masse&) = delete;
+
+    /* Mais possible de les déplacer */
+    Masse(Masse&&) = default;
+    Masse& operator=(Masse&&) = default;
+
+    virtual ~Masse() = default;
 
     /* Position */
     Vector3D getPos() const { return pos; }
@@ -40,6 +48,8 @@ public:
     
     /* Coefficient de frottement */
     double getLambda() const { return lambda; }
+
+    bool isLocked() const { return locked; }
 
     /* Set postion */
     void setPos(const Vector3D& vec) { pos = vec; }
@@ -72,7 +82,10 @@ public:
     bool springConnected(const Spring& spring) const;
 
     /* Alloue dynamiquement une copie de la masse ne contenant *pas* les ressorts */
+    // TODO: revoir
     Masse* copy() const;
+
+    virtual void draw(Renderer& dest) override;
 
     /* Représentation de la masse dans un flot */
     void display(std::ostream& out, size_t level = 0) const;

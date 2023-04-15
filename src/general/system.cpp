@@ -11,9 +11,7 @@ void System::addCloth(std::unique_ptr<Cloth>& cloth) {
     cloths.push_back(std::move(cloth));
 }
 
-// void System::createCloth()
-
-void System::update(double dt) {
+void System::step(Integrator& integrator, double dt) {
     for (auto& cloth : cloths) {
         cloth->updateForce();
         for (auto& constraint : manyConstraints) {
@@ -21,7 +19,7 @@ void System::update(double dt) {
                 constraint.masse.addForce(-constraint.masse.getForce());
             }
         }
-        cloth->evolve(integrator, dt);
+        cloth->step(integrator, dt);
     }
 }
 
@@ -31,7 +29,12 @@ void System::addConstraint(Masse& mass, bool attached) {
 
 void System::draw(Renderer& dest) {
     dest.draw(*this);
-    // throw NoRendererException("No usable renderer was given");
+}
+
+void System::drawContents(Renderer& dest) const {
+    for (auto& cloth : cloths) {
+        cloth->draw(dest);
+    }
 }
 
 void System::display(std::ostream& out, size_t level) const {

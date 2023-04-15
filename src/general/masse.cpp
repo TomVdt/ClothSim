@@ -2,6 +2,7 @@
 #include "include/masse.h"
 #include "include/spring.h"
 #include "include/exceptions.h"
+#include "include/renderer.h"
 #include "include/util.h"
 
 // for std::swap
@@ -13,13 +14,14 @@ using std::endl;
 using std::swap;
 
 
-Masse::Masse(double mass, double lambda, const Vector3D& pos, const Vector3D& vel):
+Masse::Masse(double mass, double lambda, const Vector3D& pos, const Vector3D& vel, bool locked):
     mass(mass),
     lambda(lambda),
     pos(pos),
     vel(vel),
     force(mass* g),
-    springList()
+    springList(),
+    locked(locked)
 {
     if (mass <= 0.0) {
         throw InvalidValueException("Mass must be strictly positive");
@@ -34,11 +36,15 @@ Vector3D Masse::acceleration() const {
 }
 
 void Masse::updateForce() {
+    if (locked) {
+        force *= 0;
+        return;
+    }
+
     Vector3D springForce;
     for (const auto& spring : springList) {
         springForce += spring->springForce(*this);
     }
-
     force = mass * g - lambda * vel + springForce;
 }
 
@@ -76,7 +82,11 @@ bool Masse::springConnected(const Spring& spring) const {
 }
 
 Masse* Masse::copy() const {
-    return new Masse(mass, lambda, pos, vel);
+    return new Masse(mass, lambda, pos, vel, locked);
+}
+
+void Masse::draw(Renderer& dest) {
+    dest.draw(*this);
 }
 
 void Masse::display(std::ostream& out, size_t level) const {

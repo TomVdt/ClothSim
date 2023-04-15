@@ -8,9 +8,16 @@ class Renderer {
 public:
     Renderer() = default;
     virtual ~Renderer() {}
-    Renderer(const Renderer&) = delete;
 
-    virtual void draw(Masse&) = 0;      //TODO : mettre Masse comme une sous classe de drawable?
-    virtual void draw(Cloth&) = 0;
-    virtual void draw(System&) = 0;
+    /* Pas de copie */
+    Renderer(const Renderer&) = delete;
+    Renderer& operator=(const Renderer&) = delete;
+
+    /* Déplacable */
+    Renderer(Renderer&&) = default;
+    Renderer& operator=(Renderer&&) = default;
+
+    virtual void draw(const Masse&) = 0;
+    virtual void draw(const Cloth&) = 0;
+    virtual void draw(const System&) = 0;
 };

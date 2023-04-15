@@ -9,6 +9,7 @@ class Masse;
 class Spring;
 class Integrator;
 
+// TODO: unique pointer?
 typedef std::vector<Masse*> ManyMass;
 typedef std::vector<Spring*> ManySpring;
 
@@ -25,8 +26,22 @@ public:
     * celles ci sont détruites à la fin de vie du tissu*/
     Cloth(const ManyMass& init_mass);
 
+    // TODO: clean up this mess
     /* constructeur prenant la liste des masses et les connections à faire entre elles */
     Cloth(const ManyMass& init_mass, const std::vector<std::pair<size_t, size_t>>& connections);
+    
+    /* constructeur prenant la liste des masses */
+    Cloth(const std::vector<Masse>& init_mass);
+
+    Cloth(const std::vector<Masse>& init_mass, const std::vector<std::pair<size_t, size_t>>& connections);
+
+    /* Pas de copie de tissu: complexe de refaire toutes les connections et necessite beaucoup de mémoire */
+    Cloth(const Cloth&) = delete;
+    Cloth& operator=(const Cloth&) = delete;
+
+    /* On peut (et doit!) déplacer les tissus */
+    Cloth(Cloth&&) = default;
+    Cloth& operator=(Cloth&&) = default;
 
     /* constructeur permettant de faire des formes de base */
     // WARNING PAS TESTE WEEWOO
@@ -52,9 +67,10 @@ public:
     void updateForce();
 
     /* utilise l'intégrateur pour mettre à jour les masses du tissu */
-    void evolve(const Integrator& integratator, double dt = CONSTANTS::PHYSICS_DT);
+    void step(const Integrator& integratator, double dt = CONSTANTS::PHYSICS_DT);
 
     /* Alloue dynamiquement une copie du tissu contenant *que* les masses non connectées*/
+    // TODO: a revoir
     Cloth* copy() const;
 
 
@@ -63,6 +79,8 @@ public:
 
 
     virtual void draw(Renderer& dest) override;
+
+    void drawParticles(Renderer& dest) const;
 
     void display(std::ostream&, size_t level = 0) const;
 };

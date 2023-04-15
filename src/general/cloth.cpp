@@ -12,9 +12,14 @@
 
 /* les deux premiers constructeurs servent à tester le bon fonctionnement du tissu
 * normalement il ne revient pas à l'utilisateur de créer les masses */
-Cloth::Cloth(const ManyMass& init_mass): massList(init_mass), springList() {}
+// Cloth::Cloth(const ManyMass& init_mass): massList(init_mass), springList() {}
+Cloth::Cloth(const std::vector<Masse>& init_mass): massList(), springList() {
+    for (const auto& mass : init_mass) {
+        massList.push_back(mass.copy());
+    }
+}
 
-Cloth::Cloth(const ManyMass& init_mass, const std::vector<std::pair<size_t, size_t>>& connections): massList(init_mass), springList() {
+Cloth::Cloth(const std::vector<Masse>& init_mass, const std::vector<std::pair<size_t, size_t>>& connections): Cloth(init_mass) {
     for (const auto& conn : connections) {
         connect(conn.first, conn.second);
     }
@@ -99,7 +104,7 @@ void Cloth::updateForce() {
     }
 }
 
-void Cloth::evolve(const Integrator& integratator, double dt) {
+void Cloth::step(const Integrator& integratator, double dt) {
     for (auto& mass : massList) {
         integratator.integrate(*mass, dt);
     }
@@ -141,7 +146,15 @@ void Cloth::display(std::ostream& out, size_t level) const {
         << indent(level) << "}";
 }
 
-void Cloth::draw(Renderer& dest) { dest.draw(*this); }
+void Cloth::draw(Renderer& dest) {
+    dest.draw(*this);
+}
+
+void Cloth::drawParticles(Renderer& dest) const {
+    for (auto& particle : massList) {
+        particle->draw(dest);
+    }
+}
 
 
 std::ostream& operator<<(std::ostream& out, const Cloth& cloth) {

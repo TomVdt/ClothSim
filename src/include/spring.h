@@ -30,6 +30,11 @@ public:
     /* Pas de copie de ressorts
      * Un autre ressort agissant sur les même masses n'a pas trop de sens */
     Spring(const Spring&) = delete;
+    Spring& operator=(const Spring&) = delete;
+
+    /* Déplacement de springs */
+    Spring(Spring&&) = default;
+    Spring& operator=(Spring&&) = default;
 
     /* Getter pour constante de raideur */
     double getK() const { return k; }

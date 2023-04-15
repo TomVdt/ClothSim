@@ -3,5 +3,9 @@
 build/*
 bin/*
 
-qtexplorer/
-testIntegrator*
+test*.txt
+*.stash
+*.qrc
+*.a
+qrc_qmake_resources.cpp
+Makefile

@@ -3,6 +3,10 @@
 #include <iostream>
 #include <iomanip>
 
+
+/* Classe simple pour indenter une sortie dans cout
+ * Plus élégant que de faire `std::cout << "  " << std::setw(...) << ...;`
+ * Avec: `std::cout << indent(...) << ...;` */
 class indent {
 private:
     size_t level;
