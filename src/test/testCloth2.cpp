@@ -63,7 +63,7 @@ int main() {
         mass2->addForce(-mass2->getForce());
         mass3->addForce(-mass3->getForce());
 
-        T2.evolve(grator, 0.1);
+        T2.step(grator, 0.1);
     }
 
     file.close();

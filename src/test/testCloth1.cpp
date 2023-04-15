@@ -75,7 +75,7 @@ int main() {
         y = mass3->getForce().getY();
         mass3->addForce({ 0, -y, 0 });
 
-        T1.evolve(grator, 0.1);
+        T1.step(grator, 0.1);
     }
 
     file.close();
