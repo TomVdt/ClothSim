@@ -47,7 +47,7 @@ void OpenGLTest::initializeGL() {
     timeLocation = shaderProgram.uniformLocation("time");
 
     // Load texture
-    texture = new QOpenGLTexture(QImage(":/chappi.png").mirrored());
+    texture = new QOpenGLTexture(QImage(":/banana.png").mirrored());
     texture->setMinificationFilter(QOpenGLTexture::LinearMipMapLinear);
     texture->setMagnificationFilter(QOpenGLTexture::Linear);
 

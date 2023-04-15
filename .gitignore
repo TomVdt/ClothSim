@@ -8,4 +8,5 @@ test*.txt
 *.qrc
 *.a
 qrc_qmake_resources.cpp
+qrc_resource.cpp
 Makefile
