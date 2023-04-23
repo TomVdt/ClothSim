@@ -32,7 +32,7 @@ public:
     // WARNING PAS TESTE WEEWOO
     Cloth(ShapeCloth shape, double mass, double distance, int number_width, int number_height = 1, Connections connections = borders);
     // WARNING PAS TESTE WEEWOO
-    
+
     /* le destructeur libère tous les espaces mémoires des ressorts et des masses */
     virtual ~Cloth();
 
@@ -56,6 +56,11 @@ public:
 
     /* Alloue dynamiquement une copie du tissu contenant *que* les masses non connectées*/
     Cloth* copy() const;
+
+
+    /* supprime la masse à l'indice donné et tous les springs qui lui sont liés */
+    //void trou(size_t mass);
+
 
     virtual void draw(Renderer& dest) override;
 

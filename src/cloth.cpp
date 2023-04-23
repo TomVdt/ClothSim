@@ -57,7 +57,7 @@ Cloth::Cloth(ShapeCloth shape, double mass, double distance, int number_width, i
             connect(current, current + 1);
         }
     }
-}                                   // TODO: dans la deuxieme grosse boucle for on utilise des int comme des size_t oupsi
+}                                   // TODO: dans la deuxieme et 3e grosse boucle for on utilise des int comme des size_t oupsi
 
 
 Cloth::~Cloth() {
@@ -115,6 +115,11 @@ Cloth* Cloth::copy() const {
     // TODO: c'est vraiment une bonne idée d'allouer dynamiquement dans un return comme ca? faut que l'utilisateur face un delete du coup
 }
 
+
+//void Cloth::trou(size_t mass) {}
+
+
+
 void Cloth::display(std::ostream& out, size_t level) const {
     out << indent(level) << "Cloth " << this << " {" << std::endl
         << indent(level + 1) << "masses (" << massList.size() << "): [" << std::endl;
@@ -137,6 +142,7 @@ void Cloth::display(std::ostream& out, size_t level) const {
 }
 
 void Cloth::draw(Renderer& dest) { dest.draw(*this); }
+
 
 std::ostream& operator<<(std::ostream& out, const Cloth& cloth) {
     cloth.display(out);
