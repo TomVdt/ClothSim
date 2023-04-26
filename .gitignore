@@ -10,3 +10,6 @@ test*.txt
 
 # Imgui stuff
 imgui.ini
+
+# Do not commit the compiled docs (many, many files)
+doxydocs/
