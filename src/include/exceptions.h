@@ -6,9 +6,9 @@ public:
     BaseException(char const* const message) throw(): std::runtime_error(message) {}
 };
 
-class NullVectorNormalisationException: public BaseException {
+class DivZeroException: public BaseException {
 public:
-    NullVectorNormalisationException(char const* const message) throw(): BaseException(message) {}
+    DivZeroException(char const* const message) throw(): BaseException(message) {}
 };
 
 class OutOfBoundsException: public BaseException {
@@ -21,7 +21,8 @@ public:
     InvalidValueException(char const* const message) throw(): BaseException(message) {}
 };
 
-class PerpetualMotionException: public InvalidValueException {
+class WindowException: public BaseException {
 public:
-    PerpetualMotionException(char const* const message) throw(): InvalidValueException(message) {}
+    WindowException(char const* const message) throw(): BaseException(message) {}
 };
+

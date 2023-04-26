@@ -1,12 +1,12 @@
+# Dev stuff
 .vscode
 
+# Compilation stuff
 build/*
 bin/*
 
+# Test results stuff
 test*.txt
-*.stash
-*.qrc
-*.a
-qrc_qmake_resources.cpp
-qrc_resource.cpp
-Makefile
+
+# Imgui stuff
+imgui.ini

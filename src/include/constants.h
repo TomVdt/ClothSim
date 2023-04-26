@@ -10,7 +10,8 @@ namespace CONSTANTS {
     inline constexpr double PHYSICS_DT(0.1);
 
     // Camera
-    inline constexpr double CAMERA_FOV(60.0);
+    // 60deg
+    inline constexpr double CAMERA_FOV(1.047197551);
     inline constexpr double CAMERA_RATIO(1.0);
     inline constexpr double CAMERA_NEAR(0.1);
     inline constexpr double CAMERA_FAR(1000.0);

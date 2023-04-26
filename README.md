@@ -2,6 +2,13 @@
 
 Projet programmation OOP - PH BA2
 
+# Dépendences
+
+- GLFW pour la fenêtre OpenGL
+- glm pour les calculs matriciels
+- Dear ImGui pour une interface de simulation agréable et configurable
+- doxygen-awesome-css pour une belle documentation
+
 # Liens utiles
 
 - Projet https://progmaph.epfl.ch/projet/descriptif.html

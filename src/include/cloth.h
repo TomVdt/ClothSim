@@ -24,11 +24,11 @@ private:
 public:
     /* constructeur prenant la liste des masses attention
     * celles ci sont détruites à la fin de vie du tissu*/
-    Cloth(const ManyMass& init_mass);
+    // Cloth(const ManyMass& init_mass);
 
     // TODO: clean up this mess
     /* constructeur prenant la liste des masses et les connections à faire entre elles */
-    Cloth(const ManyMass& init_mass, const std::vector<std::pair<size_t, size_t>>& connections);
+    // Cloth(const ManyMass& init_mass, const std::vector<std::pair<size_t, size_t>>& connections);
     
     /* constructeur prenant la liste des masses */
     Cloth(const std::vector<Masse>& init_mass);
@@ -71,7 +71,7 @@ public:
 
     /* Alloue dynamiquement une copie du tissu contenant *que* les masses non connectées*/
     // TODO: a revoir
-    Cloth* copy() const;
+    // Cloth* copy() const;
 
 
     /* supprime la masse à l'indice donné et tous les springs qui lui sont liés */

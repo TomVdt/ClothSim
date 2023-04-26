@@ -1,61 +1,57 @@
 #include "include/camera.h"
 #include "include/constants.h"
 
-const QVector3D Camera::LocalForward(0.0, 0.0, 1.0);
-const QVector3D Camera::LocalUp(0.0, 1.0, 0.0);
-const QVector3D Camera::LocalRight(1.0, 0.0, 0.0);
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/trigonometric.hpp>
 
 Camera::Camera():
     Camera(CONSTANTS::CAMERA_FOV, CONSTANTS::CAMERA_RATIO, CONSTANTS::CAMERA_NEAR, CONSTANTS::CAMERA_FAR) {}
 
 
-Camera::Camera(double fov, double ratio, double near, double far):
-    dirty(true),
-    mode(FPS)
-{
-    setProjection(fov, ratio, near, far);
+Camera::Camera(double fov, double ratio, double near, double far): position(0.0), pitch(0.0), yaw(0.0), roll(0.0), dirty(true) {
+    projection = glm::perspective(fov, ratio, near, far);
 }
 
 // Transform By (Add/Scale)
-void Camera::translate(const QVector3D& dt) {
+void Camera::translate(const glm::vec3& dt) {
     dirty = true;
     position += dt;
 }
 
-void Camera::rotate(const QQuaternion& dr) {
+void Camera::rotate(double dp, double dy, double dr) {
     dirty = true;
-    rotation = dr * rotation;
+    pitch += dp;
+    yaw += dy;
+    roll += dr;
 }
 
 // Transform To (Setters)
-void Camera::setPosition(const QVector3D& t) {
+void Camera::setPosition(const glm::vec3& t) {
     dirty = true;
     position = t;
 }
 
-void Camera::setRotation(const QQuaternion& r) {
+void Camera::setRotation(double p, double y, double r) {
     dirty = true;
-    rotation = r;
+    pitch = p;
+    yaw = y;
+    roll = r;
 }
 
-void Camera::setProjection(double fov, double ratio, double near, double far) {
-    projection.setToIdentity();
-    projection.perspective(fov, ratio, near, far);
-}
-
-void Camera::setMode(Mode newMode) {
-    mode = newMode;
+void Camera::setProjection(const glm::mat4x4& proj) {
+    dirty = true;
+    projection = proj;
 }
 
 // Accessors
-const QMatrix4x4& Camera::getMatrix() {
+const glm::mat4x4& Camera::getMatrix() {
     if (dirty) {
-        view.setToIdentity();
-
-        // Switching modes is simply order of operations
-        // TODO: switch mode
-        view.rotate(rotation.conjugated());
-        view.translate(position);
+        view = glm::mat4x4(1.0);
+        view = glm::rotate(view, pitch, glm::vec3(1, 0, 0));
+        view = glm::rotate(view, yaw, glm::vec3(0, 1, 0));
+        view = glm::rotate(view, roll, glm::vec3(0, 0, 1));
+        view = glm::translate(view, -position);
 
         world = projection * view;
         dirty = false;
@@ -64,14 +60,14 @@ const QMatrix4x4& Camera::getMatrix() {
 }
 
 // Queries
-QVector3D Camera::forward() const {
-    return rotation.rotatedVector(LocalForward);
+glm::vec3 Camera::forward() const {
+    return glm::vec3(-sin(yaw), 0, cos(yaw));
 }
 
-QVector3D Camera::right() const {
-    return rotation.rotatedVector(LocalRight);
+glm::vec3 Camera::right() const {
+    return glm::vec3(cos(yaw), 0, sin(yaw));
 }
 
-QVector3D Camera::up() const {
-    return rotation.rotatedVector(LocalUp);
+glm::vec3 Camera::up() const {
+    return glm::vec3(0, 1, 0);
 }
