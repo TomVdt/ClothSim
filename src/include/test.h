@@ -1,13 +1,24 @@
 #pragma once
+#include "include/constants.h"
+
 #include <iostream>
-#include <iomanip>
+#include <cassert>
+#include <cmath>
 
+// Egalites génériques
+template<typename T1, typename T2>
+bool EQ(T1 a, T2 b) {
+    return a == b;
+}
 
-// TODO: trouver une meilleure manière de faire les tests
-// TODO: ne pas supposer que == fonctionne?
-// TODO: une seule evalutation de l'expression à tester (effets de bord)
-#define SHOW_TEST(n, c, v) (\
-    std::cout << std::setw(26) << std::left << n << ": "\
-              << ((c) == (v) ? "\x1B[32mPASS\033[0m" : "\x1B[31mFAIL\033[0m") << " "\
-              << #c << " => " << (c) << ", expected " << v << "\n"\
-)
+// Spécialisation pour les doubles
+template<>
+bool EQ<double, double>(double a, double b) {
+    return std::abs(a - b) < CONSTANTS::EPSILON;
+}
+
+#define assertmsg(msg, val, expected) \
+    do {\
+        assert(((void)msg, (EQ(val, expected))));\
+        std::cout << msg << ": " << "\x1B[32mPASS\033[0m\n";\
+    } while (0)

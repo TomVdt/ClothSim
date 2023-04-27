@@ -26,6 +26,10 @@ COMMON = vector3d.cpp masse.cpp spring.cpp integrator.cpp cloth.cpp system.cpp u
 SOURCES += $(addprefix $(COMMON_DIR)/, $(COMMON))
 CXXFLAGS += -Isrc
 
+# Tests
+TESTS_DIR = src/test
+TESTS = testVector3d testMasse testSpring testIntegrator1 testIntegrator2 testIntegrator3 testIntegrator4 testCloth1 testCloth2 testSystem
+
 # Exercices
 EXERCICES_DIR = src/exercices
 
@@ -46,7 +50,14 @@ LIBS += -Linclude/GLFW -lGL -lGLEW -lglfw3 -lX11 -lXrandr -lpthread -lXi -ldl -l
 # Tell make where to look for files
 # vpath %.h src/include
 vpath % bin bin/tests bin/exercices
-vpath %.cpp $(APP_DIR) $(COMMON_DIR) $(IMGUI_DIR) $(IMGUI_DIR)/backends $(EXERCICES_DIR)/P9 $(EXERCICES_DIR)/P10
+vpath %.cpp \
+	$(APP_DIR) \
+	$(COMMON_DIR) \
+	$(IMGUI_DIR) \
+	$(IMGUI_DIR)/backends \
+	$(EXERCICES_DIR)/P9 \
+	$(EXERCICES_DIR)/P10 \
+	$(TESTS_DIR)
 vpath %.o build
 
 # Build
@@ -59,18 +70,33 @@ $(EXE): $(OBJS)
 	@echo "[LD] Linking $(EXE)"
 	@$(CXX) -o bin/$@ $(addprefix build/, $(notdir $^)) $(CXXFLAGS) $(LIBS)
 
+# Tests
+test%: test%.o $(addsuffix .o, $(basename $(notdir $(COMMON))))
+	@echo "[LD] Linking $@"
+	@$(CXX) -o bin/tests/$@ $(addprefix build/, $(notdir $^)) $(CXXFLAGS) $(LIBS)
+
 # Exercices
 exerciceP%: exerciceP%.o $(addsuffix .o, $(basename $(notdir $(COMMON))))
 	@echo "[LD] Linking $@"
 	@$(CXX) -o bin/exercices/$@ $(addprefix build/, $(notdir $^)) $(CXXFLAGS) $(LIBS)
 
-.PHONY: all run dir clean mrpropre
-all: dir $(EXE) exerciceP9 exerciceP10
+# General tasks
+.PHONY: all tests run dir clean mrpropre
+all: dir $(EXE) tests exerciceP9 exerciceP10
 	@echo "[DONE] Build complete for $(EXE)"
 
-run: all
+tests: dir $(TESTS)
+	@echo "[MAKE] Build complete for tests"
+
+run: dir $(EXE)
 	@echo "[MAKE] Launching program"
 	@bin/$(EXE)
+
+run_tests: tests
+	@for i in bin/tests/*; \
+		do echo "[TEST] Running $$i"; \
+		$$i; \
+		done
 
 dir:
 	@echo "[MAKE] Creating build directories"
@@ -78,7 +104,7 @@ dir:
 
 clean:
 	@echo "[MAKE] Deleting object files and executables"
-	@rm -f bin/$(EXE) $(addprefix build/, $(OBJS))
+	@rm -f build/*.o bin/$(EXE) bin/tests/* bin/exercices/*
 
 # Pour le rigolo
 clena: cowsay_CLENA clean

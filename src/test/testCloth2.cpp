@@ -6,6 +6,7 @@
 #include "include/cloth.h"
 
 #include <iostream>
+#include <memory>
 #include <fstream>
 
 using std::cout;
@@ -17,17 +18,19 @@ void log(std::ostream& file, const Vector3D& vec) {
 }
 
 int main() {
-    EulerCromerIntegrator grator;
+    EulerCromerIntegrator integrator;
+    Cloth cloth;
 
     Masse* mass1(new Masse(0.33, 0.3, { 0, -3, 0 }, { 0, 0, 0 }));
-    Masse* mass2(new Masse (1, 0.3, { -2, 0, 0 }, { 0, 0, 0 }));
+    Masse* mass2(new Masse(1, 0.3, { -2, 0, 0 }, { 0, 0, 0 }));
     Masse* mass3(new Masse(1, 0.3, { 0.5, 0, 0 }, { 0, 0, 0 }));
-    ManyMass init_mass({ mass1, mass2, mass3 });
 
-    Cloth T2(init_mass);
+    cloth.addMass(std::unique_ptr<Masse>(mass1));
+    cloth.addMass(std::unique_ptr<Masse>(mass2));
+    cloth.addMass(std::unique_ptr<Masse>(mass3));
 
-    T2.connect(0, 1, 0.6, 2.5);
-    T2.connect(0, 2, 0.6, 2.5);
+    cloth.connect(0, 1, 0.6, 2.5);
+    cloth.connect(0, 2, 0.6, 2.5);
 
     std::ofstream file("testCloth2.txt", std::ofstream::out | std::ofstream::trunc);
 
@@ -36,12 +39,11 @@ int main() {
         cout << "# WARNING: le fichier n'a pas pu être ouvert." << endl;
     }
 
-
-    if (T2.check()) {
-        out << "le tissu est cohérent yey" << endl;
+    if (cloth.check()) {
+        out << "# le tissu est cohérent yey" << endl;
     }
     else {
-        out << "problème notre tissu a transcendé la réalité pour atteindre de nouveaux plans d'existence" << endl;
+        out << "# problème notre tissu a transcendé la réalité pour atteindre de nouveaux plans d'existence" << endl;
         file.close();
         return 1;
     }
@@ -57,13 +59,14 @@ int main() {
         out << ",";
         log(out, mass3->getPos());
         out << endl;
-        T2.updateForce();
+
+        cloth.updateForce();
 
         // fixe les masses 2 et 3
         mass2->addForce(-mass2->getForce());
         mass3->addForce(-mass3->getForce());
 
-        T2.step(grator, 0.1);
+        cloth.step(integrator, 0.1);
     }
 
     file.close();
