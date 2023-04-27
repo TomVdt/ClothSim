@@ -32,10 +32,6 @@ public:
     Spring(const Spring&) = delete;
     Spring& operator=(const Spring&) = delete;
 
-    /* Déplacement de springs */
-    Spring(Spring&&) = default;
-    Spring& operator=(Spring&&) = default;
-
     /* Getter pour constante de raideur */
     double getK() const { return k; }
 

@@ -3,23 +3,22 @@
 #include "include/drawable.h"
 
 #include <vector>
+// #include <memory>
 #include <iostream>
 
 class Spring;
 
 class Masse: public Drawable {
 private:
-    typedef std::vector<Spring*> ManySprings;
     double mass;
     double lambda;
     Vector3D pos;
     Vector3D vel;
     Vector3D force;
-    ManySprings springList;
+    std::vector<Spring*> springList;
     bool locked;
 
 public:
-
     /* constructeur masse nécesssaire ensuite lambda, pos et vel peuvent etre par defaut
      * N'est pas propriétaire des springs */
     Masse(double mass, double lambda = 0.0, const Vector3D& pos = Vector3D(), const Vector3D& vel = Vector3D(), bool locked = false);
@@ -60,7 +59,6 @@ public:
     /* Acceleration de la masse */
     Vector3D acceleration() const;
 
-
     /* Rajoute une force à cette masse */
     void addForce(const Vector3D& df);
 
@@ -82,8 +80,7 @@ public:
     bool springConnected(const Spring& spring) const;
 
     /* Alloue dynamiquement une copie de la masse ne contenant *pas* les ressorts */
-    // TODO: revoir
-    Masse* copy() const;
+    // std::unique_ptr<Masse> copy() const;
 
     virtual void draw(Renderer& dest) override;
 

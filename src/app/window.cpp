@@ -13,18 +13,15 @@
 bool Window::needsResize(true);
 
 Window::Window(): renderer(), system(), physicsIntegrator(std::make_unique<EulerCromerIntegrator>()), window(nullptr), paused(true) {
-    // TODO: init system
-    std::vector<Masse> masses;
+    std::unique_ptr<Cloth> cloth(std::make_unique<Cloth>());
 
     // Create particles
     constexpr int count(10);
     for (int y(0); y < count; ++y) {
         for (int x(0); x < count; ++x) {
-            masses.push_back(Masse(1.0, 0.3, Vector3D(4 * x, 0, 4 * y), Vector3D(0, 0, 0), y == 0));
+            cloth->addMass(std::make_unique<Masse>(1.0, 0.3, Vector3D(4 * x, 0, 4 * y), Vector3D(0, 0, 0), y == 0));
         }
     }
-
-    std::unique_ptr<Cloth> cloth = std::make_unique<Cloth>(masses);
 
     // Connect particles
     for (int y(0); y < count; ++y) {

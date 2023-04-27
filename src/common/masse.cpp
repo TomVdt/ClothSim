@@ -8,6 +8,7 @@
 // for std::swap
 #include <utility>
 #include <algorithm>
+#include <memory>
 
 using CONSTANTS::g;
 using std::endl;
@@ -81,9 +82,9 @@ bool Masse::springConnected(const Spring& spring) const {
     return false;
 }
 
-Masse* Masse::copy() const {
-    return new Masse(mass, lambda, pos, vel, locked);
-}
+// std::unique_ptr<Masse> Masse::copy() const {
+//     return std::make_unique<Masse>(mass, lambda, pos, vel, locked);
+// }
 
 void Masse::draw(Renderer& dest) {
     dest.draw(*this);
