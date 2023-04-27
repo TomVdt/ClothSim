@@ -7,6 +7,7 @@ bin/*
 
 # Test results stuff
 test*.txt
+exercice*.txt
 
 # Imgui stuff
 imgui.ini
