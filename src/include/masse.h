@@ -19,74 +19,126 @@ private:
     bool locked;
 
 public:
-    /* constructeur masse nécesssaire ensuite lambda, pos et vel peuvent etre par defaut
-     * N'est pas propriétaire des springs */
+    /** 
+     * Constructeur masse nécesssaire ensuite lambda, pos et vel peuvent etre par defaut
+     * N'est pas propriétaire des springs 
+    */
     Masse(double mass, double lambda = 0.0, const Vector3D& pos = Vector3D(), const Vector3D& vel = Vector3D(), bool locked = false);
     
-    /* Pas de copie de masse: à quels ressorts connecter? */
+    /**
+     *  Pas de copie de masse: à quels ressorts connecter? 
+    */
     Masse(const Masse&) = delete;
+    /**
+     *  Pas de copie de masse: à quels ressorts connecter? 
+    */
     Masse& operator=(const Masse&) = delete;
 
-    /* Mais possible de les déplacer */
+    /** 
+     * Possible de déplacer les masses
+    */
     Masse(Masse&&) = default;
+    /** 
+     * Possible de déplacer les masses
+    */
     Masse& operator=(Masse&&) = default;
 
+    /**
+     * Redéfinition du destructeur pour les masses
+    */
     virtual ~Masse() = default;
 
-    /* Position */
+    /**
+     * Vecteur position 
+    */
     Vector3D getPos() const { return pos; }
 
-    /* Vitesse */
+    /** 
+     * Vecteur vitesse 
+    */
     Vector3D getVel() const { return vel; }
     
-    /* Force */
+    /** 
+     * Vecteur de la force 
+    */
     Vector3D getForce() const { return force; }
     
-    /* Masse */
+    /** 
+     * Masse 
+    */
     double getMass() const { return mass; }
     
-    /* Coefficient de frottement */
+    /** 
+     * Coefficient de frottement 
+    */
     double getLambda() const { return lambda; }
 
+    // TODO : contrainte de merde
     bool isLocked() const { return locked; }
 
-    /* Set postion */
+    /**
+     *  Set postion 
+    */
     void setPos(const Vector3D& vec) { pos = vec; }
     
-    /* Set vitesse*/
+    /** 
+     * Set vitesse
+    */
     void setVel(const Vector3D& vec) { vel = vec; }
 
-    /* Acceleration de la masse */
+    /** 
+     * Vecteur accélération de la masse 
+    */
     Vector3D acceleration() const;
 
-    /* Rajoute une force à cette masse */
+    /** 
+     * Rajoute une force à cette masse 
+    */
     void addForce(const Vector3D& df);
 
-    /* Met à jour la force sur la masse avec
-     * mg, -lambda*v et la somme des forces de rappel */
+    /** 
+     * Met à jour la force sur la masse avec
+     * mg, -lambda*v et la somme des forces de rappel 
+    */
     void updateForce();
 
-    /* Connecte un nouveau ressort à la masse en 
-    * vérifiant s'il n'est pas déjà connecté */
+    /** 
+     * Connecte un nouveau ressort à la masse en 
+     * vérifiant s'il n'est pas déjà connecté 
+    */
     void connectSpring(Spring& spring);
 
-    /* Déconnecte la masse du ressort donné */
+    /** 
+     * Déconnecte la masse du ressort donné 
+    */
     void disconnectSpring(const Spring& spring);
     
-    /* Déconnecte tous les ressorts */
+    /** 
+     * Déconnecte tous les ressorts 
+    */
     void disconnect();
 
-    /* Vérifie si le ressort est connecté */
+    /** 
+     * Vérifie si le ressort est connecté 
+    */
     bool springConnected(const Spring& spring) const;
 
+    // TODO : good luck
     /* Alloue dynamiquement une copie de la masse ne contenant *pas* les ressorts */
     // std::unique_ptr<Masse> copy() const;
 
+    /**
+     * Redéfinition de draw pour afficher la masse dans le renderer
+    */
     virtual void draw(Renderer& dest) override;
 
-    /* Représentation de la masse dans un flot */
+    /** 
+     * Représentation de la masse dans un flot 
+    */
     void display(std::ostream& out, size_t level = 0) const;
 };
 
-/* surcharge externe de l'opérateur << pour les masses */
+/** 
+ * surcharge externe de l'opérateur << pour les masses 
+*/
 std::ostream& operator<<(std::ostream& out, const Masse& mass);

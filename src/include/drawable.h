@@ -4,7 +4,8 @@ class Renderer;
 
 class Drawable {
 public:
-    Drawable() {}
-
+    /**
+     * fonction à surcharger pour afficher les objets concernés
+    */
     virtual void draw(Renderer& dest) = 0;
 };
