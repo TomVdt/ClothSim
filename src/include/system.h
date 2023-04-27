@@ -23,7 +23,7 @@ private:
 public:
     System(): cloths() {}
 
-    void addCloth(std::unique_ptr<Cloth>&);
+    void addCloth(std::unique_ptr<Cloth>&&);
 
     void step(Integrator& integrator, double dt = CONSTANTS::PHYSICS_DT);
 

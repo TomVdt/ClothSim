@@ -7,7 +7,7 @@
 #include "include/vector3d.h"
 
 
-void System::addCloth(std::unique_ptr<Cloth>& cloth) {
+void System::addCloth(std::unique_ptr<Cloth>&& cloth) {
     cloths.push_back(std::move(cloth));
 }
 

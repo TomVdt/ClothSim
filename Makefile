@@ -1,110 +1,83 @@
-CXX = g++
-CC = $(CXX)
+# Classic g++
+# CXX = g++
+# Better error messages + faster compile times
+CXX = clang++
+
+# Executable name (target)
+EXE = clothSimulation
+
+# Compiler flags
 CXXFLAGS = -std=c++17 -Wall
+CXXFLAGS += -g -O2
 
-# Pointer debugging avec libasan
+# Debug segfaults
 # CXXFLAGS += -fsanitize=address
-# LDFLAGS += -fsanitize=address
+# LDLIBS += -fsanitize=address
 
-# Debug
-CXXFLAGS += -g
-# Optimisation
-CXXFLAGS += -O2
-# Où chercher les .h
-CXXFLAGS += -I src
+# Source files to compile
+APP_DIR = src/app
+APP = main.cpp buffer.cpp window.cpp openglrenderer.cpp vertexarray.cpp shaderprogram.cpp framebuffer.cpp camera.cpp
+SOURCES = $(addprefix $(APP_DIR)/, $(APP))
+CXXFLAGS += -Iinclude -I$(APP_DIR)
 
-# Où chercher les fichiers source
-# https://makefiletutorial.com/#the-vpath-directive
+# Common (backend)
+COMMON_DIR = src/common
+COMMON = vector3d.cpp masse.cpp spring.cpp integrator.cpp cloth.cpp system.cpp util.cpp
+SOURCES += $(addprefix $(COMMON_DIR)/, $(COMMON))
+CXXFLAGS += -Isrc
 
-vpath %.h src/include
-vpath %.cpp src src/test exercices/P9
+# Dear ImGui source files
+IMGUI_DIR = include/imgui
+IMGUI = imgui.cpp imgui_demo.cpp imgui_draw.cpp imgui_tables.cpp imgui_widgets.cpp
+IMGUI += imgui_impl_glfw.cpp imgui_impl_opengl3.cpp
+SOURCES += $(addprefix $(IMGUI_DIR)/, $(IMGUI))
+CXXFLAGS += -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends
+
+# All object files to make
+OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
+
+# Manual libs (because glfw is not installed on the VM...)
+# A pre-compiled version of GLFW can be found in GLFW/libglfw3.a
+LIBS += -Linclude/GLFW -lGL -lGLEW -lglfw3 -lX11 -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor
+
+# Tell make where to look for files
+# vpath %.h src/include
+vpath % bin
+vpath %.cpp $(APP_DIR) $(COMMON_DIR) $(IMGUI_DIR) $(IMGUI_DIR)/backends
 vpath %.o build
 
-# Tout compiler et linker
-
-.PHONY: all dir clean
-all: dir test
-
-test: dir \
-	bin/tests/testVector3d \
-	bin/tests/testSpring \
-	bin/tests/testMasse \
-	bin/tests/testIntegrator1 \
-	bin/tests/testIntegrator2 \
-	bin/tests/testIntegrator3 \
-	bin/tests/testIntegrator4 \
-	bin/tests/testCloth1 \
-	bin/tests/testCloth2 \
-	bin/tests/testSystem
-	
-# Compilation
-# ne surtout pas avoir 2 fichiers de même nom...
-
+# Build
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o build/$@
+	@echo "[CXX] Compiling $<"
+	@$(CXX) $(CXXFLAGS) -c -o build/$@ $<
 
-# Linking tests
+# Link
+$(EXE): $(OBJS)
+	@echo "[LD] Linking $(EXE)"
+	@$(CXX) -o bin/$@ $(addprefix build/, $(notdir $^)) $(CXXFLAGS) $(LIBS)
 
-bin/tests/testVector3d: testVector3d.o vector3d.o
-	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
+.PHONY: all run dir clean mrpropre
+all: dir $(EXE)
+	@echo "[DONE] Build complete for $(EXE)"
 
-bin/tests/testSpring: testSpring.o spring.o vector3d.o masse.o spring.o util.o
-	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
-
-bin/tests/testMasse: testMasse.o spring.o vector3d.o masse.o util.o
-	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
-
-bin/tests/testIntegrator1: testIntegrator1.o integrator.o vector3d.o masse.o spring.o util.o
-	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
-
-bin/tests/testIntegrator2: testIntegrator2.o integrator.o vector3d.o masse.o spring.o util.o
-	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
-
-bin/tests/testIntegrator3: testIntegrator3.o integrator.o vector3d.o masse.o spring.o util.o
-	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
-
-bin/tests/testIntegrator4: testIntegrator4.o integrator.o vector3d.o masse.o spring.o util.o
-	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
-
-bin/tests/testCloth1: testCloth1.o integrator.o vector3d.o masse.o spring.o cloth.o util.o
-	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
-
-bin/tests/testCloth2: testCloth2.o integrator.o vector3d.o masse.o spring.o cloth.o util.o
-	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
-
-bin/tests/testSystem: testSystem.o integrator.o vector3d.o masse.o spring.o cloth.o system.o util.o
-	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
-
-bin/exos/exerciceP9: exerciceP9.o integrator.o vector3d.o masse.o spring.o cloth.o system.o util.o
-	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
-
-bin/exos/exerciceP10: exerciceP10.o integrator.o vector3d.o masse.o spring.o cloth.o system.o textviewer.o util.o
-	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
-
-
-# Executer un test précis
-# Ex: `make run_testIntegrator1`
-
-run_test%: dir bin/tests/test%
-	@bin/tests/test$*
-
-# Créer les dossiers necessaires à la compilation (éviter de mettre des .o partout)
+run: all
+	@echo "[MAKE] Launching program"
+	@bin/$(EXE)
 
 dir:
-	@echo Creating necessary directories...
-	@mkdir -p build bin bin/tests bin/exos
-
-# Supprime les résultats de compilation précédents
+	@echo "[MAKE] Creating build directories"
+	@mkdir -p build bin/tests bin/exercices
 
 clean:
-	@echo Removing compiled object files...
-	@rm -r build
-	@echo Removing executables...
-	@rm -r bin
+	@echo "[MAKE] Deleting object files and executables"
+	@rm -f bin/$(EXE) $(addprefix build/, $(OBJS))
 
+# Pour le rigolo
 clena: cowsay_CLENA clean
 
-.PHONY: cowsay_% clean
+mrpropre: clean
+
+.PHONY: cowsay_%
 cowsay_%:
 	@echo " -------"
 	@echo "| $(*F) |"

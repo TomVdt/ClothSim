@@ -13,9 +13,6 @@ class Integrator;
 typedef std::vector<Masse*> ManyMass;
 typedef std::vector<Spring*> ManySpring;
 
-enum ShapeCloth {square, rectangle};
-enum Connections {borders, diagonals};
-
 class Cloth: public Drawable {
 private:
     ManyMass massList;
@@ -42,11 +39,6 @@ public:
     /* On peut (et doit!) déplacer les tissus */
     Cloth(Cloth&&) = default;
     Cloth& operator=(Cloth&&) = default;
-
-    /* constructeur permettant de faire des formes de base */
-    // WARNING PAS TESTE WEEWOO
-    Cloth(ShapeCloth shape, double mass, double distance, int number_width, int number_height = 1, Connections connections = borders);
-    // WARNING PAS TESTE WEEWOO
 
     /* le destructeur libère tous les espaces mémoires des ressorts et des masses */
     virtual ~Cloth();

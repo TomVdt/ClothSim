@@ -25,46 +25,6 @@ Cloth::Cloth(const std::vector<Masse>& init_mass, const std::vector<std::pair<si
     }
 }
 
-
-Cloth::Cloth(ShapeCloth shape, double mass, double distance, int number_width, int number_height, Connections connections): massList(), springList() {
-    if (number_height <= 0 or number_width <= 0) {
-        throw InvalidValueException("des nombres positifs stp pour les lignes et les colonnes");
-    }
-    
-    if (shape == square) {
-        number_height = number_width;
-    }
-
-    if (shape == rectangle or shape == square) {
-        // crée toutes les masses du rectangle ligne par ligne
-        for (int line(0); line < number_height; ++line) {
-            for (int column(0); column < number_width; ++column) {
-                massList.push_back(new Masse( mass, 0.0, Vector3D(column * distance, line * distance, 0) ));
-            }
-        }
-
-        /* fait les liens entre les masses dans la même colonne et dans la même ligne,
-        * entre n masses alignées il y a n-1 ressorts */
-        for (int line(0); line < number_height-1; ++line) {
-            for (int column(0); column < number_width-1; ++column) {
-                int current(line * number_width + column);
-                connect(current, current + 1);
-                connect(current, current + number_width);
-                // fait les liens en diagonale si nécessaire
-                if (connections == diagonals) {
-                    connect(current, current + number_width + 1);
-                }
-            }
-            connect((line + 1) * number_width - 1, (line + 2) * number_width - 1 );
-        }
-        for (int column(0); column < number_width-1; ++column) {
-            int current((number_height-1) * number_width + column);
-            connect(current, current + 1);
-        }
-    }
-}                                   // TODO: dans la deuxieme et 3e grosse boucle for on utilise des int comme des size_t oupsi
-
-
 Cloth::~Cloth() {
     for (const auto& mass : massList) {
         delete mass;
@@ -74,9 +34,13 @@ Cloth::~Cloth() {
     }
 }
 
-unsigned int Cloth::getMassCount() const { return massList.size(); }
+unsigned int Cloth::getMassCount() const {
+    return massList.size();
+}
 
-unsigned int Cloth::getSpringCount() const { return springList.size(); }
+unsigned int Cloth::getSpringCount() const {
+    return springList.size();
+}
 
 void Cloth::connect(size_t m1, size_t m2, double k, double l0) {
     const size_t taille(massList.size());
