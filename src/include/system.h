@@ -9,17 +9,25 @@
 
 class Cloth;
 
+struct Constraint {
+    Masse& masse;
+    bool attached;
+};
+
 class System: public Drawable {
 private:
     Integrator& integrator;
     std::vector<std::unique_ptr<Cloth>> cloths;
+    std::vector<Constraint> manyConstraints;
 
 public:
     System(Integrator& integrator): integrator(integrator), cloths() {}
 
-    void addCloth(std::unique_ptr<Cloth>);
+    void addCloth(std::unique_ptr<Cloth>&);
 
     void update(double dt = CONSTANTS::PHYSICS_DT);
+
+    void addConstraint (Masse& mass, bool attached = true);
 
     virtual void draw(Renderer& dest) override;
 

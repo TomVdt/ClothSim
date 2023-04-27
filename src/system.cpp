@@ -3,9 +3,11 @@
 #include "include/renderer.h"
 #include "include/exceptions.h"
 #include "include/util.h"
+#include "include/masse.h"
+#include "include/vector3d.h"
 
 
-void System::addCloth(std::unique_ptr<Cloth> cloth) {
+void System::addCloth(std::unique_ptr<Cloth>& cloth) {
     cloths.push_back(std::move(cloth));
 }
 
@@ -14,8 +16,17 @@ void System::addCloth(std::unique_ptr<Cloth> cloth) {
 void System::update(double dt) {
     for (auto& cloth : cloths) {
         cloth->updateForce();
+        for (auto& constraint : manyConstraints) {
+            if (constraint.attached) {
+                constraint.masse.addForce(-constraint.masse.getForce());
+            }
+        }
         cloth->evolve(integrator, dt);
     }
+}
+
+void System::addConstraint(Masse& mass, bool attached) {
+    manyConstraints.push_back(Constraint{mass, attached});
 }
 
 void System::draw(Renderer& dest) {

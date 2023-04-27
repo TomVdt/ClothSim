@@ -36,7 +36,7 @@ test: dir \
 	bin/tests/testCloth1 \
 	bin/tests/testCloth2 \
 	bin/tests/testSystem
-
+	
 # Compilation
 # ne surtout pas avoir 2 fichiers de même nom...
 
@@ -76,6 +76,9 @@ bin/tests/testSystem: testSystem.o integrator.o vector3d.o masse.o spring.o clot
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
 bin/exos/exerciceP9: exerciceP9.o integrator.o vector3d.o masse.o spring.o cloth.o system.o util.o
+	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
+
+bin/exos/exerciceP10: exerciceP10.o integrator.o vector3d.o masse.o spring.o cloth.o system.o textviewer.o util.o
 	$(CXX) $(CXXFLAGS) $(addprefix build/, $(notdir $^)) -o $@
 
 
