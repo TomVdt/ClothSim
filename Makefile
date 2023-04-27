@@ -32,6 +32,7 @@ TESTS = testVector3d testMasse testSpring testIntegrator1 testIntegrator2 testIn
 
 # Exercices
 EXERCICES_DIR = src/exercices
+EXERCICES = exerciceP9 exerciceP10
 
 # Dear ImGui source files
 IMGUI_DIR = include/imgui
@@ -82,11 +83,14 @@ exerciceP%: exerciceP%.o $(addsuffix .o, $(basename $(notdir $(COMMON))))
 
 # General tasks
 .PHONY: all tests run dir clean mrpropre
-all: dir $(EXE) tests exerciceP9 exerciceP10
+all: dir $(EXE) tests exercices
 	@echo "[DONE] Build complete for $(EXE)"
 
 tests: dir $(TESTS)
 	@echo "[MAKE] Build complete for tests"
+
+exercices: $(EXERCICES)
+	@echo "[MAKE] Build complete for exercices"
 
 run: dir $(EXE)
 	@echo "[MAKE] Launching program"
