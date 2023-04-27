@@ -44,5 +44,36 @@
 - Création de `EulerCromerIntegrator`
 - Tests intégrateurs
 - Visualisation et vérification de cohérence des tests avec `python` + `matplotlib`
-- Classe `Tissu` simple
+- Classe `Cloth` simple
 - Petits ajustements aux `Spring` et `Masse`
+
+# Semaine 7
+
+- Fin des tests intégrateurs
+- Finir classe `Cloth`
+- Création des exceptions dans `exceptions.h`
+- Refactoring
+- Nouveau `Makefile`
+- Exercice P9
+
+# Semaine 7.5
+
+- Tests tissus
+- Changement de `constants.h`
+- Plus de refactoring
+- Réglage des segfault
+- Finir QT
+- Détruire QT
+- Amitié finie avec QT maintenant imgui c'est mon meilleur copain
+
+# Semaine 8
+
+- Classes `System`, `Drawable`, `Renderer`
+- Nouveau `Makefile`
+- Exam yolo
+
+# Semaine 9
+
+- R E F A C T O R I N G  <sub>trois</sub> : `Cloth`, `Masse`, `Spring`...
+- Test du graphisme sur les VMs: ultramegastonks
+- Exercice P10
