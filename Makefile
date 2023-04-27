@@ -22,9 +22,12 @@ CXXFLAGS += -Iinclude -I$(APP_DIR)
 
 # Common (backend)
 COMMON_DIR = src/common
-COMMON = vector3d.cpp masse.cpp spring.cpp integrator.cpp cloth.cpp system.cpp util.cpp
+COMMON = vector3d.cpp masse.cpp spring.cpp integrator.cpp cloth.cpp system.cpp util.cpp textrenderer.cpp
 SOURCES += $(addprefix $(COMMON_DIR)/, $(COMMON))
 CXXFLAGS += -Isrc
+
+# Exercices
+EXERCICES_DIR = src/exercices
 
 # Dear ImGui source files
 IMGUI_DIR = include/imgui
@@ -42,8 +45,8 @@ LIBS += -Linclude/GLFW -lGL -lGLEW -lglfw3 -lX11 -lXrandr -lpthread -lXi -ldl -l
 
 # Tell make where to look for files
 # vpath %.h src/include
-vpath % bin
-vpath %.cpp $(APP_DIR) $(COMMON_DIR) $(IMGUI_DIR) $(IMGUI_DIR)/backends
+vpath % bin bin/tests bin/exercices
+vpath %.cpp $(APP_DIR) $(COMMON_DIR) $(IMGUI_DIR) $(IMGUI_DIR)/backends $(EXERCICES_DIR)/P9 $(EXERCICES_DIR)/P10
 vpath %.o build
 
 # Build
@@ -56,8 +59,13 @@ $(EXE): $(OBJS)
 	@echo "[LD] Linking $(EXE)"
 	@$(CXX) -o bin/$@ $(addprefix build/, $(notdir $^)) $(CXXFLAGS) $(LIBS)
 
+# Exercices
+exerciceP%: exerciceP%.o $(addsuffix .o, $(basename $(notdir $(COMMON))))
+	@echo "[LD] Linking $@"
+	@$(CXX) -o bin/exercices/$@ $(addprefix build/, $(notdir $^)) $(CXXFLAGS) $(LIBS)
+
 .PHONY: all run dir clean mrpropre
-all: dir $(EXE)
+all: dir $(EXE) exerciceP9 exerciceP10
 	@echo "[DONE] Build complete for $(EXE)"
 
 run: all

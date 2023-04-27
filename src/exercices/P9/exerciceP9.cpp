@@ -10,14 +10,13 @@ using std::endl;
 
 int main() {
     EulerCromerIntegrator cromer;
-    System system(cromer);
+    std::unique_ptr<Cloth> cloth(std::make_unique<Cloth>());
+    System system;
 
-    // Création d'un tissu
-    Masse* mass1(new Masse(1, 0.3, { 0, 0, 0 }, { 0, 0, 0 }));
-    Masse* mass2(new Masse(1, 0.3, { 2, 0, 0 }, { 0, 0, 0 }));
-    Masse* mass3(new Masse(1, 0.3, { 0, 0, 2 }, { 0, 0, 0 }));
-    
-    std::unique_ptr<Cloth> cloth(new Cloth(ManyMass({ mass1, mass2, mass3 })));
+    cloth->addMass(std::make_unique<Masse>(1, 0.3, Vector3D(0, 0, 0), Vector3D(0, 0, 0)));
+    cloth->addMass(std::make_unique<Masse>(1, 0.3, Vector3D(2, 0, 0), Vector3D(0, 0, 0)));
+    cloth->addMass(std::make_unique<Masse>(1, 0.3, Vector3D(0, 0, 2), Vector3D(0, 0, 0)));
+        
     cloth->connect(0, 1, 9, 1.5);
     cloth->connect(0, 2, 1.9, 1.75);
     cloth->connect(1, 2, 5.5, 1.25);

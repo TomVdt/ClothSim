@@ -1,17 +1,17 @@
-#include "include/textviewer.h"
+#include "include/textrenderer.h"
 #include "include/masse.h"
 #include "include/cloth.h"
 #include "include/system.h"
 
-void TextViewer::draw(Masse& mass) {
+void TextRenderer::draw(const Masse& mass) {
     out << mass << std::endl;
 }
 
-void TextViewer::draw(Cloth & cloth) {
+void TextRenderer::draw(const Cloth & cloth) {
     out << cloth << std::endl;
 }
 
-void TextViewer::draw(System & system) {
+void TextRenderer::draw(const System & system) {
     out << system << std::endl;
 }
 
