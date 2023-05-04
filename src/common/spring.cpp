@@ -1,6 +1,7 @@
 #include "include/vector3d.h"
 #include "include/masse.h"
 #include "include/spring.h"
+#include "include/renderer.h"
 #include "include/util.h"
 
 
@@ -57,4 +58,8 @@ bool Spring::areEndsValid() const {
 std::ostream& operator<<(std::ostream& out, const Spring& spring) {
     spring.display(out);
     return out;
+}
+
+void Spring::draw(Renderer& dest) {
+    dest.draw(*this);
 }

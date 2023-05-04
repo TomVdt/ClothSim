@@ -19,6 +19,7 @@
 
 float OpenGLRenderer::shapeColor[3] = { 0.2, 0.3, 0.6 };
 float OpenGLRenderer::scale = 1.0;
+int OpenGLRenderer::test = 0;
 
 OpenGLRenderer::OpenGLRenderer():
     camera(),
@@ -219,14 +220,28 @@ void OpenGLRenderer::draw(const Masse& masse) {
     // Set to correct position
     const Vector3D& pos(masse.getPos());
     glm::mat4x4 model(1.0);
-    model = glm::translate(model, glm::vec3(pos.getX(), pos.getY(), pos.getZ()));
+    model = glm::translate(model, pos.toGlmVec3());
     model = glm::scale(model, glm::vec3(scale));
     program.setUniformValue(modelMatrixLocation, model);
 
     // Set color
     glm::vec4 color(shapeColor[0], shapeColor[1], shapeColor[2], 1.0);
     program.setUniformValue(colorLocation, color);
+    glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_SHORT, 0);
+}
 
+void OpenGLRenderer::draw(const Spring& spring) {
+    // TODO: draw springs
+    Vector3D smol((spring.getStartMass().getPos() + spring.getEndMass().getPos()) / 2.0);
+
+    glm::mat4x4 model(1.0);
+    model = glm::translate(model, smol.toGlmVec3());
+    model = glm::scale(model, glm::vec3(0.1));
+    program.setUniformValue(modelMatrixLocation, model);
+
+    // Set color
+    glm::vec4 color(1.0);
+    program.setUniformValue(colorLocation, color);
     glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_SHORT, 0);
 }
 

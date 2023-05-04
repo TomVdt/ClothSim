@@ -1,12 +1,13 @@
 #pragma once
 #include "include/vector3d.h"
+#include "include/drawable.h"
 
 #include <vector>
 #include <iostream>
 
 class Masse;
 
-class Spring {
+class Spring: public Drawable {
 private:
     /* Constante de raideur */
     double k;
@@ -32,11 +33,17 @@ public:
     Spring(const Spring&) = delete;
     Spring& operator=(const Spring&) = delete;
 
+    virtual ~Spring() = default;
+
     /* Getter pour constante de raideur */
     double getK() const { return k; }
 
     /* Getter pour la longueur de repos */
     double getL0() const { return l0; }
+
+    // TOOD: good idea?
+    const Masse& getStartMass() const { return mass1; }
+    const Masse& getEndMass() const { return mass2; }
 
     /* Retourne la force exercée par le ressort sur une masse */
     Vector3D springForce(Masse&) const;
@@ -54,6 +61,8 @@ public:
 
     /* Représentation du ressort dans un flot */
     void display(std::ostream& out, size_t level = 0) const;
+
+    virtual void draw(Renderer& dest) override;
 };
 
 std::ostream& operator<<(std::ostream&, const Spring&);

@@ -16,6 +16,10 @@ private:
 
     bool paused;
 
+    float deltaTime;
+
+    int iterationsPerFrame;
+
     // Resizing window bookkeping
     static bool needsResize;
 
@@ -37,7 +41,7 @@ private:
 
 public:
     Window();
-    virtual ~Window();
+    virtual ~Window() = default;
 
     static void fbResizeCallback(GLFWwindow* window, int width, int height);
 

@@ -1,6 +1,7 @@
 #pragma once
 
 class Masse;
+class Spring;
 class Cloth;
 class System;
 
@@ -18,6 +19,7 @@ public:
     Renderer& operator=(Renderer&&) = default;
 
     virtual void draw(const Masse&) = 0;
+    virtual void draw(const Spring&) = 0;
     virtual void draw(const Cloth&) = 0;
     virtual void draw(const System&) = 0;
 };

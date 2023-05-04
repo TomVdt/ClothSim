@@ -4,6 +4,10 @@
 #include "include/vector3d.h"
 #include "include/constants.h"
 #include "include/exceptions.h"
+#include "include/chaincloth.h"
+#include "include/rectcloth.h"
+#include "include/diskcloth.h"
+#include "include/compositecloth.h"
 
 #include "GLFW/glfw3.h"
 #include "imgui/imgui.h"
@@ -12,37 +16,48 @@
 
 bool Window::needsResize(true);
 
-Window::Window(): renderer(), system(), physicsIntegrator(std::make_unique<EulerCromerIntegrator>()), window(nullptr), paused(true) {
-    std::unique_ptr<Cloth> cloth(std::make_unique<Cloth>());
+Window::Window():
+    renderer(),
+    system(),
+    physicsIntegrator(std::make_unique<EulerCromerIntegrator>()),
+    window(nullptr),
+    paused(true),
+    deltaTime(CONSTANTS::PHYSICS_DT),
+    iterationsPerFrame(1)
+{
+    // std::unique_ptr<RectCloth> cloth1(std::make_unique<RectCloth>(
+    //     1.0,
+    //     Vector3D(40.0, 0.0, 0.0), Vector3D(0.0, 0.0, 40.0),
+    //     Vector3D(0.0, 10.0, 0.0),
+    //     0.3,
+    //     20.0,
+    //     50.0, 2.0
+    // ));
 
-    // Create particles
-    constexpr int count(10);
-    for (int y(0); y < count; ++y) {
-        for (int x(0); x < count; ++x) {
-            cloth->addMass(std::make_unique<Masse>(1.0, 0.3, Vector3D(4 * x, 0, 4 * y), Vector3D(0, 0, 0), y == 0));
-        }
-    }
+    std::unique_ptr<DiskCloth> cloth2(std::make_unique<DiskCloth>(
+        1.0,
+        Vector3D(),
+        Vector3D(0.0, 100.0, 0.0),
+        2.0,
+        0.3,
+        100.0
+    ));
 
-    // Connect particles
-    for (int y(0); y < count; ++y) {
-        for (int x(0); x < count; ++x) {
-            const int i(y * count + x);
-            // Up
-            if (i - count >= 0) {
-                cloth->connect(i, i - count, 100.0, 4.0);
-            }
-            // Left
-            if (x > 0) {
-                cloth->connect(i, i - 1, 100.0, 4.0);
-            }
-        }
-    }
+    // std::unique_ptr<DiskCloth> cloth3(std::make_unique<DiskCloth>(
+    //     1.0,
+    //     Vector3D(0.0, 0.0, 16.5),
+    //     Vector3D(0.0, 10.0, 0.0),
+    //     2.0,
+    //     0.3,
+    //     100.0
+    // ));
 
-    system.addCloth(std::move(cloth));
-}
+    // std::unique_ptr<CompositeCloth> cloth4(std::make_unique<CompositeCloth>());
+    // cloth4->linkCloth(std::move(cloth2));
+    // cloth4->linkCloth(std::move(cloth3));
 
-Window::~Window() {
-    // Nothing to delete, renderer has already been `deinit`-ed
+    // system.addCloth(std::move(cloth1));
+    system.addCloth(std::move(cloth2));
 }
 
 // static void glfw_error_callback(int err, const char* description) {
@@ -136,6 +151,8 @@ void Window::fbResizeCallback(GLFWwindow* window, int width, int height) {
 void Window::run() {
     init();
 
+    int integratorSelection(0);
+
     // Main loop
     while (!glfwWindowShouldClose(window)) {
         // Update system and handle inputs
@@ -156,19 +173,36 @@ void Window::run() {
         ImGui::NewFrame();
 
         ImGui::Begin("Hallo wereld!");
-        ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
         
+        ImGui::SeparatorText("General information");
+        ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
         glm::vec3 pos(renderer.getPosition());
         ImGui::Text("Pos %.1f %.1f %.1f", pos.x, pos.y, pos.z);
         glm::vec3 rot(renderer.getRotation());
-        
-        ImGui::Text("Rotation %.1f %.1f %.1f (rad)", rot.x, rot.y, rot.z);
+        ImGui::Text("Pitch %.0f°, Yaw %.0f°, Roll %.0f°", rot.x * 180 / M_PI, rot.y * 180 / M_PI, rot.z * 180 / M_PI);
+
+        ImGui::SeparatorText("Appearance");
         ImGui::ColorEdit3("color", renderer.shapeColor);
         ImGui::SliderFloat("Scale", &renderer.scale, 0.1, 2.0);
-        ImGui::Checkbox("Pause", &paused);
+        ImGui::SliderInt("Test", &renderer.test, 0, 24);
         
         if (ImGui::Button("Reset Camera")) renderer.reset();
-        
+
+        ImGui::SeparatorText("Simulation");
+        ImGui::Checkbox("Pause", &paused);
+
+        ImGui::Text("Integrator selection");
+        if (ImGui::RadioButton("Euler-Cromer", &integratorSelection, 0))
+            physicsIntegrator = std::make_unique<EulerCromerIntegrator>();
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Classic Euler-Cromer method, not very precise");
+        ImGui::SameLine();
+        if (ImGui::RadioButton("Non-existant", &integratorSelection, 1))
+            physicsIntegrator = std::unique_ptr<Integrator>(nullptr);
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Crap nullptr integrator that segfault this lol");
+
+        ImGui::SliderFloat("Delta time", &deltaTime, 0.001, 0.5, "%.3f sec");
+        ImGui::SliderInt("Speed", &iterationsPerFrame, 1, 100, "%dx speed", ImGuiSliderFlags_Logarithmic);
+
         ImGui::End();
 
         // Rendering
@@ -192,7 +226,9 @@ void Window::update() {
 
     // Step physics with constant time (deterministic)
     if (not paused) {
-        system.step(*physicsIntegrator, CONSTANTS::PHYSICS_DT);
+        for (int i(0); i < iterationsPerFrame; ++i) {
+            system.step(*physicsIntegrator, deltaTime);
+        }
     }
 }
 

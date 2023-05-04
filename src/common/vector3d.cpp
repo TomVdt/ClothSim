@@ -43,6 +43,23 @@ Vector3D Vector3D::cross(const Vector3D& vec) const {
     return Vector3D(y * vec.z - z * vec.y, z * vec.x - x * vec.z, x * vec.y - y * vec.x);
 }
 
+Vector3D& Vector3D::rotate(double angle, const Vector3D& axis) {
+    *this = rotated(angle, axis);
+    return *this;
+}
+
+Vector3D Vector3D::rotated(double angle, const Vector3D& axis) const {
+    // (cos θ) u+(1-cosθ)(u.n) n+(sinθ) (n ^ u)
+    const double costheta(std::cos(angle));
+    const double sintheta(std::sin(angle));
+
+    return costheta * *this + (1 - costheta) * (dot(axis)) * axis - sintheta * cross(axis);
+}
+
+double Vector3D::dist(const Vector3D& a, const Vector3D& b) {
+    return (b - a).norm();
+}
+
 
 // Surcharge interne
 Vector3D& Vector3D::operator+=(const Vector3D& vec) {
@@ -98,6 +115,10 @@ bool Vector3D::operator==(const Vector3D& vec) const {
 
 bool Vector3D::operator!=(const Vector3D& vec) const {
     return !(operator==(vec));
+}
+
+glm::vec3 Vector3D::toGlmVec3() const {
+    return glm::vec3(x, y, z);
 }
 
 

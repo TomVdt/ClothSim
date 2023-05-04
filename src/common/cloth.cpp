@@ -19,6 +19,11 @@ unsigned int Cloth::getSpringCount() const {
     return springList.size();
 }
 
+const std::vector<std::unique_ptr<Masse>>& Cloth::getMasses() const {
+    return massList;
+}
+
+
 void Cloth::addMass(std::unique_ptr<Masse>&& mass) {
     massList.push_back(std::move(mass));
 }
@@ -84,8 +89,11 @@ void Cloth::drawParticles(Renderer& dest) const {
     for (auto& particle : massList) {
         particle->draw(dest);
     }
-}
 
+    for (auto& spring : springList) {
+        spring->draw(dest);
+    }
+}
 
 std::ostream& operator<<(std::ostream& out, const Cloth& cloth) {
     cloth.display(out);

@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>  // for std::ostream
-
+#include <glm/vec3.hpp>
 
 class Vector3D {
 private:
@@ -43,6 +43,13 @@ public:
     Vector3D normalized() const;
     double dot(const Vector3D&) const;
     Vector3D cross(const Vector3D&) const;
+
+    Vector3D& rotate(double, const Vector3D&);
+    Vector3D rotated(double, const Vector3D&) const;
+
+    static double dist(const Vector3D&, const Vector3D&);
+
+    glm::vec3 toGlmVec3() const;
 };
 
 

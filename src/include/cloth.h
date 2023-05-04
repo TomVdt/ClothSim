@@ -11,7 +11,7 @@
 class Integrator;
 
 class Cloth: public Drawable {
-private:
+protected:
     // Pour nos soldats ManySpring et ManyMass parti trop tot :F:
     std::vector<std::unique_ptr<Masse>> massList;
     std::vector<std::unique_ptr<Spring>> springList;
@@ -26,6 +26,7 @@ public:
      * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire 
     */
     Cloth(const Cloth&) = delete;
+
     /** 
      * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire 
     */
@@ -35,6 +36,7 @@ public:
      *  On peut (et doit!) déplacer les tissus 
     */
     Cloth(Cloth&&) = default;
+
     /**
      *  On peut (et doit!) déplacer les tissus 
     */
@@ -55,6 +57,16 @@ public:
     */
     unsigned int getSpringCount() const;
     
+    // TODO: why tho
+    /**
+     * WARNING WARNING WARNING
+     * WARNING WARNING WARNING
+     * WARNING WARNING WARNING
+     * WARNING WARNING WARNING
+     * WARNING WARNING WARNING
+    */
+    const std::vector<std::unique_ptr<Masse>>& getMasses() const;
+
     /**
      * Rajoute une masse dans le tissu
     */
@@ -68,17 +80,17 @@ public:
     /**
      *  Vérifie pour tous les ressorts et toutes les masses que les connections sont valides 
     */
-    bool check() const;
+    virtual bool check() const;
 
     /**
      *  Met à jour les forces sur les masses 
     */
-    void updateForce();
+    virtual void updateForce();
 
     /**
      *  Utilise l'intégrateur pour mettre à jour les masses du tissu 
     */
-    void step(const Integrator& integratator, double dt = CONSTANTS::PHYSICS_DT);
+    virtual void step(const Integrator& integratator, double dt = CONSTANTS::PHYSICS_DT);
 
     /**
      * Dessine le tissu
@@ -88,12 +100,12 @@ public:
     /**
      * Dessine les masses du tissu
     */
-    void drawParticles(Renderer& dest) const;
+    virtual void drawParticles(Renderer& dest) const;
 
     /**
      * Affichage dans un flot
     */
-    void display(std::ostream&, size_t level = 0) const;
+    virtual void display(std::ostream&, size_t level = 0) const;
 };
 
 /**
