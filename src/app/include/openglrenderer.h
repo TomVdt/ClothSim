@@ -7,6 +7,7 @@
 
 #include <GL/glew.h>
 
+class Vector3D;
 
 class OpenGLRenderer: public Renderer {
 private:
@@ -27,13 +28,12 @@ private:
     GLuint projectionViewMatrixLocation;
     GLuint modelMatrixLocation;
 
-    void drawAxis();
-
 public:
     // TODO: not this lmao
     static float shapeColor[3];
     static float scale;
-    static int test;
+    static bool drawMass;
+    static bool drawSpring;
     OpenGLRenderer();
 
     /* Pas de copie de Renderer */
@@ -71,7 +71,16 @@ public:
     glm::vec3 getRotation() const { return glm::vec3(camera.getPitch(), camera.getYaw(), camera.getRoll()); }
 
     virtual void draw(const Masse&) override;
+    
     virtual void draw(const Spring&) override;
+    
     virtual void draw(const Cloth&) override;
+    
     virtual void draw(const System&) override;
+
+    void drawLine(const Vector3D& pos1, const Vector3D& pos2);
+    
+    void drawRect(const Vector3D& pos, const Vector3D& scale, const Vector3D& color);
+
+    void drawAxis();
 };

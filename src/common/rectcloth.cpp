@@ -4,13 +4,7 @@
 
 #include <cmath>
 
-RectCloth::RectCloth(double mass, Vector3D width, Vector3D length, const Vector3D& origin, double lambda, double massPerunit, double k, double l0) {
-    // Pas cohérent
-    if (massPerunit < 1.0) {
-        // TODO: exceptions
-        return;
-    }
-
+RectCloth::RectCloth(double mass, Vector3D width, Vector3D length, const Vector3D& origin, double lambda, double step, double k, double l0) {
     // Colinéaires
     if (width.normalized() == length.normalized()) {
         return;
@@ -24,20 +18,18 @@ RectCloth::RectCloth(double mass, Vector3D width, Vector3D length, const Vector3
     // Créer les masses
     const double widthNorm(width.norm());
     const double lengthNorm(length.norm());
-    const double step(lengthNorm / massPerunit);    
     Vector3D currWidth;
     Vector3D currLength;
 
     width.normalize();
     length.normalize();
 
-    const int lengthCount(massPerunit);
-    const int widthCount(widthNorm / step);
+    const int lengthCount(lengthNorm / step + 1);
+    const int widthCount(widthNorm / step + 1);
     for (int l(0); l < lengthCount; ++l) {
         for (int w(0); w < widthCount; ++w) {
-            // TODO: unhardcode this
             Vector3D pos(origin + currWidth + currLength);
-            addMass(std::make_unique<Masse>(mass, lambda, pos, Vector3D(0, 0, 0), l == 0));
+            addMass(std::make_unique<Masse>(mass, lambda, pos));
 
             currWidth += step * width;
         }

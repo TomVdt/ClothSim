@@ -3,31 +3,28 @@
 #include "include/constants.h"
 #include "include/integrator.h"
 #include "include/cloth.h"
+#include "include/constraint.h"
 
 #include <iostream>
 #include <vector>
 #include <memory>
 
-class Cloth;
-
-struct Constraint {
-    Masse& masse;
-    bool attached;
-};
-
 class System: public Drawable {
 private:
     std::vector<std::unique_ptr<Cloth>> cloths;
-    std::vector<Constraint> manyConstraints;
+    std::vector<std::unique_ptr<Constraint>> constraints;
+    double time;
 
 public:
-    System(): cloths() {}
+    System(): cloths(), constraints(), time(0.0) {}
+
+    double getTime() const;
 
     void addCloth(std::unique_ptr<Cloth>&&);
 
     void step(Integrator& integrator, double dt = CONSTANTS::PHYSICS_DT);
 
-    void addConstraint (Masse& mass, bool attached = true);
+    void addConstraint(std::unique_ptr<Constraint>&& constraint);
 
     virtual void draw(Renderer& dest) override;
     

@@ -4,6 +4,7 @@
 #include "include/masse.h"
 #include "include/renderer.h"
 #include "include/spring.h"
+#include "include/constraint.h"
 #include "include/util.h"
 
 #include <iostream>
@@ -23,6 +24,15 @@ const std::vector<std::unique_ptr<Masse>>& Cloth::getMasses() const {
     return massList;
 }
 
+std::vector<Masse*> Cloth::getMassesInRange(const Vector3D& pos, double radius) const {
+    std::vector<Masse*> tmp;
+    for (auto& mass : massList) {
+        if (Vector3D::dist(mass->getPos(), pos) < radius) {
+            tmp.push_back(mass.get());
+        }
+    }
+    return tmp;
+}
 
 void Cloth::addMass(std::unique_ptr<Masse>&& mass) {
     massList.push_back(std::move(mass));
@@ -51,6 +61,12 @@ bool Cloth::check() const {
 void Cloth::updateForce() {
     for (auto& mass : massList) {
         mass->updateForce();
+    }
+}
+
+void Cloth::applyConstraint(const Constraint& constraint, double time) {
+    for (auto& mass : massList) {
+        constraint.apply(*mass, time);
     }
 }
 

@@ -25,7 +25,7 @@ void CompositeCloth::linkCloth(std::unique_ptr<Cloth>&& newCloth) {
 }
 
 bool CompositeCloth::connectClothsConditional(Cloth& cloth1, Cloth& cloth2) {
-    bool tmp = false;
+    bool hasConnected = false;
     for (auto& mass1 : cloth1.getMasses()) {
         for (auto& mass2 : cloth2.getMasses()) {
             const double dist(Vector3D::dist(mass1->getPos(), mass2->getPos()));
@@ -34,12 +34,12 @@ bool CompositeCloth::connectClothsConditional(Cloth& cloth1, Cloth& cloth2) {
                 mass1->connectSpring(*s);
                 mass2->connectSpring(*s);
                 springList.push_back(std::move(s));
-                tmp = true;
+                hasConnected = true;
             }
         }
     }
 
-    return tmp;
+    return hasConnected;
 }
 
 void CompositeCloth::updateForce() {

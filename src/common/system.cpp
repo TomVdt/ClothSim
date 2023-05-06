@@ -11,20 +11,23 @@ void System::addCloth(std::unique_ptr<Cloth>&& cloth) {
     cloths.push_back(std::move(cloth));
 }
 
+double System::getTime() const {
+    return time;
+}
+
 void System::step(Integrator& integrator, double dt) {
+    time += dt;
     for (auto& cloth : cloths) {
         cloth->updateForce();
-        for (auto& constraint : manyConstraints) {
-            if (constraint.attached) {
-                constraint.masse.addForce(-constraint.masse.getForce());
-            }
+        for (auto& constraint : constraints) {
+            cloth->applyConstraint(*constraint, time);
         }
         cloth->step(integrator, dt);
     }
 }
 
-void System::addConstraint(Masse& mass, bool attached) {
-    manyConstraints.push_back(Constraint{mass, attached});
+void System::addConstraint(std::unique_ptr<Constraint>&& constraint) {
+    constraints.push_back(std::move(constraint));
 }
 
 void System::draw(Renderer& dest) {

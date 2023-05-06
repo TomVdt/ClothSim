@@ -26,5 +26,7 @@ public:
 
     void allocate(const void* data, unsigned int size);
 
+    void write(unsigned int offset, const void* data, unsigned int size);
+
     void destroy();
 };

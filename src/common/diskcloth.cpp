@@ -6,7 +6,7 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
         return;
     }
     
-    addMass(std::make_unique<Masse>(mass, lambda, center, Vector3D(), true));
+    addMass(std::make_unique<Masse>(mass, lambda, center));
 
     const double totalRadius(radius.norm());
     double currentRadius(radialStep);
@@ -34,10 +34,9 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
         current.rotate(angularStep, normal);
     }
 
-    // std::cout << diskCount << ", " << countPerDisk << ", " << massList.size() << "\n";
     for (int a(0); a < countPerDisk; ++a) {
         for (int r(1); r < diskCount; ++r) {
-            // Weird because 1st circle has a single mass
+            // Weird because 1st circle has a single mass... and I wanted to do this in a single loop
             int index(a * (diskCount - 1) + r);
             
             // Horrendous index math because of the layout...
@@ -46,7 +45,6 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
             if (right > massList.size() - 1) {
                 right = (right % massList.size()) + 1;
             }
-            // std::cout << "right: " << index << ", " << right << "\n";
             double dist(
                 Vector3D::dist(
                     massList[index]->getPos(), massList[right]->getPos()
@@ -58,7 +56,6 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
             if ((index - 1) % (diskCount - 1) == 0) {
                 inner = 0;
             }
-            // std::cout << "inner: " << index << ", " << inner << "\n";
             dist = Vector3D::dist(
                 massList[index]->getPos(), massList[inner]->getPos()
             );

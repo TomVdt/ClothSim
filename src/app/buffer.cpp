@@ -31,6 +31,10 @@ void Buffer::allocate(const void* data, unsigned int size) {
     glBufferData(type, size, data, GL_STATIC_DRAW);
 }
 
+void Buffer::write(unsigned int offset, const void* data, unsigned int size) {
+    glBufferSubData(type, offset, size, data);
+}
+
 void Buffer::destroy() {
     glDeleteBuffers(1, &id);
 }

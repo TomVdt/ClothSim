@@ -14,12 +14,16 @@
 #include <glm/vec4.hpp>
 #include <glm/trigonometric.hpp>
 #include <glm/mat4x4.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
+#include <glm/ext/quaternion_common.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 
 float OpenGLRenderer::shapeColor[3] = { 0.2, 0.3, 0.6 };
-float OpenGLRenderer::scale = 1.0;
-int OpenGLRenderer::test = 0;
+float OpenGLRenderer::scale = 0.5;
+bool OpenGLRenderer::drawMass = true;
+bool OpenGLRenderer::drawSpring = true;
 
 OpenGLRenderer::OpenGLRenderer():
     camera(),
@@ -82,15 +86,20 @@ void OpenGLRenderer::init() {
     // VBO
     vbo.create();
     vbo.bind();
+    // TODO: actual geometry handling
     GLfloat verts[] = {
 		-1.0, -1.0, -1.0, -1.0,  1.0, -1.0,  1.0,  1.0, -1.0,  1.0, -1.0, -1.0,
 		 1.0, -1.0, -1.0,  1.0,  1.0, -1.0,  1.0,  1.0,  1.0,  1.0, -1.0,  1.0,
 		 1.0, -1.0,  1.0,  1.0,  1.0,  1.0, -1.0,  1.0,  1.0, -1.0, -1.0,  1.0,
 		-1.0, -1.0,  1.0, -1.0,  1.0,  1.0, -1.0,  1.0, -1.0, -1.0, -1.0, -1.0,
 		-1.0, -1.0, -1.0,  1.0, -1.0, -1.0,  1.0, -1.0,  1.0, -1.0, -1.0,  1.0,
-		-1.0,  1.0, -1.0, -1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0, -1.0
+		-1.0,  1.0, -1.0, -1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0, -1.0,
+        // Free space to write to...
+		69, 69, 69, 69, 69, 69
 	};
-    vbo.allocate(verts, sizeof(verts));
+    vbo.allocate(verts, sizeof(verts) + 4 * 6);
+    GLfloat cum[] = {42, 42, 42, 42, 42, 42};
+    vbo.write(4 * 12 * 6, cum, sizeof(cum));
 
     program.setAttributeBuffer(vertexLocation, GL_FLOAT, 0, 3);
     program.enableAttributeArray(vertexLocation);
@@ -217,6 +226,10 @@ GLuint OpenGLRenderer::getFrameTexture() {
  ******************/
 
 void OpenGLRenderer::draw(const Masse& masse) {
+    if (not drawMass) {
+        return;
+    }
+
     // Set to correct position
     const Vector3D& pos(masse.getPos());
     glm::mat4x4 model(1.0);
@@ -231,18 +244,18 @@ void OpenGLRenderer::draw(const Masse& masse) {
 }
 
 void OpenGLRenderer::draw(const Spring& spring) {
-    // TODO: draw springs
-    Vector3D smol((spring.getStartMass().getPos() + spring.getEndMass().getPos()) / 2.0);
+    if (not drawSpring) {
+        return;
+    }
 
     glm::mat4x4 model(1.0);
-    model = glm::translate(model, smol.toGlmVec3());
-    model = glm::scale(model, glm::vec3(0.1));
     program.setUniformValue(modelMatrixLocation, model);
-
-    // Set color
     glm::vec4 color(1.0);
     program.setUniformValue(colorLocation, color);
-    glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_SHORT, 0);
+
+    const Vector3D start(spring.getStartMass().getPos());
+    const Vector3D end(spring.getEndMass().getPos());
+    drawLine(start, end);
 }
 
 void OpenGLRenderer::draw(const Cloth& cloth) {
@@ -251,31 +264,39 @@ void OpenGLRenderer::draw(const Cloth& cloth) {
 
 void OpenGLRenderer::draw(const System& system) {
     system.drawContents(*this);
-    drawAxis();
+}
+
+/*******************
+ * Drawing shapes! *
+ *******************/
+
+// TODO: clean up comment
+// If ever needed: https://github.com/qt/qtbase/blob/9d2cc4dd766ca6538e17040b6ac845ed880ab0fe/src/gui/math3d/qquaternion.cpp#L714
+
+void OpenGLRenderer::drawLine(const Vector3D& pos1, const Vector3D& pos2) {
+    // Let's call this "extremely hacky but it works" *dabs*
+    // Who needs optimised rendering code anyways right?
+    GLfloat line[] = {
+        (float)pos1.getX(), (float)pos1.getY(), (float)pos1.getZ(),
+        (float)pos2.getX(), (float)pos2.getY(), (float)pos2.getZ()
+    };
+    vbo.bind();
+    // TODO: hardcoding go brrrrrr
+    vbo.write(4 * 12 * 6, line, sizeof(line));
+    glDrawArrays(GL_LINES, 4 * 6, 2);
+}
+
+void OpenGLRenderer::drawRect(const Vector3D& pos, const Vector3D& scale, const Vector3D& color) {
+    glm::mat4x4 model(1.0);
+    model = glm::translate(model, pos.toGlmVec3());
+    model = glm::scale(model, scale.toGlmVec3());
+    program.setUniformValue(modelMatrixLocation, model);
+    program.setUniformValue(colorLocation, glm::vec4(color.toGlmVec3(), 1.0));
+    glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_SHORT, 0);
 }
 
 void OpenGLRenderer::drawAxis() {
-    glm::mat4x4 model(1.0);
-    model = glm::translate(model, glm::vec3(2, 0, 0));
-    model = glm::scale(model, glm::vec3(2, 0.5, 0.5));
-    program.setUniformValue(modelMatrixLocation, model);
-    glm::vec4 red(1.0, 0.0, 0.0, 1.0);
-    program.setUniformValue(colorLocation, red);
-    glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_SHORT, 0);
-
-    model = glm::mat4x4(1.0);
-    model = glm::translate(model, glm::vec3(0, 2, 0));
-    model = glm::scale(model, glm::vec3(0.5, 2.0, 0.5));
-    program.setUniformValue(modelMatrixLocation, model);
-    glm::vec4 green(0.0, 1.0, 0.0, 1.0);
-    program.setUniformValue(colorLocation, green);
-    glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_SHORT, 0);
-
-    model = glm::mat4x4(1.0);
-    model = glm::translate(model, glm::vec3(0, 0, 2));
-    model = glm::scale(model, glm::vec3(0.5, 0.5, 2));
-    program.setUniformValue(modelMatrixLocation, model);
-    glm::vec4 blue(0.0, 0.0, 1.0, 1.0);
-    program.setUniformValue(colorLocation, blue);
-    glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_SHORT, 0);
+    drawRect(Vector3D(1.1, 0.0, 0.0), Vector3D(1.0, 0.1, 0.1), Vector3D(1, 0, 0));
+    drawRect(Vector3D(0.0, 1.1, 0.0), Vector3D(0.1, 1.0, 0.1), Vector3D(0, 1, 0));
+    drawRect(Vector3D(0.0, 0.0, 1.1), Vector3D(0.1, 0.1, 1.0), Vector3D(0, 0, 1));
 }

@@ -8,7 +8,7 @@ private:
 
 public:
     // Constructors
-    Vector3D(): x(0.0), y(0.0), z(0.0) {}
+    constexpr Vector3D(): x(0.0), y(0.0), z(0.0) {}
     constexpr Vector3D(double x, double y, double z) : x(x), y(y), z(z) {}
 
     // Getters
@@ -48,6 +48,8 @@ public:
     Vector3D rotated(double, const Vector3D&) const;
 
     static double dist(const Vector3D&, const Vector3D&);
+    static Vector3D cross(const Vector3D&, const Vector3D&);
+    static double dot(const Vector3D&, const Vector3D&);
 
     glm::vec3 toGlmVec3() const;
 };

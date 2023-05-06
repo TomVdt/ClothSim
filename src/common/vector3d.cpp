@@ -117,6 +117,14 @@ bool Vector3D::operator!=(const Vector3D& vec) const {
     return !(operator==(vec));
 }
 
+Vector3D Vector3D::cross(const Vector3D& v1, const Vector3D& v2) {
+    return v1.cross(v2);
+}
+
+double Vector3D::dot(const Vector3D& v1, const Vector3D& v2) {
+    return v1.dot(v2);
+}
+
 glm::vec3 Vector3D::toGlmVec3() const {
     return glm::vec3(x, y, z);
 }

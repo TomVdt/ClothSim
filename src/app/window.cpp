@@ -8,6 +8,7 @@
 #include "include/rectcloth.h"
 #include "include/diskcloth.h"
 #include "include/compositecloth.h"
+#include "include/constraint.h"
 
 #include "GLFW/glfw3.h"
 #include "imgui/imgui.h"
@@ -25,39 +26,101 @@ Window::Window():
     deltaTime(CONSTANTS::PHYSICS_DT),
     iterationsPerFrame(1)
 {
-    // std::unique_ptr<RectCloth> cloth1(std::make_unique<RectCloth>(
+    // Cloth* cloth1(new DiskCloth(
     //     1.0,
-    //     Vector3D(40.0, 0.0, 0.0), Vector3D(0.0, 0.0, 40.0),
-    //     Vector3D(0.0, 10.0, 0.0),
-    //     0.3,
-    //     20.0,
-    //     50.0, 2.0
-    // ));
-
-    std::unique_ptr<DiskCloth> cloth2(std::make_unique<DiskCloth>(
-        1.0,
-        Vector3D(),
-        Vector3D(0.0, 100.0, 0.0),
-        2.0,
-        0.3,
-        100.0
-    ));
-
-    // std::unique_ptr<DiskCloth> cloth3(std::make_unique<DiskCloth>(
-    //     1.0,
-    //     Vector3D(0.0, 0.0, 16.5),
-    //     Vector3D(0.0, 10.0, 0.0),
+    //     Vector3D(),
+    //     Vector3D(0.0, 100.0, 0.0),
     //     2.0,
     //     0.3,
     //     100.0
     // ));
 
-    // std::unique_ptr<CompositeCloth> cloth4(std::make_unique<CompositeCloth>());
-    // cloth4->linkCloth(std::move(cloth2));
-    // cloth4->linkCloth(std::move(cloth3));
+    // Constraint* constraint1(new HookConstraint(
+    //     Vector3D(),
+    //     0.1
+    // ));
+    // Constraint* constraint2(new SinusImpulsionConstraint(
+    //     Vector3D(),
+    //     0.1,
+    //     0.0, 10.0,
+    //     Vector3D(0, 0, 100),
+    //     1.0,
+    //     {
+    //         cloth1
+    //     }
+    // ));
 
-    // system.addCloth(std::move(cloth1));
-    system.addCloth(std::move(cloth2));
+    // system.addCloth(std::unique_ptr<Cloth>(cloth1));
+    // system.addConstraint(std::unique_ptr<Constraint>(constraint1));
+    // system.addConstraint(std::unique_ptr<Constraint>(constraint2));
+
+    Cloth* cloth2(new RectCloth(
+        0.3125,
+        Vector3D(3, 0, 0), Vector3D(0, 0, 3),
+        Vector3D(),
+        0.3,
+        1.0,
+        1,
+        1
+    ));
+
+    Constraint* constraint3(new HookConstraint(
+        Vector3D(),
+        0.1
+    ));
+
+    Constraint* constraint4(new HookConstraint(
+        Vector3D(0, 0, 3),
+        0.1
+    ));
+
+    Constraint* constraint5(new SinusImpulsionConstraint(
+        Vector3D(3, 0, 0),
+        0.5,
+        0.0, 2.0,
+        Vector3D(0, 30, 0),
+        1.5,
+        {
+            cloth2
+        }
+    ));
+
+    Constraint* constraint6(new SinusImpulsionConstraint(
+        Vector3D(3, 0, 3),
+        0.5,
+        0.0, 2.0,
+        Vector3D(0, 30, 0),
+        1.5,
+        {
+            cloth2
+        }
+    ));
+
+    system.addCloth(std::unique_ptr<Cloth>(cloth2));
+    system.addConstraint(std::unique_ptr<Constraint>(constraint3));
+    system.addConstraint(std::unique_ptr<Constraint>(constraint4));
+    system.addConstraint(std::unique_ptr<Constraint>(constraint5));
+    system.addConstraint(std::unique_ptr<Constraint>(constraint6));
+
+    // Cloth* cloth3(new ChainCloth(
+    //     1.0,
+    //     0.3,
+    //     1.0,
+    //     1.0,
+    //     {
+    //         Vector3D(),
+    //         Vector3D(1, 4, 1),
+    //         Vector3D(2, 8, 2)
+    //     }
+    // ));
+
+    // Constraint* constraint7(new HookConstraint(
+    //     Vector3D(),
+    //     0.1
+    // ));
+
+    // system.addCloth(std::unique_ptr<Cloth>(cloth3));
+    // system.addConstraint(std::unique_ptr<Constraint>(constraint7));
 }
 
 // static void glfw_error_callback(int err, const char* description) {
@@ -172,7 +235,7 @@ void Window::run() {
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        ImGui::Begin("Hallo wereld!");
+        ImGui::Begin("Cloth Simulation!");
         
         ImGui::SeparatorText("General information");
         ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
@@ -184,11 +247,13 @@ void Window::run() {
         ImGui::SeparatorText("Appearance");
         ImGui::ColorEdit3("color", renderer.shapeColor);
         ImGui::SliderFloat("Scale", &renderer.scale, 0.1, 2.0);
-        ImGui::SliderInt("Test", &renderer.test, 0, 24);
+        ImGui::Checkbox("Draw Masses?", &renderer.drawMass);
+        ImGui::Checkbox("Draw Springs?", &renderer.drawSpring);
         
         if (ImGui::Button("Reset Camera")) renderer.reset();
 
         ImGui::SeparatorText("Simulation");
+        ImGui::Text("Elapsed time: %.3fs", system.getTime());
         ImGui::Checkbox("Pause", &paused);
 
         ImGui::Text("Integrator selection");
@@ -200,7 +265,7 @@ void Window::run() {
             physicsIntegrator = std::unique_ptr<Integrator>(nullptr);
         if (ImGui::IsItemHovered()) ImGui::SetTooltip("Crap nullptr integrator that segfault this lol");
 
-        ImGui::SliderFloat("Delta time", &deltaTime, 0.001, 0.5, "%.3f sec");
+        ImGui::SliderFloat("Delta time", &deltaTime, 0.001, 0.1, "%.3f sec");
         ImGui::SliderInt("Speed", &iterationsPerFrame, 1, 100, "%dx speed", ImGuiSliderFlags_Logarithmic);
 
         ImGui::End();
@@ -236,5 +301,7 @@ void Window::render() {
     renderer.beginFrame();
     renderer.clear();
     system.draw(renderer);
+    renderer.drawAxis();
+    // renderer.drawRect({1.5, 0.0, 0.0}, {3.0/2.0, 0.1, 0.1}, {1.0, 0.0, 0.0});
     renderer.endFrame();
 }

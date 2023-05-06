@@ -67,6 +67,8 @@ public:
     */
     const std::vector<std::unique_ptr<Masse>>& getMasses() const;
 
+    std::vector<Masse*> getMassesInRange(const Vector3D& pos, double radius) const;
+
     /**
      * Rajoute une masse dans le tissu
     */
@@ -86,6 +88,8 @@ public:
      *  Met à jour les forces sur les masses 
     */
     virtual void updateForce();
+
+    virtual void applyConstraint(const Constraint& constraint, double time);
 
     /**
      *  Utilise l'intégrateur pour mettre à jour les masses du tissu 

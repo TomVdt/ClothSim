@@ -22,7 +22,7 @@ CXXFLAGS += -Iinclude -I$(APP_DIR)
 
 # Common (backend)
 COMMON_DIR = src/common
-COMMON = vector3d.cpp masse.cpp spring.cpp integrator.cpp cloth.cpp system.cpp util.cpp textrenderer.cpp chaincloth.cpp rectcloth.cpp diskcloth.cpp compositecloth.cpp
+COMMON = vector3d.cpp masse.cpp spring.cpp integrator.cpp cloth.cpp system.cpp util.cpp textrenderer.cpp chaincloth.cpp rectcloth.cpp diskcloth.cpp compositecloth.cpp constraint.cpp
 SOURCES += $(addprefix $(COMMON_DIR)/, $(COMMON))
 CXXFLAGS += -Isrc
 

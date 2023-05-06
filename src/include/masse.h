@@ -7,6 +7,7 @@
 #include <iostream>
 
 class Spring;
+class Constraint;
 
 class Masse: public Drawable {
 private:
@@ -16,14 +17,14 @@ private:
     Vector3D vel;
     Vector3D force;
     std::vector<Spring*> springList;
-    bool locked;
+    std::vector<Constraint*> constraints;
 
 public:
     /** 
      * Constructeur masse nécesssaire ensuite lambda, pos et vel peuvent etre par defaut
      * N'est pas propriétaire des springs 
     */
-    Masse(double mass, double lambda = 0.0, const Vector3D& pos = Vector3D(), const Vector3D& vel = Vector3D(), bool locked = false);
+    Masse(double mass, double lambda = 0.0, const Vector3D& pos = Vector3D(), const Vector3D& vel = Vector3D());
     
     /**
      *  Pas de copie de masse: à quels ressorts connecter? 
@@ -73,9 +74,6 @@ public:
     */
     double getLambda() const { return lambda; }
 
-    // TODO : contrainte de merde
-    bool isLocked() const { return locked; }
-
     /**
      *  Set postion 
     */
@@ -90,6 +88,17 @@ public:
      * Vecteur accélération de la masse 
     */
     Vector3D acceleration() const;
+
+    /**
+     * Rajoute une contrainte à la masse
+    */
+    void addConstraint(Constraint* constraint);
+
+    /**
+     * Modifie la force en fonction des contraintes sur la masse
+     * Applique les contraintes conditionnellement
+    */
+    void applyConstraints(double time);
 
     /** 
      * Rajoute une force à cette masse 
