@@ -82,8 +82,8 @@ exerciceP%: exerciceP%.o $(addsuffix .o, $(basename $(notdir $(COMMON))))
 	@$(CXX) -o bin/exercices/$@ $(addprefix build/, $(notdir $^)) $(CXXFLAGS) $(LIBS)
 
 # General tasks
-.PHONY: all tests run dir clean mrpropre
-all: dir $(EXE) tests exercices
+.PHONY: all tests run dir docs clean clean_app clean_common clean_imgui clena mrpropre
+all: dir $(EXE) tests exercices docs
 	@echo "[DONE] Build complete for $(EXE)"
 
 tests: dir $(TESTS)
@@ -105,6 +105,14 @@ run_tests: tests
 dir:
 	@echo "[MAKE] Creating build directories"
 	@mkdir -p build bin/tests bin/exercices
+
+docs:
+	@echo "[DOXYGEN] Generating documentation"
+	@doxygen > /dev/null 2>&1
+
+open_docs: docs
+	@echo "[MAKE] Opening documentation"
+	@xdg-open doxydocs/html/index.html
 
 clean:
 	@echo "[MAKE] Deleting object files and executables"
