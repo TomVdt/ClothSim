@@ -24,7 +24,7 @@ HookConstraint::HookConstraint(const Vector3D& pos, double radius): Constraint(p
 
 void HookConstraint::apply(Masse& mass, double time) const {
     if (isInRange(mass)) {
-        mass.setVel(Vector3D());
+        mass.setVel(Vector3D(0, 0, 0));
         mass.addForce(-mass.getForce());
     }
 }
@@ -41,7 +41,7 @@ ImpulsionConstraint::ImpulsionConstraint(const Vector3D& pos, double radius, dou
     if (endTime < startTime) {
         std::swap(startTime, endTime);
     }
-    
+
     for (auto& cloth : targetCloths) {
         auto massesInRange(cloth->getMassesInRange(pos, radius));
         for (auto& mass : massesInRange) {
@@ -67,15 +67,15 @@ void ImpulsionConstraint::apply(Masse& mass, double time) const {
 
 //// Sine impulsion ////
 
-SinusImpulsionConstraint::SinusImpulsionConstraint(const Vector3D& pos, double radius, double start, double end, const Vector3D& force, double frequency, std::vector<Cloth*> targetCloths):
+SineImpulsionConstraint::SineImpulsionConstraint(const Vector3D& pos, double radius, double start, double end, const Vector3D& force, double frequency, std::vector<Cloth*> targetCloths):
     ImpulsionConstraint(pos, radius, start, end, force, targetCloths),
     frequency(frequency)
 {}
 
-void SinusImpulsionConstraint::apply(Masse& mass, double time) const {
+void SineImpulsionConstraint::apply(Masse& mass, double time) const {
     // TODO: unduplicate code
     Vector3D theRealForce(std::sin(2 * M_PI * frequency * (time - startTime)) * force);
-    if (isInTime(time) and isInList(mass)) {
+    if (/*isInRange(mass) and*/ isInTime(time) and isInList(mass)) {
         mass.addForce(-CONSTANTS::g * mass.getMass());
         mass.addForce(theRealForce);
     }

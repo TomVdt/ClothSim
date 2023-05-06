@@ -6,7 +6,7 @@
 
 class RectCloth: public Cloth {
 public:
-    RectCloth(double mass, Vector3D width, Vector3D height, const Vector3D& origin, double lambda, double density, double k, double l0);
+    RectCloth(double mass, Vector3D width, Vector3D height, const Vector3D& origin, double lambda, double step, double k, double l0);
 
     RectCloth(const RectCloth&) = delete;
     RectCloth& operator=(const RectCloth&) = delete;

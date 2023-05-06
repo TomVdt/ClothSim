@@ -51,13 +51,12 @@ public:
     virtual void apply(Masse& mass, double time) const override;
 };
 
-class SinusImpulsionConstraint : public ImpulsionConstraint {
+class SineImpulsionConstraint : public ImpulsionConstraint {
 private:
-    Vector3D force;
     double frequency;
 
 public:
-    SinusImpulsionConstraint(const Vector3D& pos, double radius, double start, double end, const Vector3D& force, double frequency, std::vector<Cloth*> targetCloths);
+    SineImpulsionConstraint(const Vector3D& pos, double radius, double start, double end, const Vector3D& force, double frequency, std::vector<Cloth*> targetCloths);
 
     virtual void apply(Masse& mass, double time) const override;
 };

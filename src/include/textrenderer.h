@@ -14,6 +14,7 @@ public:
     TextRenderer(const TextRenderer&) = delete;
 
     virtual void draw(const Masse& mass);
+    virtual void draw(const Spring& mass);
     virtual void draw(const Cloth& cloth);
     virtual void draw(const System& system);
 };
