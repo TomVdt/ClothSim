@@ -4,33 +4,34 @@
 #include "include/renderer.h"
 #include "include/util.h"
 
-
 Vector3D Spring::springForce(Masse& mass) const {
     if (not valid()) {
         // Le ressort est "inactif"
         return Vector3D();
     }
 
-    Vector3D vecMassMass;
+    int heading;
     if (&mass == &mass2) {
-        vecMassMass = mass1.getPos() - mass.getPos();
+        heading = 1;
     }
     else if (&mass == &mass1) {
-        vecMassMass = mass2.getPos() - mass.getPos();
+        heading = -1;
     }
     else {
         // la masse n'appartient pas au spring, pas de force
         return Vector3D();
     }
 
-    // Longueur du ressort
-    const double dist(vecMassMass.norm());
-
     // Direction de la force
+    const Vector3D vecMassMass(mass1.getPos() - mass2.getPos());
     const Vector3D dir(~vecMassMass);
 
-    // La force
-    return k * (dist - l0) * dir;
+    return heading * k * (length() - l0) * dir;
+}
+
+double Spring::length() const {
+    // Longueur du ressort
+    return Vector3D::dist(mass1.getPos(), mass2.getPos());
 }
 
 bool Spring::massConnected(Masse& mass) {

@@ -14,9 +14,6 @@
 #include <glm/vec4.hpp>
 #include <glm/trigonometric.hpp>
 #include <glm/mat4x4.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtx/quaternion.hpp>
-#include <glm/ext/quaternion_common.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 
@@ -250,7 +247,21 @@ void OpenGLRenderer::draw(const Spring& spring) {
 
     glm::mat4x4 model(1.0);
     program.setUniformValue(modelMatrixLocation, model);
+
+    glm::vec4 squishColor(0.0, 0.0, 1.0, 1.0);
+    glm::vec4 neutralColor(1.0);
+    glm::vec4 stretchColor(1.0, 0.0, 0.0, 1.0);
+    const double springDelta(spring.length() - spring.getL0());
+    double factor(1 / (1 + std::exp(-springDelta)));
+
     glm::vec4 color(1.0);
+    if (factor < 0.5) {
+        // Stretched
+        color = glm::mix(stretchColor, neutralColor, factor * 2);
+    } else {
+        // Squished
+        color = glm::mix(neutralColor, squishColor, (factor - 0.5) * 2);
+    }
     program.setUniformValue(colorLocation, color);
 
     const Vector3D start(spring.getStartMass().getPos());

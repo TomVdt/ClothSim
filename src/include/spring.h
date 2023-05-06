@@ -48,6 +48,11 @@ public:
     /* Retourne la force exercée par le ressort sur une masse */
     Vector3D springForce(Masse&) const;
 
+    /**
+     * Retourne la longueur du ressort (écart entre les masses)
+    */
+    double length() const;
+
     /* test si cette masse est connectée au ressort */
     bool massConnected(Masse&);
 
