@@ -16,7 +16,7 @@ CXXFLAGS += -g -O2
 
 # Source files to compile
 APP_DIR = src/app
-APP = main.cpp buffer.cpp window.cpp openglrenderer.cpp vertexarray.cpp shaderprogram.cpp framebuffer.cpp camera.cpp
+APP = main.cpp buffer.cpp window.cpp openglrenderer.cpp vertexarray.cpp shaderprogram.cpp camera.cpp
 SOURCES = $(addprefix $(APP_DIR)/, $(APP))
 CXXFLAGS += -Iinclude -I$(APP_DIR)
 

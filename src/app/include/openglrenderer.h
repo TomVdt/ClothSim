@@ -3,7 +3,6 @@
 #include "include/shaderprogram.h"
 #include "include/vertexarray.h"
 #include "include/buffer.h"
-#include "include/framebuffer.h"
 
 #include <GL/glew.h>
 
@@ -20,7 +19,6 @@ private:
     Buffer vbo;
     Buffer ebo;
     VertexArray vao;
-    // FrameBuffer fbo;
 
     /* Accessors for shader */
     GLint vertexLocation;
@@ -63,8 +61,6 @@ public:
     void deinit();
 
     void update(double dt);
-
-    GLuint getFrameTexture();
 
     const glm::vec3& getPosition() const { return camera.getPosition(); }
 

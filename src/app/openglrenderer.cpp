@@ -64,9 +64,6 @@ void OpenGLRenderer::init() {
     program.link();
     program.bind();
 
-    // Add an fbo to enable rendering to texture
-    // fbo.create(1, 1);
-
     // Store attribute and uniforms location for reuse later (cleaner than strings)
     vertexLocation = program.attributeLocation("vertex");
     colorLocation = program.uniformLocation("color");
@@ -134,10 +131,11 @@ void OpenGLRenderer::resize(int width, int height) {
 
     // Update projection matrix for new size
     const double ratio((double)width / (double)height);
+    // TODO: camera constants, not this
     camera.setProjection(glm::perspective(CONSTANTS::CAMERA_FOV, ratio, CONSTANTS::CAMERA_NEAR, CONSTANTS::CAMERA_FAR));
+    // camera.setProjection(glm::ortho(-width / 100.0, width / 100.0, -height / 100.0, height / 100.0, CONSTANTS::CAMERA_NEAR, CONSTANTS::CAMERA_FAR));
 
     glViewport(0, 0, width, height);
-    // fbo.rescaleFrameBuffer(width, height);
 }
 
 void OpenGLRenderer::clear() {
@@ -153,14 +151,11 @@ void OpenGLRenderer::reset() {
 void OpenGLRenderer::beginFrame() {
     program.bind();
     vao.bind();
-    // Possibly render to a texture
-    // fbo.bind();
 
     program.setUniformValue(projectionViewMatrixLocation, camera.getMatrix());
 }
 
 void OpenGLRenderer::endFrame() {
-    // fbo.release();
     vao.release();
     program.release();
 }
@@ -211,11 +206,6 @@ void OpenGLRenderer::update(double dt) {
         constexpr double rotateSpeed(0.005);
         camera.rotate(dy * rotateSpeed, dx * rotateSpeed, 0);
     }
-}
-
-GLuint OpenGLRenderer::getFrameTexture() {
-    // return fbo.getFrameTexture();
-    return 0;
 }
 
 /******************
