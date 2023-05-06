@@ -3,8 +3,8 @@
 #include "include/system.h"
 #include "include/integrator.h"
 
+#include "GLFW/glfw3.h"
 #include <memory>
-
 
 class Window {
 private:
