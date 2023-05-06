@@ -49,7 +49,7 @@ OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 LIBS += -Linclude/GLFW -lGL -lGLEW -lglfw3 -lX11 -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor
 
 # Tell make where to look for files
-# vpath %.h src/include
+vpath %.h src/include src/app/include
 vpath % bin bin/tests bin/exercices
 vpath %.cpp \
 	$(APP_DIR) \
@@ -109,6 +109,18 @@ dir:
 clean:
 	@echo "[MAKE] Deleting object files and executables"
 	@rm -f build/*.o bin/$(EXE) bin/tests/* bin/exercices/*
+
+clean_common:
+	@echo "[MAKE] Deleting object files for common"
+	@rm $(addprefix build/, $(COMMON:.cpp=.o))
+
+clean_app:
+	@echo "[MAKE] Deleting object files for app"
+	@rm $(addprefix build/, $(APP:.cpp=.o))
+
+clean_imgui:
+	@echo "[MAKE] Deleting object files for imgui"
+	@rm $(addprefix build/, $(IMGUI:.cpp=.o))
 
 # Pour le rigolo
 clena: cowsay_CLENA clean
