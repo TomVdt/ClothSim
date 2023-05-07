@@ -28,7 +28,7 @@ CXXFLAGS += -Isrc
 
 # Tests
 TESTS_DIR = src/test
-TESTS = testVector3d testMasse testSpring testIntegrator1 testIntegrator2 testIntegrator3 testIntegrator4 testCloth1 testCloth2 testSystem testConstraint2
+TESTS = testVector3d testMasse testSpring testIntegrator1 testIntegrator2 testIntegrator3 testIntegrator4 testCloth1 testCloth2 testSystem testConstraint1 testConstraint2
 
 # Exercices
 EXERCICES_DIR = src/exercices

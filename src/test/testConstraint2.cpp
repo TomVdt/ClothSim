@@ -5,8 +5,10 @@
 #include "include/system.h"
 #include "include/textrenderer.h"
 
+#include <fstream>
+
 int main() {
-    Cloth* cloth2(new RectCloth(
+    Cloth* cloth1(new RectCloth(
         0.3125,
         Vector3D(3, 0, 0), Vector3D(0, 0, 3),
         Vector3D(),
@@ -16,46 +18,47 @@ int main() {
         1.0
     ));
 
-    Constraint* constraint3(new HookConstraint(
+    Constraint* constraint1(new HookConstraint(
         Vector3D(),
         0.1
     ));
 
-    Constraint* constraint4(new HookConstraint(
+    Constraint* constraint2(new HookConstraint(
         Vector3D(0, 0, 3),
         0.1
     ));
 
-    Constraint* constraint5(new SineImpulsionConstraint(
+    Constraint* constraint3(new SineImpulsionConstraint(
         Vector3D(3, 0, 0),
         0.5,
         0.0, 2.0,
         Vector3D(0, 30, 0),
         1.5,
         {
-            cloth2
+            cloth1
         }
     ));
 
-    Constraint* constraint6(new SineImpulsionConstraint(
+    Constraint* constraint4(new SineImpulsionConstraint(
         Vector3D(3, 0, 3),
         0.5,
         0.0, 2.0,
         Vector3D(0, 30, 0),
         1.5,
         {
-            cloth2
+            cloth1
         }
     ));
 
     System system;
-    system.addCloth(std::unique_ptr<Cloth>(cloth2));
+    system.addCloth(std::unique_ptr<Cloth>(cloth1));
+    system.addConstraint(std::unique_ptr<Constraint>(constraint1));
+    system.addConstraint(std::unique_ptr<Constraint>(constraint2));
     system.addConstraint(std::unique_ptr<Constraint>(constraint3));
     system.addConstraint(std::unique_ptr<Constraint>(constraint4));
-    system.addConstraint(std::unique_ptr<Constraint>(constraint5));
-    system.addConstraint(std::unique_ptr<Constraint>(constraint6));
 
-    TextRenderer renderer;
+    std::ofstream file("testConstraint2.txt");
+    TextRenderer renderer(file);
     EulerCromerIntegrator integrator;
 
     for (double i(0.0); i < 2.0; i += 0.01) {
@@ -63,5 +66,6 @@ int main() {
         system.draw(renderer);
     }
 
+    file.close();
     return 0;
 }
