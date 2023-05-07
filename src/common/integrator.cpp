@@ -14,7 +14,7 @@ void EulerCromerIntegrator::integrate(Masse& mass, double dt) const {
 }
 
 
-/*void RK4Integrator::integrate(Masse& mass, double dt) const {
+void RK4Integrator::integrate(Masse& mass, double dt) const {
     Vector3D k1(mass.getVel());
     Vector3D p1(mass.acceleration());
     Vector3D k2(k1 + (dt/2)*p1);
@@ -24,7 +24,7 @@ void EulerCromerIntegrator::integrate(Masse& mass, double dt) const {
 
 
 }
-*/
+
 
 
 

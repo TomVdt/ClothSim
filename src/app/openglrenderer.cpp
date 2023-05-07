@@ -247,6 +247,7 @@ void OpenGLRenderer::draw(const Spring& spring) {
     glm::vec4 color(1.0);
     if (factor < 0.5) {
         // Stretched
+        // TODO : sauf si je suis completement dingue si factor<0.5 alors c est squished pas stretched
         color = glm::mix(stretchColor, neutralColor, factor * 2);
     } else {
         // Squished

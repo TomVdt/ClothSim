@@ -22,7 +22,8 @@ Masse::Masse(double mass, double lambda, const Vector3D& pos, const Vector3D& ve
     pos(pos),
     vel(vel),
     force(mass * g),
-    springList()
+    springList(),
+    constraints()
 {
     if (mass <= 0.0) {
         throw InvalidValueException("Mass must be strictly positive");

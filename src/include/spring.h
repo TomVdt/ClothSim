@@ -41,7 +41,7 @@ public:
     /* Getter pour la longueur de repos */
     double getL0() const { return l0; }
 
-    // TOOD: good idea?
+    // TODO: good idea?
     const Masse& getStartMass() const { return mass1; }
     const Masse& getEndMass() const { return mass2; }
 

@@ -92,4 +92,7 @@ Nous avons aussi un destructeur (virtuel) pour libérer les ressources allouées
 
 > Où cela s'intègre-t-il dans votre projet/conception ? Quels changements cela engendre-t-il (ou pas) ?
 
+TODO : ???
 Il s'agit d'une nouvelle sous-classe de `Integrator`. De la même manière que pour l'intégrateur de Euler-Cromer nous rédefinissons la méthode virtuelle `integrate` avec les formules correspondantes. Cela n'engendre pas de changements dans notre conception puisque nous utilisons le polymorphisme pour faire appel à la bonne méthode `integrate` selon l'intégrateur fournit au système.
+??? y a eu des ...
+complications
