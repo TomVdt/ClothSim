@@ -19,7 +19,7 @@ void System::step(Integrator& integrator, double dt) {
     time += dt;
     for (auto& cloth : cloths) {
         cloth->updateForce();
-        for (auto& constraint : constraints) {
+        for (const auto& constraint : constraints) {
             cloth->applyConstraint(*constraint, time);
         }
         cloth->step(integrator, dt);

@@ -48,7 +48,7 @@ void CompositeCloth::updateForce() {
     }
 }
 
-void CompositeCloth::step(const Integrator& integrator, double dt) {
+void CompositeCloth::step(Integrator& integrator, double dt) {
     for (auto& cloth : cloths) {
         cloth->step(integrator, dt);
     }

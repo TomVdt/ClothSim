@@ -28,7 +28,7 @@ public:
 
     virtual void updateForce() override;
 
-    virtual void step(const Integrator& integrator, double dt) override;
+    virtual void step(Integrator& integrator, double dt) override;
 
     // virtual void draw(Renderer& dest) override;
 

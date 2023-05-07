@@ -64,16 +64,17 @@ void Cloth::updateForce() {
     }
 }
 
-void Cloth::applyConstraint(const Constraint& constraint, double time) {
+void Cloth::applyConstraint(Constraint const& constraint, double time) {
     for (auto& mass : massList) {
         constraint.apply(*mass, time);
     }
 }
 
-void Cloth::step(const Integrator& integratator, double dt) {
+void Cloth::step(Integrator& integratator, double dt) {
     for (auto& mass : massList) {
         integratator.integrate(*mass, dt);
     }
+    integratator.move();
 }
 
 void Cloth::display(std::ostream& out, size_t level) const {

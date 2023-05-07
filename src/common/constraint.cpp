@@ -24,6 +24,8 @@ HookConstraint::HookConstraint(const Vector3D& pos, double radius): Constraint(p
 
 void HookConstraint::apply(Masse& mass, double time) const {
     if (isInRange(mass)) {
+        // rajoute la contrainte dans la liste des contraintes à appliquer pendant l'intégration
+        mass.addConstraint(this);
         mass.setVel(Vector3D(0, 0, 0));
         mass.addForce(-mass.getForce());
     }
@@ -60,6 +62,8 @@ bool ImpulsionConstraint::isInTime(double time) const {
 
 void ImpulsionConstraint::apply(Masse& mass, double time) const {
     if (isInTime(time) and isInList(mass)) {
+        // rajoute la contrainte dans la liste des contraintes à appliquer pendant l'intégration
+        mass.addConstraint(this);
         mass.addForce(-CONSTANTS::g * mass.getMass());
         mass.addForce(force);
     }
@@ -76,6 +80,8 @@ void SineImpulsionConstraint::apply(Masse& mass, double time) const {
     // TODO: unduplicate code
     Vector3D theRealForce(std::sin(2 * M_PI * frequency * (time - startTime)) * force);
     if (/*isInRange(mass) and*/ isInTime(time) and isInList(mass)) {
+        // rajoute la contrainte dans la liste des contraintes à appliquer pendant l'intégration
+        mass.addConstraint(this);
         mass.addForce(-CONSTANTS::g * mass.getMass());
         mass.addForce(theRealForce);
     }

@@ -17,7 +17,7 @@ private:
     Vector3D vel;
     Vector3D force;
     std::vector<Spring*> springList;
-    std::vector<Constraint*> constraints;
+    std::vector<const Constraint*> constraints;
 
 public:
     /** 
@@ -92,7 +92,7 @@ public:
     /**
      * Rajoute une contrainte à la masse
     */
-    void addConstraint(Constraint* constraint);
+    void addConstraint(const Constraint* constraint);
 
     /**
      * Modifie la force en fonction des contraintes sur la masse

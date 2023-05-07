@@ -89,12 +89,12 @@ public:
     */
     virtual void updateForce();
 
-    virtual void applyConstraint(const Constraint& constraint, double time);
+    virtual void applyConstraint(Constraint const& constraint, double time);
 
     /**
      *  Utilise l'intégrateur pour mettre à jour les masses du tissu 
     */
-    virtual void step(const Integrator& integratator, double dt = CONSTANTS::PHYSICS_DT);
+    virtual void step(Integrator& integratator, double dt = CONSTANTS::PHYSICS_DT);
 
     /**
      * Dessine le tissu

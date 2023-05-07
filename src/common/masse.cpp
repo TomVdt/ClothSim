@@ -37,7 +37,7 @@ Vector3D Masse::acceleration() const {
     return force / mass;
 }
 
-void Masse::addConstraint(Constraint* constraint) {
+void Masse::addConstraint(const Constraint* constraint) {
     constraints.push_back(constraint);
 }
 
