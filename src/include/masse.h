@@ -90,9 +90,14 @@ public:
     Vector3D acceleration() const;
 
     /**
-     * Rajoute une contrainte à la masse
+     * Rajoute une contrainte à la masse en vérifiant si elle n'y est pas déjà
     */
     void addConstraint(const Constraint* constraint);
+    
+    /**
+     * Supprime toutes les contraintes sur les masses
+    */
+    void clearConstraints();
 
     /**
      * Modifie la force en fonction des contraintes sur la masse

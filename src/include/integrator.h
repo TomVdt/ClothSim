@@ -18,9 +18,9 @@ public:
     */
     virtual ~Integrator() = default;
     /**
-     * Fonction pour intégrer pas définie dans la super classe
+     * Fonction pour intégrer pas définie dans la super classe, toujours faire un appel a move()
     */
-    virtual void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT) = 0;
+    virtual void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) = 0;
     /**
      * Déplace les masses et leur affecte la bonne vitesse
     */
@@ -31,19 +31,21 @@ public:
 class EulerCromerIntegrator: public Integrator {
 public:
     /**
-     * Intègre avec les formules pour l'intégrateur d'Euleur Cromer 
+     * Intègre avec les formules pour l'intégrateur d'Euleur Cromer, toujours faire un appel a move()
     */
-    virtual void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT) override;
+    virtual void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) override;
 };
 
 
-/*class RK4Integrator: public Integrator {
-public:*/
+class RK4Integrator: public Integrator {
+private:
+    void changeMass(Masse& mass, Vector3D const& posOrigin, Vector3D const& velOrigin, Vector3D const& k, Vector3D const& p, double dt, double time);
+public:
     /**
-     * Intègre avec les formules pour l'intégrateur de Runge-Kutta d'ordre 4
+     * Intègre avec les formules pour l'intégrateur de Runge-Kutta d'ordre 4, toujours faire un appel a move()
     */
-  /*virtual void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT) override;
-};*/
+  virtual void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) override;
+};
 
 
 

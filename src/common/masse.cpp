@@ -38,7 +38,14 @@ Vector3D Masse::acceleration() const {
 }
 
 void Masse::addConstraint(const Constraint* constraint) {
+    for (const auto& c : constraints) {
+        if (c == constraint) return;
+    }
     constraints.push_back(constraint);
+}
+
+void Masse::clearConstraints() {
+    constraints.clear();
 }
 
 void Masse::applyConstraints(double time) {

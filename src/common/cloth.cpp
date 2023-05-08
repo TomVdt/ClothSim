@@ -70,9 +70,9 @@ void Cloth::applyConstraint(Constraint const& constraint, double time) {
     }
 }
 
-void Cloth::step(Integrator& integratator, double dt) {
+void Cloth::step(Integrator& integratator, double dt, double time) {
     for (auto& mass : massList) {
-        integratator.integrate(*mass, dt);
+        integratator.integrate(*mass, dt, time);
     }
     integratator.move();
 }

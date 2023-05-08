@@ -16,7 +16,7 @@ void Integrator::move() {
 }
 
 
-void EulerCromerIntegrator::integrate(Masse& mass, double dt) {
+void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) {
     // Calcule le nouvel état
     const Vector3D vel(mass.getVel() + mass.acceleration() * dt);
     const Vector3D pos(mass.getPos() + vel * dt);
@@ -25,22 +25,59 @@ void EulerCromerIntegrator::integrate(Masse& mass, double dt) {
     newPos.push_back(std::make_pair(&mass, pos));
     newVel.push_back(std::make_pair(&mass, vel));
 
+    mass.clearConstraints();
+
 }
 
 
-/*void RK4Integrator::integrate(Masse& mass, double dt) {
+
+void RK4Integrator::changeMass(Masse& mass, Vector3D const& posOrigin, Vector3D const& velOrigin, 
+                                Vector3D const& k, Vector3D const& p, double dt, double time) {
+    mass.setPos(posOrigin + dt*k);
+    mass.setVel(velOrigin + dt*p);
+    mass.updateForce();
+    mass.applyConstraints(time + dt);
+}
+
+
+void RK4Integrator::integrate(Masse& mass, double dt, double time) {
+    // Sauvegarde les position et vitesse d'origine de la masse
     Vector3D posOrigin(mass.getPos());
+    Vector3D velOrigin(mass.getVel());
     
-    Vector3D k1(mass.getVel());
+    // Calcule les vecteurs intermédiaires nécessitant de modifier la masse
+    Vector3D k1(velOrigin);
     Vector3D p1(mass.acceleration());
-    Vector3D k2(k1 + (dt/2)*p1);
+    Vector3D k2(velOrigin + (dt/2)*p1);
 
-    Vector3D p2;
+    changeMass(mass, posOrigin, velOrigin, k1, p1, dt/2, time);
+    Vector3D p2(mass.acceleration());
 
+    Vector3D k3(velOrigin + (dt/2)*p2);
 
+    changeMass(mass, posOrigin, velOrigin, k2, p2, dt/2, time);
+    Vector3D p3(mass.acceleration());
 
+    Vector3D k4(velOrigin + dt*p3);
 
-}*/
+    changeMass(mass, posOrigin, velOrigin, k3, p3, dt, time);
+    Vector3D p4(mass.acceleration());
+
+    // Calcule les nouvelles position et vitesse et les enregistre pour les modifier dans move()
+    const Vector3D pos(posOrigin + (dt/6)*(k1 + 2*k2 + 2*k3 + k4));
+    const Vector3D vel(velOrigin + (dt/6)*(p1 + 2*p2 + 2*p3 + p4));
+
+    newPos.push_back(std::make_pair(&mass, pos));
+    newVel.push_back(std::make_pair(&mass, vel));
+
+    /* remet la masse à sa position de départ afin d'éviter les effets de bord lors 
+        de l'intégration des autres masses du tissu*/
+    mass.setPos(posOrigin);
+    mass.setVel(velOrigin);
+
+    mass.clearConstraints();
+
+}
 
 
 

@@ -16,14 +16,15 @@ double System::getTime() const {
 }
 
 void System::step(Integrator& integrator, double dt) {
-    time += dt;
     for (auto& cloth : cloths) {
         cloth->updateForce();
         for (const auto& constraint : constraints) {
             cloth->applyConstraint(*constraint, time);
         }
-        cloth->step(integrator, dt);
+        cloth->step(integrator, dt, time);
     }
+    time += dt;
+
 }
 
 void System::addConstraint(std::unique_ptr<Constraint>&& constraint) {

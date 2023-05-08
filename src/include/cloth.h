@@ -94,7 +94,7 @@ public:
     /**
      *  Utilise l'intégrateur pour mettre à jour les masses du tissu 
     */
-    virtual void step(Integrator& integratator, double dt = CONSTANTS::PHYSICS_DT);
+    virtual void step(Integrator& integratator, double dt = CONSTANTS::PHYSICS_DT, double time = 0);
 
     /**
      * Dessine le tissu

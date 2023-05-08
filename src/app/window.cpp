@@ -26,34 +26,36 @@ Window::Window():
     deltaTime(CONSTANTS::PHYSICS_DT),
     iterationsPerFrame(1)
 {
-    // Cloth* cloth1(new DiskCloth(
-    //     1.0,
-    //     Vector3D(),
-    //     Vector3D(0.0, 100.0, 0.0),
-    //     2.0,
-    //     0.3,
-    //     100.0
-    // ));
+    Cloth* cloth1(new DiskCloth(
+        1.0,
+        Vector3D(),
+        Vector3D(0.0, 100.0, 0.0),
+        2.0,
+        0.3,
+        100.0
+    ));
 
-    // Constraint* constraint1(new HookConstraint(
-    //     Vector3D(),
-    //     0.1
-    // ));
-    // Constraint* constraint2(new SineImpulsionConstraint(
-    //     Vector3D(),
-    //     0.1,
-    //     0.0, 10.0,
-    //     Vector3D(0, 0, 30),
-    //     1.0,
-    //     {
-    //         cloth1
-    //     }
-    // ));
-
-    // system.addCloth(std::unique_ptr<Cloth>(cloth1));
-    // system.addConstraint(std::unique_ptr<Constraint>(constraint1));
+    Constraint* constraint1(new HookConstraint(
+        Vector3D(),
+        0.1
+    ));
+    /*
+    Constraint* constraint2(new SineImpulsionConstraint(
+        Vector3D(),
+        0.1,
+        0.0, 10.0,
+        Vector3D(0, 0, 30),
+        1.0,
+        {
+            cloth1
+        }
+    ));
+    */
+    system.addCloth(std::unique_ptr<Cloth>(cloth1));
+    system.addConstraint(std::unique_ptr<Constraint>(constraint1));
     // system.addConstraint(std::unique_ptr<Constraint>(constraint2));
 
+    /*
     Cloth* cloth2(new RectCloth(
         0.3125,
         Vector3D(3, 0, 0), Vector3D(0, 0, 3),
@@ -101,6 +103,7 @@ Window::Window():
     system.addConstraint(std::unique_ptr<Constraint>(constraint4));
     system.addConstraint(std::unique_ptr<Constraint>(constraint5));
     system.addConstraint(std::unique_ptr<Constraint>(constraint6));
+    */
 
     // Cloth* cloth3(new ChainCloth(
     //     1.0,
@@ -269,7 +272,11 @@ void Window::run() {
             physicsIntegrator = std::make_unique<EulerCromerIntegrator>();
         if (ImGui::IsItemHovered()) ImGui::SetTooltip("Classic Euler-Cromer method, not very precise");
         ImGui::SameLine();
-        if (ImGui::RadioButton("Non-existant", &integratorSelection, 1))
+        if (ImGui::RadioButton("RK4", &integratorSelection, 1))
+            physicsIntegrator = std::make_unique<RK4Integrator>();
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("RK4 wouhouhouhouhou");
+        ImGui::SameLine();
+        if (ImGui::RadioButton("Non-existant", &integratorSelection, 2))
             physicsIntegrator = std::unique_ptr<Integrator>(nullptr);
         if (ImGui::IsItemHovered()) ImGui::SetTooltip("Crap nullptr integrator that segfault this lol");
 
