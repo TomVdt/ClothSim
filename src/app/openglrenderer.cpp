@@ -238,20 +238,19 @@ void OpenGLRenderer::draw(const Spring& spring) {
     glm::mat4x4 model(1.0);
     program.setUniformValue(modelMatrixLocation, model);
 
-    glm::vec4 squishColor(0.0, 0.0, 1.0, 1.0);
+    glm::vec4 squishColor(1.0, 0.0, 0.0, 1.0);
     glm::vec4 neutralColor(1.0);
-    glm::vec4 stretchColor(1.0, 0.0, 0.0, 1.0);
+    glm::vec4 stretchColor(0.0, 0.0, 1.0, 1.0);
     const double springDelta(spring.length() - spring.getL0());
     double factor(1 / (1 + std::exp(-springDelta)));
 
     glm::vec4 color(1.0);
     if (factor < 0.5) {
-        // Stretched
-        // TODO : sauf si je suis completement dingue si factor<0.5 alors c est squished pas stretched
-        color = glm::mix(stretchColor, neutralColor, factor * 2);
-    } else {
         // Squished
-        color = glm::mix(neutralColor, squishColor, (factor - 0.5) * 2);
+        color = glm::mix(squishColor, neutralColor, factor * 2);
+    } else {
+        // Stretched
+        color = glm::mix(neutralColor, stretchColor, (factor - 0.5) * 2);
     }
     program.setUniformValue(colorLocation, color);
 
