@@ -31,6 +31,12 @@ void System::addConstraint(std::unique_ptr<Constraint>&& constraint) {
     constraints.push_back(std::move(constraint));
 }
 
+void System::clear() {
+    cloths.clear();
+    constraints.clear();
+    time = 0.0;
+}
+
 void System::draw(Renderer& dest) {
     dest.draw(*this);
 }

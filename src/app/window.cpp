@@ -220,6 +220,8 @@ void Window::run() {
     int integratorSelection(0);
     bool shouldStep(false);
     bool shouldPause(paused);
+    bool showClothMenu(false);
+    bool showConstraintMenu(false);
 
     // Main loop
     while (!glfwWindowShouldClose(window)) {
@@ -282,6 +284,153 @@ void Window::run() {
 
         ImGui::SliderFloat("Delta time", &deltaTime, 0.001, 0.1, "%.3f sec");
         ImGui::SliderInt("Speed", &iterationsPerFrame, 1, 100, "%dx speed", ImGuiSliderFlags_Logarithmic);
+
+        if (ImGui::Button("Add Cloth")) showClothMenu = true;
+        ImGui::SameLine();
+        if (ImGui::Button("Add Constraint")) showConstraintMenu = true;
+        ImGui::SameLine();
+        if (ImGui::Button("Clear System")) system.clear();
+
+        if (showClothMenu) {
+            ImGui::Begin("Add new cloth", &showClothMenu);
+            const char* options[] = { "Chain Cloth", "Rectangle Cloth", "Disk Cloth" };
+            static int selected(0);
+            ImGui::Combo("Cloth type", &selected, options, 3);
+
+            ImGui::PushItemWidth(100);
+            static float mass(1.0);
+            ImGui::InputFloat("Mass", &mass, 0.01, 0.05, "%.2f kg");
+            if (mass < 0.01) mass = 0.01;
+            static float lambda(0.3);
+            ImGui::InputFloat("Friction", &lambda, 0.01, 0.05, "%.2f");
+            if (lambda < 0.0) lambda = 0.0;
+            static float k(1.0);
+            ImGui::InputFloat("Spring hardness", &k, 0.01, 0.05, "%.2f");
+            if (k < 0.0) k = 0.0;
+            static float l0(1.0);
+            ImGui::InputFloat("Spring rest length", &l0, 0.01, 0.05, "%.2f");
+            if (l0 < 0.01) l0 = 0.01;
+            ImGui::PopItemWidth();
+
+            switch (selected) {
+            case 0:
+                {
+                    static int count(2);
+                    static float positions[100][3] = { {0.0} };
+                    for (int i(0); i < count; ++i) {
+                        ImGui::SetNextItemWidth(200);
+                        char id[16];
+                        snprintf(id, 16, "Position##%i", i);
+                        ImGui::InputFloat3(id, positions[i]);
+                    }
+                    if (ImGui::Button("+") and count < 100) ++count;
+                    ImGui::SameLine();
+                    if (ImGui::Button("-") and count > 1) --count;
+                    if (ImGui::Button("Add")) {
+                        std::vector<Vector3D> realPositions;
+                        for (int i(0); i < count; ++i) realPositions.emplace_back(positions[i][0], positions[i][1], positions[i][2]);
+                        system.addCloth(std::make_unique<ChainCloth>(
+                            mass, lambda, k, l0,
+                            realPositions
+                        ));
+                    }
+                }
+                break;
+            case 1:
+                {
+                    static float origin[3] = { 0.0, 0.0, 0.0 };
+                    ImGui::SetNextItemWidth(200);
+                    ImGui::InputFloat3("Origin", origin);
+                    static float vec1[3] = { 1.0, 0.0, 0.0 };
+                    ImGui::SetNextItemWidth(200);
+                    ImGui::InputFloat3("Vector 1", vec1);
+                    static float vec2[3] = { 0.0, 0.0, 1.0 };
+                    ImGui::SetNextItemWidth(200);
+                    ImGui::InputFloat3("Vector 2", vec2);
+                    static float step(1.0);
+                    ImGui::InputFloat("Step between masses", &step, 0.01, 0.05, "%.2f units");
+                    if (step < 0.01) step = 0.01;
+                    if (ImGui::Button("Add")) {
+                        system.addCloth(std::make_unique<RectCloth>(
+                            mass,
+                            Vector3D(vec1[0], vec1[1], vec1[2]), Vector3D(vec2[0], vec2[1], vec2[2]),
+                            Vector3D(origin[0], origin[1], origin[2]),
+                            lambda, step, k, l0
+                        ));
+                    }
+                }
+                break;
+            case 2: 
+                {
+                    static float origin[3] = { 0.0, 0.0, 0.0 };
+                    ImGui::SetNextItemWidth(200);
+                    ImGui::InputFloat3("Origin", origin);
+                    static float radius[3] = { 0.0, 5.0, 0.0 };
+                    ImGui::SetNextItemWidth(200);
+                    ImGui::InputFloat3("Radius vector", radius);
+                    static float radStep(1.0);
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputFloat("Radial step", &radStep, 0.1, 0.5, "%.1f units");
+                    if (radStep < 0.1) radStep = 0.1;
+                    static float angStep(20.0);
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputFloat("Angular step", &angStep, 1.0, 5.0, "%.0f deg");
+                    if (angStep < 0.0) angStep = 0.0;
+                    if (angStep > 180.0) angStep = 180.0;
+                    if (ImGui::Button("Add")) {
+                        system.addCloth(std::make_unique<DiskCloth>(
+                            mass,
+                            Vector3D(origin[0], origin[1], origin[2]),
+                            Vector3D(radius[0], radius[1], radius[2]),
+                            radStep,
+                            lambda, k,
+                            angStep * M_PI / 180.0
+                        ));
+                    }
+                }
+                break;
+            default:
+                break;
+            }
+
+            ImGui::End();
+        }
+
+        if (showConstraintMenu) {
+            ImGui::Begin("Add new constraint", &showConstraintMenu);
+            const char* options[] = { "Hook Constraint", "Impulsion Constraint", "Sine Impulsion Constraint" };
+            static int selected(0);
+            ImGui::Combo("Cloth type", &selected, options, 3);
+
+            static float pos[3] = { 0.0, 0.0, 0.0 };
+            ImGui::SetNextItemWidth(200);
+            ImGui::InputFloat3("Position", pos);
+            static float radius(0.1);
+            ImGui::SetNextItemWidth(100);
+            ImGui::InputFloat("Radius", &radius, 0.01, 0.05, "%.2f");
+            if (radius < 0.0) radius = 0.0;
+
+            switch (selected) {
+            case 0:
+                if (ImGui::Button("Add")) {
+                    system.addConstraint(std::make_unique<HookConstraint>(
+                        Vector3D(pos[0], pos[1], pos[2]),
+                        radius
+                    ));
+                }
+                break;
+            case 1:
+                ImGui::Text("TODO");
+                break;
+            case 2:
+                ImGui::Text("TODO");
+                break;
+            default:
+                break;
+            }
+
+            ImGui::End();
+        }
 
         ImGui::End();
 

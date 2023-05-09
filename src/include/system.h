@@ -22,9 +22,11 @@ public:
 
     void addCloth(std::unique_ptr<Cloth>&&);
 
-    void step(Integrator& integrator, double dt = CONSTANTS::PHYSICS_DT);
-
     void addConstraint(std::unique_ptr<Constraint>&& constraint);
+
+    void clear();
+
+    void step(Integrator& integrator, double dt = CONSTANTS::PHYSICS_DT);
 
     virtual void draw(Renderer& dest) override;
     
