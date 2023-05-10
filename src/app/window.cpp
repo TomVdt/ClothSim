@@ -291,7 +291,10 @@ void Window::run() {
         ImGui::SameLine();
         if (ImGui::Button("Add Constraint")) showConstraintMenu = true;
         ImGui::SameLine();
-        if (ImGui::Button("Clear System")) system.clear();
+        if (ImGui::Button("Clear System")) {
+            system.clear();
+            paused = true;
+        }
 
         if (showClothMenu) {
             ImGui::Begin("Add new cloth", &showClothMenu);
