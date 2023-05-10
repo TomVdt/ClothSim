@@ -16,6 +16,8 @@ private:
 
     bool paused;
 
+    bool shouldDrawAxis;
+
     float deltaTime;
 
     int iterationsPerFrame;

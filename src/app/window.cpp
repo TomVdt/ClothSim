@@ -23,6 +23,7 @@ Window::Window():
     physicsIntegrator(std::make_unique<EulerCromerIntegrator>()),
     window(nullptr),
     paused(true),
+    shouldDrawAxis(false),
     deltaTime(CONSTANTS::PHYSICS_DT),
     iterationsPerFrame(1)
 {
@@ -254,6 +255,7 @@ void Window::run() {
         ImGui::SeparatorText("Appearance");
         ImGui::ColorEdit3("color", renderer.shapeColor);
         ImGui::SliderFloat("Scale", &renderer.scale, 0.1, 2.0);
+        ImGui::Checkbox("Draw Axis?", &shouldDrawAxis);
         ImGui::Checkbox("Draw Masses?", &renderer.drawMass);
         ImGui::Checkbox("Draw Springs?", &renderer.drawSpring);
         
@@ -465,6 +467,8 @@ void Window::render() {
     renderer.beginFrame();
     renderer.clear();
     system.draw(renderer);
-    // renderer.drawAxis();
+    if (shouldDrawAxis) {
+        renderer.drawAxis();
+    }
     renderer.endFrame();
 }
