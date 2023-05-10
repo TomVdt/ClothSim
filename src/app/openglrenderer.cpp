@@ -59,6 +59,7 @@ void OpenGLRenderer::init() {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
     // Create shader
+    // TODO: unhardcode path?
     program.addShader("src/shaders/vert.glsl", ShaderProgram::Vertex);
     program.addShader("src/shaders/frag.glsl", ShaderProgram::Fragment);
     program.link();
@@ -69,9 +70,6 @@ void OpenGLRenderer::init() {
     colorLocation = program.uniformLocation("color");
     modelMatrixLocation = program.uniformLocation("m_matrix");
     projectionViewMatrixLocation = program.uniformLocation("pv_matrix");
-
-    // Create geometry for testing
-    // createCube();
 
     // Create VAO
     vao.create();
@@ -92,8 +90,6 @@ void OpenGLRenderer::init() {
 		69, 69, 69, 69, 69, 69
 	};
     vbo.allocate(verts, sizeof(verts) + 4 * 6);
-    GLfloat cum[] = {42, 42, 42, 42, 42, 42};
-    vbo.write(4 * 12 * 6, cum, sizeof(cum));
 
     program.setAttributeBuffer(vertexLocation, GL_FLOAT, 0, 3);
     program.enableAttributeArray(vertexLocation);
@@ -190,21 +186,16 @@ void OpenGLRenderer::update(double dt) {
         move += up;
     }
 
-    // TODO: double comparaison
-    // TODO: constants
-    constexpr float moveSpeed(25.0);
     double len(glm::length(move));
-    if (len != 0.0) {
+    if (len > CONSTANTS::EPSILON) {
         move /= len;
-        camera.translate(move * moveSpeed * (float)dt);
+        camera.translate(move * (float)cameraMoveSpeed * (float)dt);
     }
 
     if (not ImGui::GetIO().WantCaptureMouse && ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
         double dx(ImGui::GetIO().MouseDelta.x);
         double dy(ImGui::GetIO().MouseDelta.y);
-        // TODO: constants
-        constexpr double rotateSpeed(0.005);
-        camera.rotate(dy * rotateSpeed, dx * rotateSpeed, 0);
+        camera.rotate(dy * cameraRotateSpeed, dx * cameraRotateSpeed, 0);
     }
 }
 

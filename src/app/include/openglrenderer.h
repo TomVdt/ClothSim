@@ -26,6 +26,9 @@ private:
     GLuint projectionViewMatrixLocation;
     GLuint modelMatrixLocation;
 
+    constexpr static double cameraMoveSpeed = 15.0;
+    constexpr static double cameraRotateSpeed = 0.005;
+
 public:
     // TODO: not this lmao
     static float shapeColor[3];
