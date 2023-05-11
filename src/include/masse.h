@@ -52,17 +52,17 @@ public:
     /**
      * Vecteur position 
     */
-    Vector3D getPos() const { return pos; }
+    const Vector3D& getPos() const { return pos; }
 
     /** 
      * Vecteur vitesse 
     */
-    Vector3D getVel() const { return vel; }
+    const Vector3D& getVel() const { return vel; }
     
     /** 
      * Vecteur de la force 
     */
-    Vector3D getForce() const { return force; }
+    const Vector3D& getForce() const { return force; }
     
     /** 
      * Masse 
