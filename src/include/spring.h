@@ -16,17 +16,17 @@ private:
     double l0;
 
     /* Masse de départ */
-    Masse& mass1;
+    const Masse& mass1;
 
     /* Masse d'arrivée */
-    Masse& mass2;
+    const Masse& mass2;
 
 public:
     /* Constructeur
      * Initialise constante de raideur et longueur à vide
      * Les extremités doivent être données et ne peuvent pas etre modifiées après
      * Pour supprimer une connection, simplement supprimer la référence à cette connection */
-    Spring(double k, double l0, Masse& mass1, Masse& mass2): k(k), l0(l0), mass1(mass1), mass2(mass2) {}
+    Spring(double k, double l0, const Masse& mass1, const Masse& mass2): k(k), l0(l0), mass1(mass1), mass2(mass2) {}
 
     /* Pas de copie de ressorts
      * Un autre ressort agissant sur les même masses n'a pas trop de sens */
