@@ -65,7 +65,11 @@ public:
      * WARNING WARNING WARNING
      * WARNING WARNING WARNING
     */
-    const std::vector<std::unique_ptr<Masse>>& getMasses() const;
+    // const std::vector<std::unique_ptr<Masse>>& getMasses() const;
+
+    virtual Masse& getMass(size_t index) const;
+    
+    virtual const Vector3D& getMassPos(size_t index) const;
 
     std::vector<Masse*> getMassesInRange(const Vector3D& pos, double radius) const;
 

@@ -25,21 +25,20 @@ void CompositeCloth::linkCloth(std::unique_ptr<Cloth>&& newCloth) {
 }
 
 bool CompositeCloth::connectClothsConditional(Cloth& cloth1, Cloth& cloth2) {
-    bool hasConnected = false;
-    for (auto& mass1 : cloth1.getMasses()) {
-        for (auto& mass2 : cloth2.getMasses()) {
-            const double dist(Vector3D::dist(mass1->getPos(), mass2->getPos()));
-            if (dist < epsilon) {                
-                std::unique_ptr<Spring> s(std::make_unique<Spring>(50.0, dist, *mass1, *mass2));
-                mass1->connectSpring(*s);
-                mass2->connectSpring(*s);
-                springList.push_back(std::move(s));
-                hasConnected = true;
-            }
-        }
-    }
+    // bool hasConnected = false;
+    // for (int i(0); i < cloth1.getMassCount(); ++i) {
+    //     const Vector3D& pos(cloth1.getMassPos(i));
+    //     std::vector<Masse*> masses(cloth2.getMassesInRange(pos, epsilon));
+    //     std::unique_ptr<Spring> s(std::make_unique<Spring>(50.0, dist, *mass1, *mass2));
+    //     mass1->connectSpring(*s);
+    //     mass2->connectSpring(*s);
+    //     springList.push_back(std::move(s));
+    //     if (masses.size() > 0) {
+    //         hasConnected = true;
+    //     }
+    // }
 
-    return hasConnected;
+    // return hasConnected;
 }
 
 void CompositeCloth::updateForce() {

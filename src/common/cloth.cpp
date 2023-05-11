@@ -20,8 +20,20 @@ unsigned int Cloth::getSpringCount() const {
     return springList.size();
 }
 
-const std::vector<std::unique_ptr<Masse>>& Cloth::getMasses() const {
-    return massList;
+Masse& Cloth::getMass(size_t index) const {
+    if (index >= massList.size()) {
+        // TODO: better errors
+        throw OutOfBoundsException("Index out of range");
+    }
+    return *massList[index];
+}
+
+const Vector3D& Cloth::getMassPos(size_t index) const {
+    if (index >= massList.size()) {
+        // TODO: better errors
+        throw OutOfBoundsException("Index out of range");
+    }
+    return massList[index]->getPos();
 }
 
 std::vector<Masse*> Cloth::getMassesInRange(const Vector3D& pos, double radius) const {
