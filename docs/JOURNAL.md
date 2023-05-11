@@ -77,3 +77,14 @@
 - R E F A C T O R I N G  <sub>trois</sub> : `Cloth`, `Masse`, `Spring`...
 - Test du graphisme sur les VMs: ultramegastonks
 - Exercice P10
+
+# Semaine 10
+
+- Dessin des `Spring`
+- Cleanup du code
+- Exercice P13
+- Première tentative d'implémentation de RK4: très instable
+
+# Semaine 11
+
+- Ajout dynamique des tissus et des contraintes dans la simulation
