@@ -40,96 +40,10 @@ Window::Window():
         Vector3D(),
         0.1
     ));
-    /*
-    Constraint* constraint2(new SineImpulsionConstraint(
-        Vector3D(),
-        0.1,
-        0.0, 10.0,
-        Vector3D(0, 0, 30),
-        1.0,
-        {
-            cloth1
-        }
-    ));
-    */
+
     system.addCloth(std::unique_ptr<Cloth>(cloth1));
     system.addConstraint(std::unique_ptr<Constraint>(constraint1));
-    // system.addConstraint(std::unique_ptr<Constraint>(constraint2));
-
-    /*
-    Cloth* cloth2(new RectCloth(
-        0.3125,
-        Vector3D(3, 0, 0), Vector3D(0, 0, 3),
-        Vector3D(),
-        0.3,
-        1.0,
-        1.0,
-        1.0
-    ));
-
-    Constraint* constraint3(new HookConstraint(
-        Vector3D(),
-        0.1
-    ));
-
-    Constraint* constraint4(new HookConstraint(
-        Vector3D(0, 0, 3),
-        0.1
-    ));
-
-    Constraint* constraint5(new SineImpulsionConstraint(
-        Vector3D(3, 0, 0),
-        0.5,
-        0.0, 2.0,
-        Vector3D(0, 30, 0),
-        1.5,
-        {
-            cloth2
-        }
-    ));
-
-    Constraint* constraint6(new SineImpulsionConstraint(
-        Vector3D(3, 0, 3),
-        0.5,
-        0.0, 2.0,
-        Vector3D(0, 30, 0),
-        1.5,
-        {
-            cloth2
-        }
-    ));
-
-    system.addCloth(std::unique_ptr<Cloth>(cloth2));
-    system.addConstraint(std::unique_ptr<Constraint>(constraint3));
-    system.addConstraint(std::unique_ptr<Constraint>(constraint4));
-    system.addConstraint(std::unique_ptr<Constraint>(constraint5));
-    system.addConstraint(std::unique_ptr<Constraint>(constraint6));
-    */
-
-    // Cloth* cloth3(new ChainCloth(
-    //     1.0,
-    //     0.3,
-    //     1.0,
-    //     1.0,
-    //     {
-    //         Vector3D(),
-    //         Vector3D(1, 4, 1),
-    //         Vector3D(2, 8, 2)
-    //     }
-    // ));
-
-    // Constraint* constraint7(new HookConstraint(
-    //     Vector3D(),
-    //     0.1
-    // ));
-
-    // system.addCloth(std::unique_ptr<Cloth>(cloth3));
-    // system.addConstraint(std::unique_ptr<Constraint>(constraint7));
 }
-
-// static void glfw_error_callback(int err, const char* description) {
-//     std::cout << description << std::endl;
-// }
 
 void Window::init() {
     // Create window
@@ -152,8 +66,16 @@ void Window::init() {
     initImGui();
 }
 
+#ifdef DEBUG
+void glfwErrorCallback(int err, const char* description) {
+    printf("GLFW Error %d: %s\n", err, description);
+}
+#endif
+
 void Window::initGLFW() {
-    // glfwSetErrorCallback(glfw_error_callback);
+    #ifdef DEBUG
+    glfwSetErrorCallback(glfwErrorCallback);
+    #endif
     if (!glfwInit()) {
         throw WindowException("Failed to initialise GLFW");
     }
@@ -198,8 +120,8 @@ void Window::initImGui() {
 }
 
 void Window::deinit() {
-    // Do not put in destructor because window creationg might have failed
-    // and then there would be nothing to destroy when Window gets deleted
+    // Do not put in destructor because window creation might have failed
+    // and then there would be nothing to destroy when `Window` gets deleted
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
