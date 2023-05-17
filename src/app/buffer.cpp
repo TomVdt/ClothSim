@@ -28,7 +28,7 @@ void Buffer::release() {
 }
 
 void Buffer::allocate(const void* data, unsigned int size) {
-    glBufferData(type, size, data, GL_STATIC_DRAW);
+    glBufferData(type, size, data, GL_DYNAMIC_DRAW);
 }
 
 void Buffer::write(unsigned int offset, const void* data, unsigned int size) {
