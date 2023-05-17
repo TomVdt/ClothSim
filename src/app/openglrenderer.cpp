@@ -31,29 +31,33 @@ OpenGLRenderer::OpenGLRenderer():
     reset();
 }
 
-// TODO: clean up
-// void GLAPIENTRY MessageCallback(GLenum source,
-//     GLenum type,
-//     GLuint id,
-//     GLenum severity,
-//     GLsizei length,
-//     const GLchar* message,
-//     const void* userParam)
-// {
-//     fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
-//         (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
-//         type, severity, message);
-// }
-
+// https://www.khronos.org/opengl/wiki/Example/OpenGL_Error_Testing_with_Message_Callbacks
+#ifdef DEBUG
+void GLAPIENTRY MessageCallback(GLenum source,
+    GLenum type,
+    GLuint id,
+    GLenum severity,
+    GLsizei length,
+    const GLchar* message,
+    const void* userParam)
+{
+    if (severity >= GL_DEBUG_SEVERITY_MEDIUM) {
+        fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+            (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
+            type, severity, message);
+    }
+}
+#endif
 
 void OpenGLRenderer::init() {
     // Backface culling and z buffer
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
-    // During init, enable debug output
-    // TODO: clean up
-    // glEnable(GL_DEBUG_OUTPUT);
-    // glDebugMessageCallback(MessageCallback, 0);
+
+    #ifdef DEBUG
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback(MessageCallback, 0);
+    #endif
 
     // Background color
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

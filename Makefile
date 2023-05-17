@@ -11,8 +11,10 @@ CXXFLAGS = -std=c++17 -Wall
 CXXFLAGS += -g -O2
 
 # Debug segfaults
-# CXXFLAGS += -fsanitize=address
-# LDLIBS += -fsanitize=address
+DEBUG ?= 0
+ifeq ($(DEBUG), 1)
+CXXFLAGS += -DDEBUG -fsanitize=address
+endif
 
 # Source files to compile
 APP_DIR = src/app
