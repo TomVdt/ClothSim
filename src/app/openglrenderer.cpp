@@ -4,6 +4,7 @@
 #include "include/system.h"
 #include "include/vector3d.h"
 #include "include/exceptions.h"
+#include "include/settings.h"
 
 #include "GLFW/glfw3.h"
 #include <imgui/imgui.h>
@@ -168,23 +169,23 @@ void OpenGLRenderer::update(double dt) {
     glm::vec3 forward(camera.horizontalForward());
     glm::vec3 right(camera.horizontalRight());
     glm::vec3 up(camera.horizontalUp());
-    if (ImGui::IsKeyDown(ImGuiKey_W)) {
+    if (ImGui::IsKeyDown(Settings::FRONT)) {
         move += forward;
     }
-    if (ImGui::IsKeyDown(ImGuiKey_S)) {
+    if (ImGui::IsKeyDown(Settings::BACK)) {
         move -= forward;
     }
-    if (ImGui::IsKeyDown(ImGuiKey_A)) {
+    if (ImGui::IsKeyDown(Settings::LEFT)) {
         move += right;
     }
-    if (ImGui::IsKeyDown(ImGuiKey_D)) {
+    if (ImGui::IsKeyDown(Settings::RIGHT)) {
         move -= right;
     }
-    if (ImGui::IsKeyDown(ImGuiKey_LeftShift)) {
-        move -= up;
-    }
-    if (ImGui::IsKeyDown(ImGuiKey_Space)) {
+    if (ImGui::IsKeyDown(Settings::UP)) {
         move += up;
+    }
+    if (ImGui::IsKeyDown(Settings::DOWN)) {
+        move -= up;
     }
 
     double len(glm::length(move));

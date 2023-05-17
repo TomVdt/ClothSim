@@ -16,6 +16,10 @@ ifeq ($(DEBUG), 1)
 CXXFLAGS += -DDEBUG -fsanitize=address
 endif
 
+# Keyboard layout
+LAYOUT ?= QWERTY
+CXXFLAGS += -D$(LAYOUT)
+
 # Source files to compile
 APP_DIR = src/app
 APP = main.cpp buffer.cpp window.cpp openglrenderer.cpp vertexarray.cpp shaderprogram.cpp camera.cpp
