@@ -18,6 +18,12 @@ private:
 public:
     System(): cloths(), constraints(), time(0.0) {}
 
+    System(const System&) = delete;
+    System& operator=(const System&) = delete;
+
+    System(System&&) = default;
+    System& operator=(System&&) = default;
+
     double getTime() const;
 
     void addCloth(std::unique_ptr<Cloth>&&);

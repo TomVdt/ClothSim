@@ -17,33 +17,15 @@
 
 bool Window::needsResize(true);
 
-Window::Window():
+Window::Window(System&& system_):
     renderer(),
-    system(),
+    system(std::move(system_)),
     physicsIntegrator(std::make_unique<EulerCromerIntegrator>()),
     window(nullptr),
     paused(true),
     shouldDrawAxis(false),
     deltaTime(CONSTANTS::PHYSICS_DT),
-    iterationsPerFrame(1)
-{
-    Cloth* cloth1(new DiskCloth(
-        1.0,
-        Vector3D(),
-        Vector3D(0.0, 100.0, 0.0),
-        2.0,
-        0.3,
-        100.0
-    ));
-
-    Constraint* constraint1(new HookConstraint(
-        Vector3D(),
-        0.1
-    ));
-
-    system.addCloth(std::unique_ptr<Cloth>(cloth1));
-    system.addConstraint(std::unique_ptr<Constraint>(constraint1));
-}
+    iterationsPerFrame(1) {}
 
 void Window::init() {
     // Create window
@@ -64,6 +46,10 @@ void Window::init() {
 
     // Start ImGui
     initImGui();
+}
+
+void Window::setSystem(System&& sys) {
+    system = std::move(sys);
 }
 
 #ifdef DEBUG

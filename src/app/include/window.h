@@ -42,10 +42,13 @@ private:
     void render();
 
 public:
-    Window();
+    Window(System&& system = System());
+    
     virtual ~Window() = default;
 
     static void fbResizeCallback(GLFWwindow* window, int width, int height);
+
+    void setSystem(System&& sys);
 
     void run();
 };
