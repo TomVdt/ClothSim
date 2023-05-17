@@ -89,7 +89,7 @@ void OpenGLRenderer::init() {
         // Free space to write to...
 		69, 69, 69, 69, 69, 69
 	};
-    vbo.allocate(verts, sizeof(verts) + 4 * 6);
+    vbo.allocate(verts, sizeof(verts));
 
     program.setAttributeBuffer(vertexLocation, GL_FLOAT, 0, 3);
     program.enableAttributeArray(vertexLocation);
