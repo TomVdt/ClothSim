@@ -127,10 +127,7 @@ void OpenGLRenderer::resize(int width, int height) {
 
     // Update projection matrix for new size
     const double ratio((double)width / (double)height);
-    // TODO: camera constants, not this
-    camera.setProjection(glm::perspective(CONSTANTS::CAMERA_FOV, ratio, CONSTANTS::CAMERA_NEAR, CONSTANTS::CAMERA_FAR));
-    // camera.setProjection(glm::ortho(-width / 100.0, width / 100.0, -height / 100.0, height / 100.0, CONSTANTS::CAMERA_NEAR, CONSTANTS::CAMERA_FAR));
-
+    camera.setAspect(ratio);
     glViewport(0, 0, width, height);
 }
 
@@ -164,20 +161,20 @@ void OpenGLRenderer::deinit() {
 void OpenGLRenderer::update(double dt) {
     glm::vec3 move(0.0);
     // Minecraft-like movement
-    glm::vec3 forward(camera.forward());
-    glm::vec3 right(camera.right());
-    glm::vec3 up(camera.up());
+    glm::vec3 forward(camera.horizontalForward());
+    glm::vec3 right(camera.horizontalRight());
+    glm::vec3 up(camera.horizontalUp());
     if (ImGui::IsKeyDown(ImGuiKey_W)) {
-        move -= forward;
-    }
-    if (ImGui::IsKeyDown(ImGuiKey_S)) {
         move += forward;
     }
+    if (ImGui::IsKeyDown(ImGuiKey_S)) {
+        move -= forward;
+    }
     if (ImGui::IsKeyDown(ImGuiKey_A)) {
-        move -= right;
+        move += right;
     }
     if (ImGui::IsKeyDown(ImGuiKey_D)) {
-        move += right;
+        move -= right;
     }
     if (ImGui::IsKeyDown(ImGuiKey_LeftShift)) {
         move -= up;
@@ -195,7 +192,8 @@ void OpenGLRenderer::update(double dt) {
     if (not ImGui::GetIO().WantCaptureMouse && ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
         double dx(ImGui::GetIO().MouseDelta.x);
         double dy(ImGui::GetIO().MouseDelta.y);
-        camera.rotate(dy * cameraRotateSpeed, dx * cameraRotateSpeed, 0);
+        double dz(0.0);
+        camera.rotate(dy * cameraRotateSpeed, dx * cameraRotateSpeed, dz * cameraRotateSpeed);
     }
 }
 
