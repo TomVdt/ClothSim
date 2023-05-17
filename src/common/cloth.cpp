@@ -29,11 +29,7 @@ Masse& Cloth::getMass(size_t index) const {
 }
 
 const Vector3D& Cloth::getMassPos(size_t index) const {
-    if (index >= massList.size()) {
-        // TODO: better errors
-        throw OutOfBoundsException("Index out of range");
-    }
-    return massList[index]->getPos();
+    return getMass(index).getPos();
 }
 
 std::vector<Masse*> Cloth::getMassesInRange(const Vector3D& pos, double radius) const {

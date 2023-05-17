@@ -51,28 +51,18 @@ public:
     /**
      *  Nombre de masses dans le tissu 
     */
-    unsigned int getMassCount() const;
+    virtual unsigned int getMassCount() const;
 
     /**
      *  Nombre de ressorts dans le tissu 
     */
-    unsigned int getSpringCount() const;
-    
-    // TODO: why tho
-    /**
-     * WARNING WARNING WARNING
-     * WARNING WARNING WARNING
-     * WARNING WARNING WARNING
-     * WARNING WARNING WARNING
-     * WARNING WARNING WARNING
-    */
-    // const std::vector<std::unique_ptr<Masse>>& getMasses() const;
+    virtual unsigned int getSpringCount() const;
 
     virtual Masse& getMass(size_t index) const;
     
     virtual const Vector3D& getMassPos(size_t index) const;
 
-    std::vector<Masse*> getMassesInRange(const Vector3D& pos, double radius) const;
+    virtual std::vector<Masse*> getMassesInRange(const Vector3D& pos, double radius) const;
 
     /**
      * Rajoute une masse dans le tissu

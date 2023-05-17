@@ -26,3 +26,7 @@ public:
     WindowException(char const* const message) throw(): BaseException(message) {}
 };
 
+class ClothConnectionException: public BaseException {
+public:
+    ClothConnectionException(char const* const message) throw(): BaseException(message) {}
+};

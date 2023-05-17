@@ -24,15 +24,23 @@ public:
 
     virtual ~CompositeCloth() = default;
 
-    void linkCloth(std::unique_ptr<Cloth>&&);
+    virtual unsigned int getMassCount() const override;
+
+    virtual unsigned int getSpringCount() const override;    
+
+    virtual Masse& getMass(size_t index) const override;
+
+    virtual std::vector<Masse*> getMassesInRange(const Vector3D& pos, double radius) const override;
+
+    virtual bool check() const override;
 
     virtual void updateForce() override;
 
-    virtual void step(Integrator const& integrator, double dt = CONSTANTS::PHYSICS_DT, std::vector<std::unique_ptr<Constraint>> const& constraints = {}, double time = 0) override;
+    void linkCloth(std::unique_ptr<Cloth>&&);
 
-    // virtual void draw(Renderer& dest) override;
+    virtual void step(const Integrator& integrator, double dt = CONSTANTS::PHYSICS_DT, double time = 0) override;
 
     virtual void drawParticles(Renderer& dest) const override;
 
-    // TODO: draw, display, redo cloth-methods (count mostly)
+    virtual void display(std::ostream&, size_t level = 0) const override;
 };
