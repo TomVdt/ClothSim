@@ -250,8 +250,8 @@ void OpenGLRenderer::draw(const Spring& spring) {
         color = glm::mix(neutralColor, stretchColor, (factor - 0.5) * 2);
     }
 
-    const Vector3D start(spring.getStartMass().getPos());
-    const Vector3D end(spring.getEndMass().getPos());
+    const Vector3D start(spring.getStartPos());
+    const Vector3D end(spring.getEndPos());
     drawLine(start, end, color);
 }
 

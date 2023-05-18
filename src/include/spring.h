@@ -41,9 +41,9 @@ public:
     /* Getter pour la longueur de repos */
     double getL0() const { return l0; }
 
-    // TODO: good idea?
-    const Masse& getStartMass() const { return mass1; }
-    const Masse& getEndMass() const { return mass2; }
+    const Vector3D& getStartPos() const { return mass1.getPos(); }
+
+    const Vector3D& getEndPos() const { return mass2.getPos(); }
 
     /* Retourne la force exercée par le ressort sur une masse */
     Vector3D springForce(Masse&) const;
