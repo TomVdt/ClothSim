@@ -9,6 +9,7 @@
 #include "include/diskcloth.h"
 #include "include/compositecloth.h"
 #include "include/constraint.h"
+#include "include/settings.h"
 
 #include "GLFW/glfw3.h"
 #include "imgui/imgui.h"
@@ -23,7 +24,7 @@ Window::Window(System&& system_):
     physicsIntegrator(std::make_unique<EulerCromerIntegrator>()),
     window(nullptr),
     paused(true),
-    shouldDrawAxis(false),
+    drawAxis(false),
     deltaTime(CONSTANTS::PHYSICS_DT),
     iterationsPerFrame(1) {}
 
@@ -75,7 +76,7 @@ void Window::initGLFW() {
 
 void Window::createWindow() {
     // Create window with graphics context
-    window = glfwCreateWindow(1280, 720, "Cloth Simulation", nullptr, nullptr);
+    window = glfwCreateWindow(Settings::WINDOW_WIDTH, Settings::WINDOW_HEIGHT, Settings::WINDOW_TITLE, nullptr, nullptr);
     if (window == nullptr) {
         throw WindowException("Failed to create window!");
     }
@@ -161,13 +162,8 @@ void Window::run() {
         ImGui::Text("Pitch %.0f°, Yaw %.0f°, Roll %.0f°", rot.x * 180 / M_PI, rot.y * 180 / M_PI, rot.z * 180 / M_PI);
 
         ImGui::SeparatorText("Appearance");
-        ImGui::ColorEdit3("color", renderer.shapeColor);
-        ImGui::SliderFloat("Scale", &renderer.scale, 0.1, 2.0);
-        ImGui::Checkbox("Draw Axis?", &shouldDrawAxis);
-        ImGui::Checkbox("Draw Masses?", &renderer.drawMass);
-        ImGui::Checkbox("Draw Springs?", &renderer.drawSpring);
-        
-        if (ImGui::Button("Reset Camera")) renderer.reset();
+        renderer.drawControls();
+        ImGui::Checkbox("Draw Axis?", &drawAxis);
 
         ImGui::SeparatorText("Simulation");
         ImGui::Text("Elapsed time: %.3fs", system.getTime());
@@ -202,6 +198,7 @@ void Window::run() {
         if (ImGui::Button("Clear System")) {
             system.clear();
             paused = true;
+            shouldPause = true;
         }
 
         if (showClothMenu) {
@@ -378,7 +375,7 @@ void Window::render() {
     renderer.beginFrame();
     renderer.clear();
     system.draw(renderer);
-    if (shouldDrawAxis) {
+    if (drawAxis) {
         renderer.drawAxis();
     }
     renderer.endFrame();

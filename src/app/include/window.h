@@ -16,7 +16,7 @@ private:
 
     bool paused;
 
-    bool shouldDrawAxis;
+    bool drawAxis;
 
     float deltaTime;
 

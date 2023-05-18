@@ -19,16 +19,16 @@
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 
-float OpenGLRenderer::shapeColor[3] = { 0.2, 0.3, 0.6 };
-float OpenGLRenderer::scale = 0.5;
-bool OpenGLRenderer::drawMass = true;
-bool OpenGLRenderer::drawSpring = true;
-
 OpenGLRenderer::OpenGLRenderer():
-    camera(),
     program(),
     vbo(Buffer::Vertex),
-    ebo(Buffer::Index)
+    ebo(Buffer::Index),
+    vertexLocation(0), colorLocation(0), projectionViewMatrixLocation(0), modelMatrixLocation(0),
+    offsetLine(0), offsetCube(0), offsetSphere(0),
+    indexLine(0), indexCube(0), indexSphere(0),
+    camera(),
+    massColor(1.0), massScale(0.25),
+    drawMasses(true), drawSprings(true)
 {
     reset();
 }
@@ -116,7 +116,7 @@ void OpenGLRenderer::init() {
     indexLine = 0;
     ebo.write(offset, &Geometry::lineIndices.front(), lineSize);
     offset += lineSize;
-    offsetLine = offset;
+    offsetCube = offset;
     indexCube = indexLine + Geometry::lineIndices.back() + 1;
     ebo.write(offset, &Geometry::cubeIndices.front(), cubeSize);
     offset += cubeSize;
@@ -220,19 +220,18 @@ void OpenGLRenderer::update(double dt) {
  ******************/
 
 void OpenGLRenderer::draw(const Masse& masse) {
-    if (not drawMass) {
+    if (not drawMasses) {
         return;
     }
 
     // Set to correct position
     const Vector3D& pos(masse.getPos());
-    const Vector3D scaling(scale, scale, scale);
-    const Vector3D color(shapeColor[0], shapeColor[1], shapeColor[2]);
-    drawSphere(pos, scaling, color);
+    const Vector3D scaling(massScale, massScale, massScale);
+    drawSphere(pos, scaling, massColor);
 }
 
 void OpenGLRenderer::draw(const Spring& spring) {
-    if (not drawSpring) {
+    if (not drawSprings) {
         return;
     }
 
@@ -253,8 +252,7 @@ void OpenGLRenderer::draw(const Spring& spring) {
 
     const Vector3D start(spring.getStartMass().getPos());
     const Vector3D end(spring.getEndMass().getPos());
-    const Vector3D finalColor(color.r, color.g, color.b);
-    drawLine(start, end, finalColor);
+    drawLine(start, end, color);
 }
 
 void OpenGLRenderer::draw(const Cloth& cloth) {
@@ -265,6 +263,15 @@ void OpenGLRenderer::draw(const System& system) {
     system.drawContents(*this);
 }
 
+void OpenGLRenderer::drawControls() {
+    ImGui::ColorEdit3("Color", &massColor[0]);
+    ImGui::SliderFloat("Scale", &massScale, 0.1, 0.5);
+    ImGui::Checkbox("Draw Masses?", &drawMasses);
+    ImGui::Checkbox("Draw Springs?", &drawSprings);
+    
+    if (ImGui::Button("Reset Camera")) reset();
+}
+
 /*******************
  * Drawing shapes! *
  *******************/
@@ -272,8 +279,7 @@ void OpenGLRenderer::draw(const System& system) {
 // TODO: clean up comment
 // If ever needed: https://github.com/qt/qtbase/blob/9d2cc4dd766ca6538e17040b6ac845ed880ab0fe/src/gui/math3d/qquaternion.cpp#L714
 
-// TODO: change color to glm::vec4
-void OpenGLRenderer::drawLine(const Vector3D& pos1, const Vector3D& pos2, const Vector3D& color) {
+void OpenGLRenderer::drawLine(const Vector3D& pos1, const Vector3D& pos2, const glm::vec4& color) {
     // Let's call this "extremely hacky but it works" *dabs*
     // Who needs optimised rendering code anyways right?
     GLfloat line[] = {
@@ -283,34 +289,32 @@ void OpenGLRenderer::drawLine(const Vector3D& pos1, const Vector3D& pos2, const 
 
     glm::mat4x4 model(1.0);
     program.setUniformValue(modelMatrixLocation, model);
-    program.setUniformValue(colorLocation, glm::vec4(color.toGlmVec3(), 1.0));
+    program.setUniformValue(colorLocation, color);
     vbo.bind();
     vbo.write(indexLine, line, sizeof(line));
     glDrawElementsBaseVertex(GL_LINES, Geometry::lineIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<void*>(offsetLine), indexLine);
 }
 
-// TODO: change color to glm::vec4
-void OpenGLRenderer::drawCube(const Vector3D& pos, const Vector3D& scale, const Vector3D& color) {
+void OpenGLRenderer::drawCube(const Vector3D& pos, const Vector3D& scale, const glm::vec4& color) {
     glm::mat4x4 model(1.0);
     model = glm::translate(model, pos.toGlmVec3());
     model = glm::scale(model, scale.toGlmVec3());
     program.setUniformValue(modelMatrixLocation, model);
-    program.setUniformValue(colorLocation, glm::vec4(color.toGlmVec3(), 1.0));
+    program.setUniformValue(colorLocation, color);
     glDrawElementsBaseVertex(GL_TRIANGLES, Geometry::cubeIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<void*>(offsetCube), indexCube);
 }
 
-// TODO: change color to glm::vec4
-void OpenGLRenderer::drawSphere(const Vector3D& pos, const Vector3D& scale, const Vector3D& color) {
+void OpenGLRenderer::drawSphere(const Vector3D& pos, const Vector3D& scale, const glm::vec4& color) {
     glm::mat4x4 model(1.0);
     model = glm::translate(model, pos.toGlmVec3());
     model = glm::scale(model, scale.toGlmVec3());
     program.setUniformValue(modelMatrixLocation, model);
-    program.setUniformValue(colorLocation, glm::vec4(color.toGlmVec3(), 1.0));
+    program.setUniformValue(colorLocation, color);
     glDrawElementsBaseVertex(GL_TRIANGLES, Geometry::sphereIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<void*>(offsetSphere), indexSphere);
 }
 
 void OpenGLRenderer::drawAxis() {
-    drawCube(Vector3D(1.1, 0.0, 0.0), Vector3D(1.0, 0.1, 0.1), Vector3D(1, 0, 0));
-    drawCube(Vector3D(0.0, 1.1, 0.0), Vector3D(0.1, 1.0, 0.1), Vector3D(0, 1, 0));
-    drawCube(Vector3D(0.0, 0.0, 1.1), Vector3D(0.1, 0.1, 1.0), Vector3D(0, 0, 1));
+    drawCube(Vector3D(1.1, 0.0, 0.0), Vector3D(1.0, 0.1, 0.1), glm::vec4(1.0, 0.0, 0.0, 1.0));
+    drawCube(Vector3D(0.0, 1.1, 0.0), Vector3D(0.1, 1.0, 0.1), glm::vec4(0.0, 1.0, 0.0, 1.0));
+    drawCube(Vector3D(0.0, 0.0, 1.1), Vector3D(0.1, 0.1, 1.0), glm::vec4(0.0, 0.0, 1.0, 1.0));
 }

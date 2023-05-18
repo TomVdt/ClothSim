@@ -10,8 +10,6 @@ class Vector3D;
 
 class OpenGLRenderer: public Renderer {
 private:
-    Camera camera;
-
     /* OpenGL */
     ShaderProgram program;
     
@@ -21,7 +19,7 @@ private:
     VertexArray vao;
 
     /* Accessors for shader */
-    GLint vertexLocation;
+    GLuint vertexLocation;
     GLuint colorLocation;
     GLuint projectionViewMatrixLocation;
     GLuint modelMatrixLocation;
@@ -34,15 +32,17 @@ private:
     int indexCube;
     int indexSphere;
 
+    Camera camera;
+
     constexpr static double cameraMoveSpeed = 15.0;
     constexpr static double cameraRotateSpeed = 0.005;
 
+    glm::vec4 massColor;
+    float massScale;
+    bool drawMasses;
+    bool drawSprings;
+
 public:
-    // TODO: not this lmao
-    static float shapeColor[3];
-    static float scale;
-    static bool drawMass;
-    static bool drawSpring;
     OpenGLRenderer();
 
     /* Pas de copie de Renderer */
@@ -85,11 +85,13 @@ public:
     
     virtual void draw(const System&) override;
 
-    void drawLine(const Vector3D& pos1, const Vector3D& pos2, const Vector3D& color = Vector3D(1.0, 1.0, 1.0));
-    
-    void drawCube(const Vector3D& pos, const Vector3D& scale, const Vector3D& color = Vector3D(1.0, 1.0, 1.0));
+    void drawControls();
 
-    void drawSphere(const Vector3D& pos, const Vector3D& scale, const Vector3D& color = Vector3D(1.0, 1.0, 1.0));
+    void drawLine(const Vector3D& pos1, const Vector3D& pos2, const glm::vec4& color = glm::vec4(1.0));
+    
+    void drawCube(const Vector3D& pos, const Vector3D& scale, const glm::vec4& color = glm::vec4(1.0));
+
+    void drawSphere(const Vector3D& pos, const Vector3D& scale, const glm::vec4& color = glm::vec4(1.0));
 
     void drawAxis();
 };

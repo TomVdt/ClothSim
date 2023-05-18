@@ -3,6 +3,10 @@
 #include <imgui/imgui.h>
 
 namespace Settings {
+    inline constexpr int WINDOW_WIDTH(1280);
+    inline constexpr int WINDOW_HEIGHT(720);
+    inline constexpr const char* WINDOW_TITLE("Cloth Simulation");
+
     #if defined(QWERTY)
     inline constexpr ImGuiKey FRONT(ImGuiKey_W);
     inline constexpr ImGuiKey BACK(ImGuiKey_S);
