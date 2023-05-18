@@ -46,7 +46,7 @@ public:
     const Vector3D& getEndPos() const { return mass2.getPos(); }
 
     /* Retourne la force exercée par le ressort sur une masse */
-    Vector3D springForce(Masse&) const;
+    Vector3D springForce(const Masse&) const;
 
     /**
      * Retourne la longueur du ressort (écart entre les masses)
@@ -54,7 +54,7 @@ public:
     double length() const;
 
     /* test si cette masse est connectée au ressort */
-    bool massConnected(Masse&);
+    bool massConnected(const Masse&) const;
 
     /* Le ressort est-il valide?
      * Un ressort valide est un ressort:

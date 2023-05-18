@@ -137,10 +137,6 @@ public:
     */
     bool springConnected(const Spring& spring) const;
 
-    // TODO : good luck
-    /* Alloue dynamiquement une copie de la masse ne contenant *pas* les ressorts */
-    // std::unique_ptr<Masse> copy() const;
-
     /**
      * Redéfinition de draw pour afficher la masse dans le renderer
     */

@@ -56,7 +56,7 @@ bool CompositeCloth::check() const {
     return true;
 }
 
-void CompositeCloth::linkCloth(std::unique_ptr<Cloth>&& newCloth) {
+void CompositeCloth::linkCloth(std::unique_ptr<Cloth>&& newCloth, double k) {
     if (cloths.empty()) {
         cloths.push_back(std::move(newCloth));
         return;
@@ -65,7 +65,7 @@ void CompositeCloth::linkCloth(std::unique_ptr<Cloth>&& newCloth) {
     // Check if close enough
     bool connected = false;
     for (auto& cloth : cloths) {
-        if (connectClothsConditional(*cloth, *newCloth)) {
+        if (connectClothsConditional(*cloth, *newCloth, k)) {
             connected = true;
         }
     }
@@ -77,7 +77,7 @@ void CompositeCloth::linkCloth(std::unique_ptr<Cloth>&& newCloth) {
     }
 }
 
-bool CompositeCloth::connectClothsConditional(Cloth& cloth1, Cloth& cloth2) {
+bool CompositeCloth::connectClothsConditional(Cloth& cloth1, Cloth& cloth2, double k) {
     bool hazConnected = false;
     for (int i(0); i < cloth1.getMassCount(); ++i) {
         for (int j(0); j < cloth2.getMassCount(); ++j) {
@@ -85,8 +85,7 @@ bool CompositeCloth::connectClothsConditional(Cloth& cloth1, Cloth& cloth2) {
             Masse& mass2(cloth2.getMass(j));
             const double dist(Vector3D::dist(mass1.getPos(), mass2.getPos()));
             if (dist < epsilon) {
-                // TODO: unhardcode me daddy
-                std::unique_ptr<Spring> s(std::make_unique<Spring>(50.0, dist, mass1, mass2));
+                std::unique_ptr<Spring> s(std::make_unique<Spring>(k, dist, mass1, mass2));
                 mass1.connectSpring(*s);
                 mass2.connectSpring(*s);
                 springList.push_back(std::move(s));

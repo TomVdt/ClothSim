@@ -1,9 +1,9 @@
 #include "include/diskcloth.h"
+#include "include/exceptions.h"
 
 DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius, double radialStep, double lambda, double k, double angularStep) {
-    // TODO: exceptions
-    if (radialStep < 0.0) {
-        return;
+    if (radialStep <= 0.0) {
+        ERROR(ValueError, "Radial step must be strictly positive");
     }
     
     addMass(std::make_unique<Masse>(mass, lambda, center));

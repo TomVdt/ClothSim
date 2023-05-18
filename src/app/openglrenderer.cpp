@@ -276,9 +276,6 @@ void OpenGLRenderer::drawControls() {
  * Drawing shapes! *
  *******************/
 
-// TODO: clean up comment
-// If ever needed: https://github.com/qt/qtbase/blob/9d2cc4dd766ca6538e17040b6ac845ed880ab0fe/src/gui/math3d/qquaternion.cpp#L714
-
 void OpenGLRenderer::drawLine(const Vector3D& pos1, const Vector3D& pos2, const glm::vec4& color) {
     // Let's call this "extremely hacky but it works" *dabs*
     // Who needs optimised rendering code anyways right?

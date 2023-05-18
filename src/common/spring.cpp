@@ -4,7 +4,7 @@
 #include "include/renderer.h"
 #include "include/util.h"
 
-Vector3D Spring::springForce(Masse& mass) const {
+Vector3D Spring::springForce(const Masse& mass) const {
     if (not valid()) {
         // Le ressort est "inactif"
         return Vector3D();
@@ -34,7 +34,7 @@ double Spring::length() const {
     return Vector3D::dist(mass1.getPos(), mass2.getPos());
 }
 
-bool Spring::massConnected(Masse& mass) {
+bool Spring::massConnected(const Masse& mass) const {
     return &mass == &mass1 or &mass == &mass2;
 }
 

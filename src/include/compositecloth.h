@@ -9,7 +9,7 @@ class CompositeCloth: public Cloth {
 private:
     std::vector<std::unique_ptr<Cloth>> cloths;
 
-    bool connectClothsConditional(Cloth& cloth1, Cloth& cloth2);
+    bool connectClothsConditional(Cloth& cloth1, Cloth& cloth2, double k);
 
     static constexpr double epsilon = 0.5;
 
@@ -36,7 +36,7 @@ public:
 
     virtual void updateForce() override;
 
-    void linkCloth(std::unique_ptr<Cloth>&&);
+    void linkCloth(std::unique_ptr<Cloth>&& cloth, double k);
 
     virtual void step(const Integrator& integrator, double dt = CONSTANTS::PHYSICS_DT, double time = 0) override;
 
