@@ -60,5 +60,5 @@ public:
     void setUniformValue(GLuint location, const glm::mat4x4& mat);
     
     /* Set uniform value for vec4 */
-    void setUniformValue(GLuint location, const glm::vec4& mat);
+    void setUniformValue(GLuint location, const glm::vec4& vec);
 };

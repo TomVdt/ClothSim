@@ -150,4 +150,3 @@ void ShaderProgram::setUniformValue(GLuint location, const glm::mat4x4& mat) {
 void ShaderProgram::setUniformValue(GLuint location, const glm::vec4& vec) {
     glUniform4fv(location, 1, glm::value_ptr(vec));
 }
-
