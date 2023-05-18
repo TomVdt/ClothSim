@@ -4,6 +4,7 @@
 #include "include/system.h"
 #include "include/vector3d.h"
 #include "include/exceptions.h"
+#include "include/geometry.h"
 #include "include/settings.h"
 
 #include "GLFW/glfw3.h"
@@ -83,33 +84,45 @@ void OpenGLRenderer::init() {
     // VBO
     vbo.create();
     vbo.bind();
-    // TODO: actual geometry handling
-    GLfloat verts[] = {
-		-1.0, -1.0, -1.0, -1.0,  1.0, -1.0,  1.0,  1.0, -1.0,  1.0, -1.0, -1.0,
-		 1.0, -1.0, -1.0,  1.0,  1.0, -1.0,  1.0,  1.0,  1.0,  1.0, -1.0,  1.0,
-		 1.0, -1.0,  1.0,  1.0,  1.0,  1.0, -1.0,  1.0,  1.0, -1.0, -1.0,  1.0,
-		-1.0, -1.0,  1.0, -1.0,  1.0,  1.0, -1.0,  1.0, -1.0, -1.0, -1.0, -1.0,
-		-1.0, -1.0, -1.0,  1.0, -1.0, -1.0,  1.0, -1.0,  1.0, -1.0, -1.0,  1.0,
-		-1.0,  1.0, -1.0, -1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0,  1.0, -1.0,
-        // Free space to write to...
-		69, 69, 69, 69, 69, 69
-	};
-    vbo.allocate(verts, sizeof(verts));
+
+    // Load geometry
+    int lineSize(Geometry::lineVertices.size() * sizeof(Geometry::lineVertices[0]));
+    int cubeSize(Geometry::cubeVertices.size() * sizeof(Geometry::cubeVertices[0]));
+    int sphereSize(Geometry::sphereVertices.size() * sizeof(Geometry::sphereVertices[0]));
+    int total(lineSize + cubeSize + sphereSize);
+    vbo.allocate(nullptr, total);
+
+    int offset(0);
+    vbo.write(offset, &Geometry::lineVertices.front(), lineSize);
+    offset += lineSize;
+    vbo.write(offset, &Geometry::cubeVertices.front(), cubeSize);
+    offset += cubeSize;
+    vbo.write(offset, &Geometry::sphereVertices.front(), sphereSize);
 
     program.setAttributeBuffer(vertexLocation, GL_FLOAT, 0, 3);
     program.enableAttributeArray(vertexLocation);
 
     ebo.create();
     ebo.bind();
-    GLushort ind[] = {
-        0, 1, 2, 0, 2, 3,
-        4, 5, 6, 3, 6, 7,
-        8, 9, 10, 8, 10, 11,
-        12, 13, 14, 12, 14, 15,
-        16, 17, 18, 16, 18, 19,
-        20, 21, 22, 20, 22, 23
-    };
-    ebo.allocate(ind, sizeof(ind));
+    
+    lineSize = Geometry::lineIndices.size() * sizeof(Geometry::lineIndices[0]);
+    cubeSize = Geometry::cubeIndices.size() * sizeof(Geometry::cubeIndices[0]);
+    sphereSize = Geometry::sphereIndices.size() * sizeof(Geometry::sphereIndices[0]);
+    total = lineSize + cubeSize + sphereSize;
+    ebo.allocate(nullptr, total);
+
+    offset = 0;
+    offsetLine = 0;
+    indexLine = 0;
+    ebo.write(offset, &Geometry::lineIndices.front(), lineSize);
+    offset += lineSize;
+    offsetLine = offset;
+    indexCube = indexLine + Geometry::lineIndices.back() + 1;
+    ebo.write(offset, &Geometry::cubeIndices.front(), cubeSize);
+    offset += cubeSize;
+    offsetSphere = offset;
+    indexSphere = indexCube + Geometry::cubeIndices.back() + 1;
+    ebo.write(offset, &Geometry::sphereIndices.front(), sphereSize);
 
     // Clean up after initializing
     // RELEASE THE VAO FIRST!!!
@@ -213,24 +226,15 @@ void OpenGLRenderer::draw(const Masse& masse) {
 
     // Set to correct position
     const Vector3D& pos(masse.getPos());
-    glm::mat4x4 model(1.0);
-    model = glm::translate(model, pos.toGlmVec3());
-    model = glm::scale(model, glm::vec3(scale));
-    program.setUniformValue(modelMatrixLocation, model);
-
-    // Set color
-    glm::vec4 color(shapeColor[0], shapeColor[1], shapeColor[2], 1.0);
-    program.setUniformValue(colorLocation, color);
-    glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_SHORT, 0);
+    const Vector3D scaling(scale, scale, scale);
+    const Vector3D color(shapeColor[0], shapeColor[1], shapeColor[2]);
+    drawSphere(pos, scaling, color);
 }
 
 void OpenGLRenderer::draw(const Spring& spring) {
     if (not drawSpring) {
         return;
     }
-
-    glm::mat4x4 model(1.0);
-    program.setUniformValue(modelMatrixLocation, model);
 
     glm::vec4 squishColor(1.0, 0.0, 0.0, 1.0);
     glm::vec4 neutralColor(1.0);
@@ -246,11 +250,11 @@ void OpenGLRenderer::draw(const Spring& spring) {
         // Stretched
         color = glm::mix(neutralColor, stretchColor, (factor - 0.5) * 2);
     }
-    program.setUniformValue(colorLocation, color);
 
     const Vector3D start(spring.getStartMass().getPos());
     const Vector3D end(spring.getEndMass().getPos());
-    drawLine(start, end);
+    const Vector3D finalColor(color.r, color.g, color.b);
+    drawLine(start, end, finalColor);
 }
 
 void OpenGLRenderer::draw(const Cloth& cloth) {
@@ -268,30 +272,45 @@ void OpenGLRenderer::draw(const System& system) {
 // TODO: clean up comment
 // If ever needed: https://github.com/qt/qtbase/blob/9d2cc4dd766ca6538e17040b6ac845ed880ab0fe/src/gui/math3d/qquaternion.cpp#L714
 
-void OpenGLRenderer::drawLine(const Vector3D& pos1, const Vector3D& pos2) {
+// TODO: change color to glm::vec4
+void OpenGLRenderer::drawLine(const Vector3D& pos1, const Vector3D& pos2, const Vector3D& color) {
     // Let's call this "extremely hacky but it works" *dabs*
     // Who needs optimised rendering code anyways right?
     GLfloat line[] = {
         (float)pos1.getX(), (float)pos1.getY(), (float)pos1.getZ(),
         (float)pos2.getX(), (float)pos2.getY(), (float)pos2.getZ()
     };
+
+    glm::mat4x4 model(1.0);
+    program.setUniformValue(modelMatrixLocation, model);
+    program.setUniformValue(colorLocation, glm::vec4(color.toGlmVec3(), 1.0));
     vbo.bind();
-    // TODO: hardcoding go brrrrrr
-    vbo.write(4 * 12 * 6, line, sizeof(line));
-    glDrawArrays(GL_LINES, 4 * 6, 2);
+    vbo.write(indexLine, line, sizeof(line));
+    glDrawElementsBaseVertex(GL_LINES, Geometry::lineIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<void*>(offsetLine), indexLine);
 }
 
-void OpenGLRenderer::drawRect(const Vector3D& pos, const Vector3D& scale, const Vector3D& color) {
+// TODO: change color to glm::vec4
+void OpenGLRenderer::drawCube(const Vector3D& pos, const Vector3D& scale, const Vector3D& color) {
     glm::mat4x4 model(1.0);
     model = glm::translate(model, pos.toGlmVec3());
     model = glm::scale(model, scale.toGlmVec3());
     program.setUniformValue(modelMatrixLocation, model);
     program.setUniformValue(colorLocation, glm::vec4(color.toGlmVec3(), 1.0));
-    glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_SHORT, 0);
+    glDrawElementsBaseVertex(GL_TRIANGLES, Geometry::cubeIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<void*>(offsetCube), indexCube);
+}
+
+// TODO: change color to glm::vec4
+void OpenGLRenderer::drawSphere(const Vector3D& pos, const Vector3D& scale, const Vector3D& color) {
+    glm::mat4x4 model(1.0);
+    model = glm::translate(model, pos.toGlmVec3());
+    model = glm::scale(model, scale.toGlmVec3());
+    program.setUniformValue(modelMatrixLocation, model);
+    program.setUniformValue(colorLocation, glm::vec4(color.toGlmVec3(), 1.0));
+    glDrawElementsBaseVertex(GL_TRIANGLES, Geometry::sphereIndices.size(), GL_UNSIGNED_INT, reinterpret_cast<void*>(offsetSphere), indexSphere);
 }
 
 void OpenGLRenderer::drawAxis() {
-    drawRect(Vector3D(1.1, 0.0, 0.0), Vector3D(1.0, 0.1, 0.1), Vector3D(1, 0, 0));
-    drawRect(Vector3D(0.0, 1.1, 0.0), Vector3D(0.1, 1.0, 0.1), Vector3D(0, 1, 0));
-    drawRect(Vector3D(0.0, 0.0, 1.1), Vector3D(0.1, 0.1, 1.0), Vector3D(0, 0, 1));
+    drawCube(Vector3D(1.1, 0.0, 0.0), Vector3D(1.0, 0.1, 0.1), Vector3D(1, 0, 0));
+    drawCube(Vector3D(0.0, 1.1, 0.0), Vector3D(0.1, 1.0, 0.1), Vector3D(0, 1, 0));
+    drawCube(Vector3D(0.0, 0.0, 1.1), Vector3D(0.1, 0.1, 1.0), Vector3D(0, 0, 1));
 }

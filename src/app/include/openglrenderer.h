@@ -26,6 +26,14 @@ private:
     GLuint projectionViewMatrixLocation;
     GLuint modelMatrixLocation;
 
+    int offsetLine;
+    int offsetCube;
+    int offsetSphere;
+
+    int indexLine;
+    int indexCube;
+    int indexSphere;
+
     constexpr static double cameraMoveSpeed = 15.0;
     constexpr static double cameraRotateSpeed = 0.005;
 
@@ -77,9 +85,11 @@ public:
     
     virtual void draw(const System&) override;
 
-    void drawLine(const Vector3D& pos1, const Vector3D& pos2);
+    void drawLine(const Vector3D& pos1, const Vector3D& pos2, const Vector3D& color = Vector3D(1.0, 1.0, 1.0));
     
-    void drawRect(const Vector3D& pos, const Vector3D& scale, const Vector3D& color);
+    void drawCube(const Vector3D& pos, const Vector3D& scale, const Vector3D& color = Vector3D(1.0, 1.0, 1.0));
+
+    void drawSphere(const Vector3D& pos, const Vector3D& scale, const Vector3D& color = Vector3D(1.0, 1.0, 1.0));
 
     void drawAxis();
 };
