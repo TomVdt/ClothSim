@@ -22,8 +22,7 @@ unsigned int Cloth::getSpringCount() const {
 
 Masse& Cloth::getMass(size_t index) const {
     if (index >= massList.size()) {
-        // TODO: better errors
-        throw OutOfBoundsException("Index out of range");
+        ERROR(IndexError, "Index out of range");
     }
     return *massList[index];
 }
@@ -55,7 +54,7 @@ void Cloth::connect(size_t m1, size_t m2, double k, double l0) {
         springList.push_back(std::move(s));
     }
     else {
-        throw OutOfBoundsException("y a pas autant de masses dans le tissu je tiens à mon cpu");
+        ERROR(IndexError, "Index out of range");
     }
 }
 

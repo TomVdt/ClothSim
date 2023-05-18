@@ -64,7 +64,7 @@ void Window::initGLFW() {
     glfwSetErrorCallback(glfwErrorCallback);
     #endif
     if (!glfwInit()) {
-        throw WindowException("Failed to initialise GLFW");
+        ERROR(GLFWError, "Failed to initialise GLFW");
     }
 
     // Set GLSL version
@@ -78,13 +78,13 @@ void Window::createWindow() {
     // Create window with graphics context
     window = glfwCreateWindow(Settings::WINDOW_WIDTH, Settings::WINDOW_HEIGHT, Settings::WINDOW_TITLE, nullptr, nullptr);
     if (window == nullptr) {
-        throw WindowException("Failed to create window!");
+        ERROR(GLFWError, "Failed to create window");
     }
 }
 
 void Window::initOpenGL() {
     if (GLEW_OK != glewInit()) {
-        throw WindowException("Failed to initialise OpenGL context");
+        ERROR(GLFWError, "Failed to initialise OpenGL context");
     }
     // OpenGL calls can now be made, init renderer
     renderer.init();

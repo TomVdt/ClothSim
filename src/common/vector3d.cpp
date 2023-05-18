@@ -19,7 +19,7 @@ double Vector3D::normSq() const {
 Vector3D& Vector3D::normalize() {
     double norme = norm();
     if (fabs(norme) < CONSTANTS::EPSILON) {
-        throw DivZeroException("Can't normalize null Vector3D");
+        ERROR(ZeroDivisionError, "Can't normalize null vector");
     }
     *this /= norme;
     return *this;

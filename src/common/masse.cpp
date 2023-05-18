@@ -26,10 +26,10 @@ Masse::Masse(double mass, double lambda, const Vector3D& pos, const Vector3D& ve
     constraints()
 {
     if (mass <= 0.0) {
-        throw InvalidValueException("Mass must be strictly positive");
+        ERROR(ValueError, "Mass must be strictly positive");
     }
     if (lambda < 0.0) {
-        throw InvalidValueException("Coefficient of friction must be positive (perpetual energy go brrrrrrrr)");
+        ERROR(ValueError, "Coefficient of friction must be positive");
     }
 }
 

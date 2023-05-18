@@ -22,19 +22,20 @@ unsigned int CompositeCloth::getSpringCount() const {
 
 Masse& CompositeCloth::getMass(size_t index) const {
     if (index >= getMassCount()) {
-        // TODO: better messages
-        throw OutOfBoundsException("Mass index out of range");
+        ERROR(IndexError, "Index out of range");
     }
 
-    // Step 1: find in which cloth the mass could be
-    unsigned int cumsum(0);
+    // Find in which cloth the mass could be
+    unsigned int sum(0);
     for (const auto& cloth : cloths) {
         unsigned int size(cloth->getMassCount());
-        if (index < cumsum + size) {
-            return cloth->getMass(index - cumsum);
+        if (index < sum + size) {
+            return cloth->getMass(index - sum);
         }
-        cumsum += index;
+        sum += index;
     }
+
+    ERROR(UnreachableError, "This code should not get reached");
 }
 
 std::vector<Masse*> CompositeCloth::getMassesInRange(const Vector3D& pos, double radius) const {
@@ -70,8 +71,7 @@ void CompositeCloth::linkCloth(std::unique_ptr<Cloth>&& newCloth) {
     }
     
     if (not connected) {
-        // TODO: exceptions
-        throw ClothConnectionException("Failed to connect cloth in Compostie Cloth");
+        ERROR(ConnectionError, "Failed to connect cloths");
     } else {
         cloths.push_back(std::move(newCloth));
     }

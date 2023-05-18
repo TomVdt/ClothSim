@@ -1,32 +1,42 @@
 #pragma once
 #include <stdexcept>
+#include <string>
 
-class BaseException: public std::runtime_error {
+class Exception: public std::runtime_error {
 public:
-    BaseException(char const* const message) throw(): std::runtime_error(message) {}
+    Exception(const std::string& message, const std::string& file, int line) noexcept:
+        std::runtime_error("Error occured in file " + file + ", line " + std::to_string(line) + ": " + message) {}
 };
 
-class DivZeroException: public BaseException {
+class ZeroDivisionError: public Exception {
 public:
-    DivZeroException(char const* const message) throw(): BaseException(message) {}
+    using Exception::Exception;
 };
 
-class OutOfBoundsException: public BaseException {
+class IndexError: public Exception {
 public:
-    OutOfBoundsException(char const* const message) throw(): BaseException(message) {}
+    using Exception::Exception;
 };
 
-class InvalidValueException: public BaseException {
+class ValueError: public Exception {
 public:
-    InvalidValueException(char const* const message) throw(): BaseException(message) {}
+    using Exception::Exception;
 };
 
-class WindowException: public BaseException {
+class GLFWError: public Exception {
 public:
-    WindowException(char const* const message) throw(): BaseException(message) {}
+    using Exception::Exception;
 };
 
-class ClothConnectionException: public BaseException {
+class ConnectionError: public Exception {
 public:
-    ClothConnectionException(char const* const message) throw(): BaseException(message) {}
+    using Exception::Exception;
 };
+
+class UnreachableError: public Exception {
+public:
+    using Exception::Exception;
+};
+
+#define ERROR(type, msg) throw type(msg, __FILE__, __LINE__)
+
