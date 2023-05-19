@@ -40,7 +40,7 @@ public:
 
     void linkCloth(std::unique_ptr<Cloth>&& cloth, double k);
 
-    virtual void step(const Integrator& integrator, double dt = CONSTANTS::PHYSICS_DT, double time = 0) override;
+    virtual void step(const Integrator& integrator, double dt = CONSTANTS::PHYSICS_DT, std::vector<std::unique_ptr<Constraint>> const& constraints = {}, double time = 0) override;
 
     virtual void drawParticles(Renderer& dest) const override;
 

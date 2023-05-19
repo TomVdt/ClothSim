@@ -19,12 +19,16 @@ void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) const
 
 void EulerCromerIntegrator::integrate(Cloth& cloth, double dt, ManyConstraints const& constraints, double time) const {
     size_t S(cloth.getMassCount());
+    cloth.updateForce();
+    // Fonction à integrer (force + contraintes)
+    for(auto& constraint : constraints) {
+        cloth.applyConstraint(*constraint, time);
+    }
+
     for(size_t i(0); i < S; ++i) {
-        cloth.updateForce();
-        for(auto& constraint : constraints) {
-            cloth.applyConstraint(*constraint, time);
-        }
-        integrate(cloth.getMass(i), dt, time);
+        Masse& mass(cloth.getMass(i));
+        // Integration de la fonction
+        integrate(mass, dt, time);
     }
 }
 

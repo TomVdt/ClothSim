@@ -15,6 +15,7 @@ public:
      * Destructeur par défaut virtuel pour l'héritage
     */
     virtual ~Integrator() = default;
+    // TODO: integrer sur les masses ET les tissus: 2 méthodes abstraites
     /**
      * Fonction pour intégrer pas définie dans la super classe
     */
