@@ -1,36 +1,37 @@
 #include "include/integrator.h"
 #include "include/masse.h"
+#include "include/cloth.h"
 #include "include/vector3d.h"
 
-
-void Integrator::move() {
-    for (const auto& pos : newPos) {
-        pos.first->setPos(pos.second);
-    }
-    newPos.clear();
-
-    for (const auto& vel : newVel) {
-        vel.first->setVel(vel.second);
-    }
-    newVel.clear();
-}
+#include <vector>
 
 
-void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) {
+void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) const {
     // Calcule le nouvel état
     const Vector3D vel(mass.getVel() + mass.acceleration() * dt);
     const Vector3D pos(mass.getPos() + vel * dt);
 
-    // Rajoute les nouvelles positions et vitesses
-    newPos.push_back(std::make_pair(&mass, pos));
-    newVel.push_back(std::make_pair(&mass, vel));
+    // Met les nouvelles positions et vitesses
+    mass.setPos(pos);
+    mass.setVel(vel);
+    
+}
 
-    mass.clearConstraints();
-
+void EulerCromerIntegrator::integrate(Cloth& cloth, double dt, ManyConstraints constraints, double time) const {
+    size_t S(cloth.getMassCount());
+    for(size_t i(0); i < S; ++i) {
+        cloth.updateForce();
+        for(auto& constraint : constraints) {
+            cloth.applyConstraint(*constraint, time);
+        }
+        integrate(cloth.getMass(i), dt, time);
+    }
 }
 
 
 
+
+/*
 void RK4Integrator::changeMass(Masse& mass, Vector3D const& posOrigin, Vector3D const& velOrigin, 
                                 Vector3D const& k, Vector3D const& p, double dt, double time) {
     mass.setPos(posOrigin + dt*k);
@@ -40,8 +41,16 @@ void RK4Integrator::changeMass(Masse& mass, Vector3D const& posOrigin, Vector3D 
 }
 
 
-void RK4Integrator::integrate(Masse& mass, double dt, double time) {
-    // Sauvegarde les position et vitesse d'origine de la masse
+void RK4Integrator::integrate(Cloth& cloth, double dt, ManyConstraints constraints, double time) const {
+    size_t S(cloth.getMassCount());
+
+    std::vector<Vector3D&> K1;
+
+
+    
+
+
+
     Vector3D posOrigin(mass.getPos());
     Vector3D velOrigin(mass.getVel());
     
@@ -70,15 +79,9 @@ void RK4Integrator::integrate(Masse& mass, double dt, double time) {
     newPos.push_back(std::make_pair(&mass, pos));
     newVel.push_back(std::make_pair(&mass, vel));
 
-    /* remet la masse à sa position de départ afin d'éviter les effets de bord lors 
-        de l'intégration des autres masses du tissu*/
-    mass.setPos(posOrigin);
-    mass.setVel(velOrigin);
-
-    mass.clearConstraints();
 
 }
-
+*/
 
 
 

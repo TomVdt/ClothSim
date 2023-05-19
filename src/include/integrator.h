@@ -1,39 +1,37 @@
 #pragma once
 #include "include/constants.h"
-
-#include <vector>
-
+#include "include/constraint.h"
 
 class Masse;
-typedef std::vector<std::pair<Masse*, Vector3D>> pairMassVector;
+class Cloth;
+typedef std::vector<std::unique_ptr<Constraint>> ManyConstraints;   // TODO
+
+
 
 class Integrator {
-protected:
-    pairMassVector newPos;
-    pairMassVector newVel;
-
 public:
+    
     /**
      * Destructeur par défaut virtuel pour l'héritage
     */
     virtual ~Integrator() = default;
     /**
-     * Fonction pour intégrer pas définie dans la super classe, toujours faire un appel a move()
+     * Fonction pour intégrer pas définie dans la super classe
     */
-    virtual void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) = 0;
-    /**
-     * Déplace les masses et leur affecte la bonne vitesse
-    */
-    void move();
+    virtual void integrate(Cloth&, double dt = CONSTANTS::PHYSICS_DT, ManyConstraints constraints = {}, double time = 0) const = 0;
 };
 
 
 class EulerCromerIntegrator: public Integrator {
 public:
     /**
-     * Intègre avec les formules pour l'intégrateur d'Euleur Cromer, toujours faire un appel a move()
+     * Intègre les masses individuelles avec les formules pour l'intégrateur d'Euleur Cromer
     */
-    virtual void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) override;
+    void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) const;
+    /**
+     * Intègre le tissu en intégrant les masses une par une 
+    */
+    virtual void integrate(Cloth&, double dt = CONSTANTS::PHYSICS_DT, ManyConstraints constraints = {}, double time = 0) const override;
 };
 
 
@@ -42,9 +40,9 @@ private:
     void changeMass(Masse& mass, Vector3D const& posOrigin, Vector3D const& velOrigin, Vector3D const& k, Vector3D const& p, double dt, double time);
 public:
     /**
-     * Intègre avec les formules pour l'intégrateur de Runge-Kutta d'ordre 4, toujours faire un appel a move()
+     * Intègre avec les formules pour l'intégrateur de Runge-Kutta d'ordre 4
     */
-  virtual void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) override;
+  virtual void integrate(Cloth&, double dt = CONSTANTS::PHYSICS_DT, ManyConstraints constraints = {}, double time = 0) const override;
 };
 
 

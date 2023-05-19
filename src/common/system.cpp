@@ -15,13 +15,9 @@ double System::getTime() const {
     return time;
 }
 
-void System::step(Integrator& integrator, double dt) {
+void System::step(Integrator const& integrator, double dt) {
     for (auto& cloth : cloths) {
-        cloth->updateForce();
-        for (const auto& constraint : constraints) {
-            cloth->applyConstraint(*constraint, time);
-        }
-        cloth->step(integrator, dt, time);
+        cloth->step(integrator, dt, constraints, time);
     }
     time += dt;
 

@@ -82,11 +82,8 @@ void Cloth::applyConstraint(Constraint const& constraint, double time) {
     }
 }
 
-void Cloth::step(Integrator& integratator, double dt, double time) {
-    for (auto& mass : massList) {
-        integratator.integrate(*mass, dt, time);
-    }
-    integratator.move();
+void Cloth::step(Integrator const& integratator, double dt, std::vector<std::unique_ptr<Constraint>> constraints, double time) {
+    integratator.integrate(*this, dt, constraints, time);
 }
 
 void Cloth::display(std::ostream& out, size_t level) const {
