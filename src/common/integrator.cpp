@@ -3,10 +3,9 @@
 #include "include/cloth.h"
 #include "include/vector3d.h"
 
-#include <vector>
 
+void EulerCromerIntegrator::integrate(Masse& mass, double dt, ManyConstraints const& constraints, double time) const {    
 
-void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) const {
     // Calcule le nouvel état
     const Vector3D vel(mass.getVel() + mass.acceleration() * dt);
     const Vector3D pos(mass.getPos() + vel * dt);
@@ -19,8 +18,9 @@ void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) const
 
 void EulerCromerIntegrator::integrate(Cloth& cloth, double dt, ManyConstraints const& constraints, double time) const {
     size_t S(cloth.getMassCount());
+    
     cloth.updateForce();
-    // Fonction à integrer (force + contraintes)
+
     for(auto& constraint : constraints) {
         cloth.applyConstraint(*constraint, time);
     }
@@ -28,10 +28,9 @@ void EulerCromerIntegrator::integrate(Cloth& cloth, double dt, ManyConstraints c
     for(size_t i(0); i < S; ++i) {
         Masse& mass(cloth.getMass(i));
         // Integration de la fonction
-        integrate(mass, dt, time);
+        integrate(mass, dt, constraints, time);
     }
 }
-
 
 
 
@@ -43,49 +42,113 @@ void RK4Integrator::changeMass(Masse& mass, Vector3D const& posOrigin, Vector3D 
     mass.updateForce();
     mass.applyConstraints(time + dt);
 }
+*/
 
-
-void RK4Integrator::integrate(Cloth& cloth, double dt, ManyConstraints constraints, double time) const {
-    size_t S(cloth.getMassCount());
-
-    std::vector<Vector3D&> K1;
-
-
-    
-
-
-
-    Vector3D posOrigin(mass.getPos());
-    Vector3D velOrigin(mass.getVel());
-    
-    // Calcule les vecteurs intermédiaires nécessitant de modifier la masse
-    Vector3D k1(velOrigin);
-    Vector3D p1(mass.acceleration());
-    Vector3D k2(velOrigin + (dt/2)*p1);
-
-    changeMass(mass, posOrigin, velOrigin, k1, p1, dt/2, time);
-    Vector3D p2(mass.acceleration());
-
-    Vector3D k3(velOrigin + (dt/2)*p2);
-
-    changeMass(mass, posOrigin, velOrigin, k2, p2, dt/2, time);
-    Vector3D p3(mass.acceleration());
-
-    Vector3D k4(velOrigin + dt*p3);
-
-    changeMass(mass, posOrigin, velOrigin, k3, p3, dt, time);
-    Vector3D p4(mass.acceleration());
-
-    // Calcule les nouvelles position et vitesse et les enregistre pour les modifier dans move()
-    const Vector3D pos(posOrigin + (dt/6)*(k1 + 2*k2 + 2*k3 + k4));
-    const Vector3D vel(velOrigin + (dt/6)*(p1 + 2*p2 + 2*p3 + p4));
-
-    newPos.push_back(std::make_pair(&mass, pos));
-    newVel.push_back(std::make_pair(&mass, vel));
-
+/*
+void RK4Integrator::integrate(Masse& mass, double dt, ManyConstraints const& constraints, double time) const {    
 
 }
 */
+
+
+void RK4Integrator::integrate(Cloth& cloth, double dt, ManyConstraints const& constraints, double time) const {
+    size_t S(cloth.getMassCount());
+
+
+    IntermediateVectors OGPositions;
+
+
+    IntermediateVectors V1;
+    IntermediateVectors A1;
+    for(size_t i(0); i < S; ++i) {
+        Masse& mass(cloth.getMass(i));
+
+        OGPositions.push_back(mass.getPos());
+        V1.push_back(mass.getVel());
+        A1.push_back(mass.acceleration());
+    }
+
+    IntermediateVectors V2;
+    IntermediateVectors A2;
+    for(size_t i(0); i < S; ++i) {
+        Masse& mass(cloth.getMass(i));
+
+        mass.setPos(OGPositions[i] + (dt/2)*V1[i]);
+        mass.setVel(V1[i] + (dt/2)*A1[i]);
+
+        mass.updateForce();
+        for(auto& constraint : constraints) {
+            (*constraint).apply(mass, time + dt/2);
+        }
+
+        V2.push_back(mass.getVel());
+        A2.push_back(mass.acceleration());
+
+        // remets la masse à la position avant cette étape pour éviter les effets de bords sur les autres masses dans le calcul des accélérations
+        mass.setPos(OGPositions[i]);
+    }
+    // mets les masses à la position correspondante à la fin de cette étape
+    for(size_t i(0); i < S; ++i) {
+        cloth.getMass(i).setPos(OGPositions[i] + (dt/2)*V1[i]);
+    }
+    
+
+    IntermediateVectors V3;
+    IntermediateVectors A3;
+    for(size_t i(0); i < S; ++i) {
+        Masse& mass(cloth.getMass(i));
+
+        mass.setPos(OGPositions[i] + (dt/2)*V2[i]);
+        mass.setVel(V1[i] + (dt/2)*A2[i]);
+
+        mass.updateForce();
+        for(auto& constraint : constraints) {
+            (*constraint).apply(mass, time + dt/2);
+        }
+
+        V3.push_back(mass.getVel());
+        A3.push_back(mass.acceleration());
+
+        // remets la masse à la position avant cette étape pour éviter les effets de bords sur les autres masses
+        mass.setPos(OGPositions[i] + (dt/2)*V1[i]);
+    }
+    // mets les masses à la position correspondante à la fin de cette étape
+    for(size_t i(0); i < S; ++i) {
+        cloth.getMass(i).setPos(OGPositions[i] + (dt/2)*V2[i]);
+    }
+
+
+    IntermediateVectors V4;
+    IntermediateVectors A4;
+    for(size_t i(0); i < S; ++i) {
+        Masse& mass(cloth.getMass(i));
+
+        mass.setPos(OGPositions[i] + dt*V3[i]);
+        mass.setVel(V1[i] + dt*A3[i]);
+
+        mass.updateForce();
+        for(auto& constraint : constraints) {
+            (*constraint).apply(mass, time + dt);
+        }
+
+        V4.push_back(mass.getVel());
+        A4.push_back(mass.acceleration());
+
+        // remets la masse à la position avant cette étape pour éviter les effets de bords sur les autres masses
+        mass.setPos(OGPositions[i] + (dt/2)*V2[i]);
+    }
+
+
+
+    for(size_t i(0); i < S; ++i) {
+        Masse& mass(cloth.getMass(i));
+
+        mass.setPos(OGPositions[i] + (dt/6) * (V1[i] + 2*(V2[i]) + 2*(V3[i]) + V4[i]));
+        mass.setVel(V1[i] + (dt/6) * (A1[i] + 2*(A2[i]) + 2*(A3[i]) + A4[i]));
+    }
+
+}
+
 
 
 
