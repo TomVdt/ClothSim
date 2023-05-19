@@ -314,4 +314,5 @@ void OpenGLRenderer::drawAxis() {
     drawCube(Vector3D(1.1, 0.0, 0.0), Vector3D(1.0, 0.1, 0.1), glm::vec4(1.0, 0.0, 0.0, 1.0));
     drawCube(Vector3D(0.0, 1.1, 0.0), Vector3D(0.1, 1.0, 0.1), glm::vec4(0.0, 1.0, 0.0, 1.0));
     drawCube(Vector3D(0.0, 0.0, 1.1), Vector3D(0.1, 0.1, 1.0), glm::vec4(0.0, 0.0, 1.0, 1.0));
+    drawCube(Vector3D(0.0, 0.0, 0.0), Vector3D(0.1, 0.1, 0.1), glm::vec4(1.0, 1.0, 1.0, 1.0));
 }
