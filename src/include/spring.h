@@ -1,6 +1,7 @@
 #pragma once
 #include "include/vector3d.h"
 #include "include/drawable.h"
+#include "include/masse.h"
 
 #include <vector>
 #include <iostream>
