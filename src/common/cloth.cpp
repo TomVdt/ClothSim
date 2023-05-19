@@ -41,6 +41,17 @@ std::vector<Masse*> Cloth::getMassesInRange(const Vector3D& pos, double radius) 
     return tmp;
 }
 
+double Cloth::energy() const {
+    double sum(0.0);
+    for (const auto& mass : massList) {
+        sum += mass->energy();
+    }
+    for (const auto& spring : springList) {
+        sum += spring->energy();
+    }
+    return sum;
+}
+
 void Cloth::addMass(std::unique_ptr<Masse>&& mass) {
     massList.push_back(std::move(mass));
 }

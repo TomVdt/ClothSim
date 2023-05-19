@@ -15,7 +15,15 @@ double System::getTime() const {
     return time;
 }
 
-void System::step(Integrator const& integrator, double dt) {
+double System::energy() const {
+    double sum(0.0);
+    for (const auto& cloth : cloths) {
+        sum += cloth->energy();
+    }
+    return sum;
+}
+
+void System::step(const Integrator& integrator, double dt) {
     for (auto& cloth : cloths) {
         cloth->step(integrator, dt, constraints, time);
     }

@@ -47,6 +47,14 @@ std::vector<Masse*> CompositeCloth::getMassesInRange(const Vector3D& pos, double
     return out;
 }
 
+double CompositeCloth::energy() const {
+    double sum(0.0);
+    for (const auto& cloth : cloths) {
+        sum += cloth->energy();
+    }
+    return sum;
+}
+
 bool CompositeCloth::check() const {
     for (const auto& cloth : cloths) {
         if (not cloth->check()) {

@@ -32,6 +32,8 @@ public:
 
     virtual std::vector<Masse*> getMassesInRange(const Vector3D& pos, double radius) const override;
 
+    virtual double energy() const override;
+
     virtual bool check() const override;
 
     virtual void updateForce() override;

@@ -26,6 +26,8 @@ public:
 
     double getTime() const;
 
+    double energy() const;
+
     void addCloth(std::unique_ptr<Cloth>&&);
 
     void addConstraint(std::unique_ptr<Constraint>&& constraint);

@@ -64,6 +64,8 @@ public:
 
     virtual std::vector<Masse*> getMassesInRange(const Vector3D& pos, double radius) const;
 
+    virtual double energy() const;
+
     /**
      * Rajoute une masse dans le tissu
     */

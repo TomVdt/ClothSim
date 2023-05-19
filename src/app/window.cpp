@@ -133,6 +133,12 @@ void Window::run() {
     bool showClothMenu(false);
     bool showConstraintMenu(false);
 
+    constexpr int energyCount(512);
+    int energyOffset(0);
+    float energyMin(0.0);
+    float energyMax(0.0);
+    float energy[energyCount] = { 0.0 };
+
     // Main loop
     while (!glfwWindowShouldClose(window)) {
         // Update system and handle inputs
@@ -167,6 +173,16 @@ void Window::run() {
 
         ImGui::SeparatorText("Simulation");
         ImGui::Text("Elapsed time: %.3fs", system.getTime());
+
+        // nrj12
+        if (not paused) {
+            energy[energyOffset] = system.energy();
+            energyMin = std::min(energyMin, energy[energyOffset]);
+            energyMax = std::max(energyMax, energy[energyOffset]);
+            energyOffset = (energyOffset + 1) % energyCount;
+        }
+        ImGui::PlotLines("##Energie", energy, energyCount, energyOffset, "Energie", energyMin, energyMax, ImVec2(280, 100));
+
         ImGui::Checkbox("Pause", &shouldPause);
         if (shouldPause) {
             ImGui::SameLine();
@@ -199,6 +215,9 @@ void Window::run() {
             system.clear();
             paused = true;
             shouldPause = true;
+            energyOffset = 0;
+            energyMin = 0.0;
+            energyMax = 0.0;
         }
 
         if (showClothMenu) {

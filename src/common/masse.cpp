@@ -37,6 +37,13 @@ Vector3D Masse::acceleration() const {
     return force / mass;
 }
 
+double Masse::energy() const {
+    // TODO: gravity norm, correctly with constexpr
+    // return - mass * CONSTANTS::g.getY() * pos.getY();
+    // return 1/2 * mass * vel.normSq();
+    return 0.5 * mass * vel.normSq() + mass * CONSTANTS::g.norm() * pos.getY();
+}
+
 void Masse::addConstraint(const Constraint* constraint) {
     for (const auto& c : constraints) {
         if (c == constraint) return;

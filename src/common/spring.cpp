@@ -4,6 +4,8 @@
 #include "include/renderer.h"
 #include "include/util.h"
 
+int Spring::COUNT(0);
+
 Vector3D Spring::springForce(const Masse& mass) const {
     if (not valid()) {
         // Le ressort est "inactif"
@@ -27,6 +29,17 @@ Vector3D Spring::springForce(const Masse& mass) const {
     const Vector3D dir(~vecMassMass);
 
     return heading * k * (length() - l0) * dir;
+}
+
+double Spring::energy() const {
+    if (not valid()) {
+        // Le ressort est "inactif"
+        return 0.0;
+    }
+
+    const double deltaL((length() - l0));
+
+    return 0.5 * k * deltaL * deltaL;
 }
 
 double Spring::length() const {

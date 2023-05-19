@@ -22,12 +22,22 @@ private:
     /* Masse d'arrivée */
     const Masse& mass2;
 
+    /**
+     * Identifiant unique du ressort
+    */
+    int id;
+
+    /**
+     * Nombre de ressorts créés, pour générer l'`id`
+    */
+    static int COUNT;
+
 public:
     /* Constructeur
      * Initialise constante de raideur et longueur à vide
      * Les extremités doivent être données et ne peuvent pas etre modifiées après
      * Pour supprimer une connection, simplement supprimer la référence à cette connection */
-    Spring(double k, double l0, const Masse& mass1, const Masse& mass2): k(k), l0(l0), mass1(mass1), mass2(mass2) {}
+    Spring(double k, double l0, const Masse& mass1, const Masse& mass2): k(k), l0(l0), mass1(mass1), mass2(mass2), id(COUNT++) {}
 
     /* Pas de copie de ressorts
      * Un autre ressort agissant sur les même masses n'a pas trop de sens */
@@ -42,12 +52,16 @@ public:
     /* Getter pour la longueur de repos */
     double getL0() const { return l0; }
 
+    int getId() const { return id; }
+
     const Vector3D& getStartPos() const { return mass1.getPos(); }
 
     const Vector3D& getEndPos() const { return mass2.getPos(); }
 
     /* Retourne la force exercée par le ressort sur une masse */
     Vector3D springForce(const Masse&) const;
+
+    double energy() const;
 
     /**
      * Retourne la longueur du ressort (écart entre les masses)

@@ -90,6 +90,11 @@ public:
     Vector3D acceleration() const;
 
     /**
+     * Energie potentielle de la masse
+    */
+    double energy() const;
+
+    /**
      * Rajoute une contrainte à la masse en vérifiant si elle n'y est pas déjà
     */
     void addConstraint(const Constraint* constraint);
