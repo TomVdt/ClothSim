@@ -17,7 +17,7 @@ void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) const
     
 }
 
-void EulerCromerIntegrator::integrate(Cloth& cloth, double dt, ManyConstraints constraints, double time) const {
+void EulerCromerIntegrator::integrate(Cloth& cloth, double dt, ManyConstraints const& constraints, double time) const {
     size_t S(cloth.getMassCount());
     for(size_t i(0); i < S; ++i) {
         cloth.updateForce();

@@ -99,7 +99,7 @@ public:
     /**
      *  Utilise l'intégrateur pour mettre à jour les masses du tissu 
     */
-    virtual void step(Integrator const& integratator, double dt = CONSTANTS::PHYSICS_DT, std::vector<std::unique_ptr<Constraint>> constraints = {}, double time = 0);
+    virtual void step(Integrator const& integratator, double dt = CONSTANTS::PHYSICS_DT, std::vector<std::unique_ptr<Constraint>> const& constraints = {}, double time = 0);
 
     /**
      * Dessine le tissu

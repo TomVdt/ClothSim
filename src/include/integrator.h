@@ -18,7 +18,7 @@ public:
     /**
      * Fonction pour intégrer pas définie dans la super classe
     */
-    virtual void integrate(Cloth&, double dt = CONSTANTS::PHYSICS_DT, ManyConstraints constraints = {}, double time = 0) const = 0;
+    virtual void integrate(Cloth&, double dt = CONSTANTS::PHYSICS_DT, ManyConstraints const& constraints = {}, double time = 0) const = 0;
 };
 
 
@@ -31,21 +31,21 @@ public:
     /**
      * Intègre le tissu en intégrant les masses une par une 
     */
-    virtual void integrate(Cloth&, double dt = CONSTANTS::PHYSICS_DT, ManyConstraints constraints = {}, double time = 0) const override;
+    virtual void integrate(Cloth&, double dt = CONSTANTS::PHYSICS_DT, ManyConstraints const& constraints = {}, double time = 0) const override;
 };
 
-
+/*
 class RK4Integrator: public Integrator {
 private:
     void changeMass(Masse& mass, Vector3D const& posOrigin, Vector3D const& velOrigin, Vector3D const& k, Vector3D const& p, double dt, double time);
-public:
+public: */
     /**
      * Intègre avec les formules pour l'intégrateur de Runge-Kutta d'ordre 4
     */
-  virtual void integrate(Cloth&, double dt = CONSTANTS::PHYSICS_DT, ManyConstraints constraints = {}, double time = 0) const override;
+  /*virtual void integrate(Cloth&, double dt = CONSTANTS::PHYSICS_DT, ManyConstraints const& constraints = {}, double time = 0) const override;
 };
 
-
+*/
 
 
 /*class NewmarkIntegrator: public Integrator {

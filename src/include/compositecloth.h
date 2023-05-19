@@ -28,7 +28,7 @@ public:
 
     virtual void updateForce() override;
 
-    virtual void step(Integrator& integrator, double dt = CONSTANTS::PHYSICS_DT, double time = 0) override;
+    virtual void step(Integrator const& integrator, double dt = CONSTANTS::PHYSICS_DT, std::vector<std::unique_ptr<Constraint>> const& constraints = {}, double time = 0) override;
 
     // virtual void draw(Renderer& dest) override;
 

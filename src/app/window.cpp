@@ -276,10 +276,10 @@ void Window::run() {
             physicsIntegrator = std::make_unique<EulerCromerIntegrator>();
         if (ImGui::IsItemHovered()) ImGui::SetTooltip("Classic Euler-Cromer method, not very precise");
         ImGui::SameLine();
-        if (ImGui::RadioButton("RK4", &integratorSelection, 1))
-            physicsIntegrator = std::make_unique<RK4Integrator>();
-        if (ImGui::IsItemHovered()) ImGui::SetTooltip("RK4 wouhouhouhouhou");
-        ImGui::SameLine();
+        //if (ImGui::RadioButton("RK4", &integratorSelection, 1))
+        //    physicsIntegrator = std::make_unique<RK4Integrator>();
+        //if (ImGui::IsItemHovered()) ImGui::SetTooltip("RK4 wouhouhouhouhou");
+        //ImGui::SameLine();
         if (ImGui::RadioButton("Non-existant", &integratorSelection, 2))
             physicsIntegrator = std::unique_ptr<Integrator>(nullptr);
         if (ImGui::IsItemHovered()) ImGui::SetTooltip("Crap nullptr integrator that segfault this lol");

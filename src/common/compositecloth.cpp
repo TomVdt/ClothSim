@@ -47,9 +47,9 @@ void CompositeCloth::updateForce() {
     }
 }
 
-void CompositeCloth::step(Integrator& integrator, double dt, double time) {
+void CompositeCloth::step(Integrator const& integrator, double dt, std::vector<std::unique_ptr<Constraint>> const& constraints, double time) {
     for (auto& cloth : cloths) {
-        cloth->step(integrator, dt, time);
+        cloth->step(integrator, dt, constraints, time);
     }
 }
 

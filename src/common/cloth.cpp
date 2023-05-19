@@ -82,7 +82,7 @@ void Cloth::applyConstraint(Constraint const& constraint, double time) {
     }
 }
 
-void Cloth::step(Integrator const& integratator, double dt, std::vector<std::unique_ptr<Constraint>> constraints, double time) {
+void Cloth::step(Integrator const& integratator, double dt, std::vector<std::unique_ptr<Constraint>> const& constraints, double time) {
     integratator.integrate(*this, dt, constraints, time);
 }
 
