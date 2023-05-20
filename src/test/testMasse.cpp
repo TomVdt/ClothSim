@@ -41,7 +41,7 @@ int main() {
     assertmsg("maj force", m2.getForce(), Vector3D(-2.3 * 2.0, -9.81 * 4.5 - 2.3 * 2.0, -2.3 * 2.0));
 
     cout << "\n===== connections aux ressorts =====\n";
-    // TODO: faire une vraie vérification des adresses contenues dans springList?
+    // TODO: faire une vraie vérification des adresses contenues dans springs?
     m1.connectSpring(s1);
     m1.connectSpring(s2);
     m1.connectSpring(s1);

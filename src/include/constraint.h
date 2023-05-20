@@ -10,13 +10,12 @@ private:
     Vector3D pos;
     double radius;
 
-protected:
-    bool isInRange(const Masse& masse) const;
-
 public:
     Constraint(const Vector3D& pos, double radius);
 
     virtual ~Constraint() = default;
+
+    virtual bool isApplicable(const Masse& mass) const;
 
     void apply(Cloth& cloth, double time) const;
 
@@ -34,7 +33,7 @@ public:
 
 class ImpulsionConstraint: public Constraint {
 private:
-    std::vector<Masse*> masses;
+    std::vector<int> massIds;
 
 protected:
     double startTime;
@@ -47,6 +46,8 @@ protected:
 
 public:
     ImpulsionConstraint(const Vector3D& pos, double radius, double start, double end, const Vector3D& force, std::vector<Cloth*> targetCloths);
+
+    virtual bool isApplicable(const Masse& mass) const override;
 
     virtual void apply(Masse& mass, double time) const override;
 };

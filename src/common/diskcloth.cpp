@@ -42,12 +42,12 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
             // Horrendous index math because of the layout...
             // complete circle then increase in radius would be easier to work with
             int right(index + diskCount - 1);
-            if (right > massList.size() - 1) {
-                right = (right % massList.size()) + 1;
+            if (right > masses.size() - 1) {
+                right = (right % masses.size()) + 1;
             }
             double dist(
                 Vector3D::dist(
-                    massList[index]->getPos(), massList[right]->getPos()
+                    masses[index]->getPos(), masses[right]->getPos()
                 )
             );
             connect(index, right, k, dist);
@@ -57,7 +57,7 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
                 inner = 0;
             }
             dist = Vector3D::dist(
-                massList[index]->getPos(), massList[inner]->getPos()
+                masses[index]->getPos(), masses[inner]->getPos()
             );
             connect(index, inner, k, dist);
         }

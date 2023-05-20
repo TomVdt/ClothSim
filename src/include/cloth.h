@@ -10,12 +10,24 @@
 
 class Integrator;
 class Constraint;
+class CompositeCloth;
 
 class Cloth: public Drawable {
 protected:
     // Pour nos soldats ManySpring et ManyMass parti trop tot :F:
-    std::vector<std::unique_ptr<Masse>> massList;
-    std::vector<std::unique_ptr<Spring>> springList;
+    std::vector<std::unique_ptr<Masse>> masses;
+    std::vector<std::unique_ptr<Spring>> springs;
+
+    // Pourquoi un friend ici?
+    //  - CompositeCloth à besoin d'acceder au masses du tissu qu'il connecte
+    //  - Un getter protected ne fonctionne pas car on n'est pas dans la bonne portée
+    //  - Un getter public n'est pas une bonne idée (fuite d'encapsulation)
+    //  - Un tissu composé pourrait très bien être un tissu, mais cela ne rendrait plus les tissus "simples"
+    //  - Un tissu composé est très proche d'un tissu simple, avec simplement une méthode pour
+    //    connecter des tissus entre eux au lieu de masses
+    //  - Les tissus complexes en général pourraient très simplement être des constructeurs spécifiques aux
+    //    tissus simples, mais cela enlèverait de la "simplicité"
+    friend CompositeCloth;
 
 public:
     /** 
@@ -57,12 +69,10 @@ public:
      *  Nombre de ressorts dans le tissu 
     */
     virtual unsigned int getSpringCount() const;
-
-    virtual Masse& getMass(size_t index) const;
     
     virtual const Vector3D& getMassPos(size_t index) const;
 
-    virtual std::vector<Masse*> getMassesInRange(const Vector3D& pos, double radius) const;
+    virtual std::vector<int> getMassIdsInRange(const Vector3D& pos, double radius) const;
 
     virtual double energy() const;
 
@@ -86,12 +96,26 @@ public:
     */
     virtual void updateForce();
 
-    virtual void applyConstraint(Constraint const& constraint, double time);
+    /**
+     * Rajoute une contrainte au tissu. Les masses concernées par les contraintes
+     * auront ensuite une reference vers cette contrainte
+    */
+    virtual void addConstraint(const Constraint& constraint);
+
+    /**
+     * Applique une contrainte au tissu
+    */
+    virtual void applyConstraint(const Constraint& constraint, double time);
+
+    /**
+     * Applique les contraintes des masses du tissu
+    */
+    virtual void applyConstraints(double time);
 
     /**
      *  Utilise l'intégrateur pour mettre à jour les masses du tissu 
     */
-    virtual void step(Integrator const& integratator, double dt = CONSTANTS::PHYSICS_DT, std::vector<std::unique_ptr<Constraint>> const& constraints = {}, double time = 0);
+    virtual void step(Integrator const& integratator, double dt = CONSTANTS::PHYSICS_DT, double time = 0);
 
     /**
      * Dessine le tissu

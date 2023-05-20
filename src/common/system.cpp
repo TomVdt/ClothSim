@@ -25,14 +25,19 @@ double System::energy() const {
 
 void System::step(const Integrator& integrator, double dt) {
     for (auto& cloth : cloths) {
-        cloth->step(integrator, dt, constraints, time);
+        cloth->updateForce();
+        cloth->applyConstraints(time);
+        // TODO: revoir ca
+        cloth->step(integrator, dt, time);
     }
     time += dt;
-
 }
 
 void System::addConstraint(std::unique_ptr<Constraint>&& constraint) {
     constraints.push_back(std::move(constraint));
+    for (auto& cloth : cloths) {
+        cloth->addConstraint(*constraints.back());
+    }
 }
 
 void System::clear() {

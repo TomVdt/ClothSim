@@ -10,59 +10,55 @@
 #include <iostream>
 #include <iomanip>
 
-Cloth::Cloth(): massList(), springList() {}
+Cloth::Cloth(): masses(), springs() {}
 
 unsigned int Cloth::getMassCount() const {
-    return massList.size();
+    return masses.size();
 }
 
 unsigned int Cloth::getSpringCount() const {
-    return springList.size();
-}
-
-Masse& Cloth::getMass(size_t index) const {
-    if (index >= massList.size()) {
-        ERROR(IndexError, "Index out of range");
-    }
-    return *massList[index];
+    return springs.size();
 }
 
 const Vector3D& Cloth::getMassPos(size_t index) const {
-    return getMass(index).getPos();
+    if (index >= masses.size()) {
+        ERROR(IndexError, "Index out of range");
+    }
+    return masses[index]->getPos();
 }
 
-std::vector<Masse*> Cloth::getMassesInRange(const Vector3D& pos, double radius) const {
-    std::vector<Masse*> tmp;
-    for (auto& mass : massList) {
+std::vector<int> Cloth::getMassIdsInRange(const Vector3D& pos, double radius) const {
+    std::vector<int> out;
+    for (auto& mass : masses) {
         if (Vector3D::dist(mass->getPos(), pos) < radius) {
-            tmp.push_back(mass.get());
+            out.push_back(mass->getId());
         }
     }
-    return tmp;
+    return out;
 }
 
 double Cloth::energy() const {
     double sum(0.0);
-    for (const auto& mass : massList) {
+    for (const auto& mass : masses) {
         sum += mass->energy();
     }
-    for (const auto& spring : springList) {
+    for (const auto& spring : springs) {
         sum += spring->energy();
     }
     return sum;
 }
 
 void Cloth::addMass(std::unique_ptr<Masse>&& mass) {
-    massList.push_back(std::move(mass));
+    masses.push_back(std::move(mass));
 }
 
 void Cloth::connect(size_t m1, size_t m2, double k, double l0) {
-    const size_t taille(massList.size());
+    const size_t taille(masses.size());
     if (m1 < taille and m2 < taille) {
-        std::unique_ptr<Spring> s(std::make_unique<Spring>(k, l0, *massList[m1], *massList[m2]));
-        massList[m1]->connectSpring(*s);
-        massList[m2]->connectSpring(*s);
-        springList.push_back(std::move(s));
+        std::unique_ptr<Spring> s(std::make_unique<Spring>(k, l0, *masses[m1], *masses[m2]));
+        masses[m1]->connectSpring(*s);
+        masses[m2]->connectSpring(*s);
+        springs.push_back(std::move(s));
     }
     else {
         ERROR(IndexError, "Index out of range");
@@ -70,42 +66,60 @@ void Cloth::connect(size_t m1, size_t m2, double k, double l0) {
 }
 
 bool Cloth::check() const {
-    for (auto& spring : springList) {
+    for (auto& spring : springs) {
         if (not spring->areEndsValid()) return false;
     }
     return true;
 }
 
 void Cloth::updateForce() {
-    for (auto& mass : massList) {
+    for (auto& mass : masses) {
         mass->updateForce();
     }
 }
 
-void Cloth::applyConstraint(Constraint const& constraint, double time) {
-    for (auto& mass : massList) {
-        constraint.apply(*mass, time);
+void Cloth::addConstraint(const Constraint& constraint) {
+    for (auto& mass : masses) {
+        if (constraint.isApplicable(*mass)) {
+            mass->addConstraint(constraint);
+        }
     }
 }
 
-void Cloth::step(Integrator const& integratator, double dt, std::vector<std::unique_ptr<Constraint>> const& constraints, double time) {
-    integratator.integrate(*this, dt, constraints, time);
+void Cloth::applyConstraint(const Constraint& constraint, double time) {
+    for (auto& mass : masses) {
+        if (constraint.isApplicable(*mass)) {
+            mass->applyConstraint(constraint, time);
+        }
+    }
+}
+
+void Cloth::applyConstraints(double time) {
+    for (auto& mass : masses) {
+        mass->applyConstraints(time);
+    }
+}
+
+void Cloth::step(Integrator const& integratator, double dt, double time) {
+    for (auto& mass : masses) {
+        integratator.integrate(*mass, dt, time);
+    }
 }
 
 void Cloth::display(std::ostream& out, size_t level) const {
     out << indent(level) << "Cloth " << this << " {" << std::endl
-        << indent(level + 1) << "masses (" << massList.size() << "): [" << std::endl;
+        << indent(level + 1) << "masses (" << masses.size() << "): [" << std::endl;
 
     // Aucune masse ne peut etre un nullptr
-    for (const auto& mass : massList) {
+    for (const auto& mass : masses) {
         mass->display(out, level + 2);
         out << std::endl;
     }
     out << indent(level + 1) << "]," << std::endl
-        << indent(level + 1) << "ressorts (" << springList.size() << "): [" << std::endl;
+        << indent(level + 1) << "ressorts (" << springs.size() << "): [" << std::endl;
 
     // Aucun spring ne peut etre un nullptr
-    for (const auto& spring : springList) {
+    for (const auto& spring : springs) {
         spring->display(out, level + 2);
         out << std::endl;
     }
@@ -118,11 +132,11 @@ void Cloth::draw(Renderer& dest) {
 }
 
 void Cloth::drawParticles(Renderer& dest) const {
-    for (auto& particle : massList) {
+    for (auto& particle : masses) {
         particle->draw(dest);
     }
 
-    for (auto& spring : springList) {
+    for (auto& spring : springs) {
         spring->draw(dest);
     }
 }

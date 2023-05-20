@@ -7,10 +7,6 @@
 
 class CompositeCloth: public Cloth {
 private:
-    std::vector<std::unique_ptr<Cloth>> cloths;
-
-    bool connectClothsConditional(Cloth& cloth1, Cloth& cloth2, double k);
-
     static constexpr double epsilon = 0.5;
 
 public:
@@ -24,25 +20,5 @@ public:
 
     virtual ~CompositeCloth() = default;
 
-    virtual unsigned int getMassCount() const override;
-
-    virtual unsigned int getSpringCount() const override;    
-
-    virtual Masse& getMass(size_t index) const override;
-
-    virtual std::vector<Masse*> getMassesInRange(const Vector3D& pos, double radius) const override;
-
-    virtual double energy() const override;
-
-    virtual bool check() const override;
-
-    virtual void updateForce() override;
-
     void linkCloth(std::unique_ptr<Cloth>&& cloth, double k);
-
-    virtual void step(const Integrator& integrator, double dt = CONSTANTS::PHYSICS_DT, std::vector<std::unique_ptr<Constraint>> const& constraints = {}, double time = 0) override;
-
-    virtual void drawParticles(Renderer& dest) const override;
-
-    virtual void display(std::ostream&, size_t level = 0) const override;
 };

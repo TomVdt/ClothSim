@@ -16,8 +16,12 @@ private:
     Vector3D pos;
     Vector3D vel;
     Vector3D force;
-    std::vector<Spring*> springList;
+    std::vector<const Spring*> springs;
     std::vector<const Constraint*> constraints;
+
+    int id;
+
+    static int COUNT;
 
 public:
     /** 
@@ -75,6 +79,11 @@ public:
     double getLambda() const { return lambda; }
 
     /**
+     * Identifiant unique de la masse
+    */
+    int getId() const { return id; }
+
+    /**
      *  Set postion 
     */
     void setPos(const Vector3D& vec) { pos = vec; }
@@ -90,14 +99,19 @@ public:
     Vector3D acceleration() const;
 
     /**
+     * Fonction de l'accélération en fonction du temps, position et vitesse (pour les integrateurs)
+    */
+    Vector3D acceleration(double time, const Vector3D& p, const Vector3D& v);
+
+    /**
      * Energie potentielle de la masse
     */
     double energy() const;
 
     /**
-     * Rajoute une contrainte à la masse en vérifiant si elle n'y est pas déjà
+     * Rajoute une contrainte à la masse
     */
-    void addConstraint(const Constraint* constraint);
+    void addConstraint(const Constraint& constraint);
     
     /**
      * Supprime toutes les contraintes sur les masses
@@ -105,8 +119,12 @@ public:
     void clearConstraints();
 
     /**
+     * Modifie la force en fonction de la contrainte
+    */
+    void applyConstraint(const Constraint& constraint, double time);
+
+    /**
      * Modifie la force en fonction des contraintes sur la masse
-     * Applique les contraintes conditionnellement
     */
     void applyConstraints(double time);
 
