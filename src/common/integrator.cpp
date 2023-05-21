@@ -15,18 +15,35 @@ void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) const
 }
 
 // void EulerCromerIntegrator::integrate(Cloth& cloth, double dt, double time) const {
-//     size_t S(cloth.getMassCount());
-//     cloth.updateForce();
-//     cloth.applyConstraints(time);
+    // size_t S(cloth.getMassCount());
+    // cloth.updateForce();
+    // cloth.applyConstraints(time);
 
-//     for(size_t i(0); i < S; ++i) {
-//         Masse& mass(cloth.getMass(i));
-//         // Integration de la fonction
-//         integrate(mass, dt, time);
-//     }
+    // for(size_t i(0); i < S; ++i) {
+    //     Masse& mass(cloth.getMass(i));
+    //     // Integration de la fonction
+    //     integrate(mass, dt, time);
+    // }
 // }
 
+
+
 void RK4Integrator::integrate(Masse& mass, double dt, double time) const {    
+    Vector3D OGPos(mass.getPos());
+    Vector3D v1(mass.getVel());
+    Vector3D a1(mass.acceleration());
+
+    Vector3D v2(v1 + (dt/2)*a1);
+    Vector3D a2(mass.acceleration(time + dt/2, OGPos + (dt/2)*v1, v1 + (dt/2)*a1));
+
+    Vector3D v3(v1 + (dt/2)*a2);
+    Vector3D a3(mass.acceleration(time + dt/2, OGPos + (dt/2)*v2, v1 + (dt/2)*a2));
+
+    Vector3D v4(v1 + dt*a3);
+    Vector3D a4(mass.acceleration(time + dt, OGPos + dt*v3, v1 + dt*a3));
+
+    mass.setPos(OGPos + (dt/6)*(v1 + 2*v2 + 2*v3 + v4));
+    mass.setVel(v1 + (dt/6)*(a1 + 2*a2 + 2*a3 + a4));
 
 }
 
@@ -64,46 +81,46 @@ void RK4Integrator::integrate(Masse& mass, double dt, double time) const {
 //     for(size_t i(0); i < S; ++i) {
 //         Masse& mass(cloth.getMass(i));
 
-//         V2.push_back(mass.getVel());
-//         A2.push_back(mass.acceleration());
+//          V2.push_back(mass.getVel());
+//          A2.push_back(mass.acceleration());
         
-//         mass.setPos(OGPositions[i] + (dt/2)*V2[i]);
-//         mass.setVel(V1[i] + (dt/2)*A2[i]);
-//     }
+//          mass.setPos(OGPositions[i] + (dt/2)*V2[i]);
+//          mass.setVel(V1[i] + (dt/2)*A2[i]);
+//      }
 
-//     cloth.updateForce();
-//     cloth.applyConstraints(time);
+//      cloth.updateForce();
+//      cloth.applyConstraints(time);
 
-//     IntermediateVectors V3;
-//     IntermediateVectors A3;
-//     for(size_t i(0); i < S; ++i) {
-//         Masse& mass(cloth.getMass(i));
-//         V3.push_back(mass.getVel());
-//         A3.push_back(mass.acceleration());
+//      IntermediateVectors V3;
+//      IntermediateVectors A3;
+//      for(size_t i(0); i < S; ++i) {
+//          Masse& mass(cloth.getMass(i));
+//          V3.push_back(mass.getVel());
+//          A3.push_back(mass.acceleration());
     
-//         mass.setPos(OGPositions[i] + dt*V3[i]);
-//         mass.setVel(V1[i] + dt*A3[i]);
-//     }
+//          mass.setPos(OGPositions[i] + dt*V3[i]);
+//          mass.setVel(V1[i] + dt*A3[i]);
+//      }
 
-//     cloth.updateForce();
-//     cloth.applyConstraints(time);
+//      cloth.updateForce();
+//      cloth.applyConstraints(time);
 
-//     IntermediateVectors V4;
-//     IntermediateVectors A4;
-//     for(size_t i(0); i < S; ++i) {
-//         Masse& mass(cloth.getMass(i));
+//      IntermediateVectors V4;
+//      IntermediateVectors A4;
+//      for(size_t i(0); i < S; ++i) {
+//          Masse& mass(cloth.getMass(i));
 
-//         V4.push_back(mass.getVel());
-//         A4.push_back(mass.acceleration());
-//     }
+//          V4.push_back(mass.getVel());
+//          A4.push_back(mass.acceleration());
+//      }
 
-//     for(size_t i(0); i < S; ++i) {
-//         Masse& mass(cloth.getMass(i));
+//      for(size_t i(0); i < S; ++i) {
+//          Masse& mass(cloth.getMass(i));
 
-//         mass.setPos(OGPositions[i] + (dt/6) * (V1[i] + 2*(V2[i]) + 2*(V3[i]) + V4[i]));
-//         mass.setVel(V1[i] + (dt/6) * (A1[i] + 2*(A2[i]) + 2*(A3[i]) + A4[i]));
-//     }
-// }
+//          mass.setPos(OGPositions[i] + (dt/6) * (V1[i] + 2*(V2[i]) + 2*(V3[i]) + V4[i]));
+//          mass.setVel(V1[i] + (dt/6) * (A1[i] + 2*(A2[i]) + 2*(A3[i]) + A4[i]));
+//      }
+//  }
 
 
 

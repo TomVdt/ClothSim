@@ -39,8 +39,8 @@ public:
 
 
 class RK4Integrator: public Integrator {
-private:
-    typedef std::vector<Vector3D> IntermediateVectors;
+// private:
+    // typedef std::vector<Vector3D> IntermediateVectors;
     //void changeMass(Masse& mass, Vector3D const& posOrigin, Vector3D const& velOrigin, Vector3D const& k, Vector3D const& p, double dt, double time);
 public:
     /**
