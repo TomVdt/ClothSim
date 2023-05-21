@@ -208,9 +208,18 @@ void Window::run() {
             physicsIntegrator = std::make_unique<RK4Integrator>();
         if (ImGui::IsItemHovered()) ImGui::SetTooltip("RK4 wouhouhouhouhou");
         ImGui::SameLine();
-        if (ImGui::RadioButton("Non-existant", &integratorSelection, 2))
-            physicsIntegrator = std::unique_ptr<Integrator>(nullptr);
-        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Crap nullptr integrator that segfault this lol");
+        if (ImGui::RadioButton("Newmark", &integratorSelection, 2))
+            physicsIntegrator = std::make_unique<NewmarkIntegrator>();
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("NeUwUmark");
+        // ImGui::SameLine();
+        // if (ImGui::RadioButton("Non-existant", &integratorSelection, 3))
+        //     physicsIntegrator = std::unique_ptr<Integrator>(nullptr);
+        // if (ImGui::IsItemHovered()) ImGui::SetTooltip("Crap nullptr integrator that segfault this lol");
+
+        // if (integratorSelection == 2) {
+        //     ImGui::SliderFloat("epsilon for Newmark", &epsilon, 0.001, 0.1, "%.3f epsilon");
+
+        // }
 
         ImGui::SliderFloat("Delta time", &deltaTime, 0.001, 0.1, "%.3f sec");
         ImGui::SliderInt("Speed", &iterationsPerFrame, 1, 100, "%dx speed", ImGuiSliderFlags_Logarithmic);
