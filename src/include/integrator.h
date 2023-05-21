@@ -45,7 +45,7 @@ class NewmarkIntegrator: public Integrator {
 private:
     double epsilon = 0.05;
 public:
-    void setEpsilon(double E) {epsilon = E;}
+    NewmarkIntegrator(double epsilon): epsilon(epsilon) {}
     /**
      * Intègre avec les formules pour l'intégrateur de Newmark
     */
