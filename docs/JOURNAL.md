@@ -39,7 +39,7 @@
 - Tests `Spring`
 - Début des `Integrator`
 
-# Semaine 6
+## Semaine 6
 
 - Création de `EulerCromerIntegrator`
 - Tests intégrateurs
@@ -47,7 +47,7 @@
 - Classe `Cloth` simple
 - Petits ajustements aux `Spring` et `Masse`
 
-# Semaine 7
+## Semaine 7
 
 - Fin des tests intégrateurs
 - Finir classe `Cloth`
@@ -56,7 +56,7 @@
 - Nouveau `Makefile`
 - Exercice P9
 
-# Semaine 7.5
+## Semaine 7.5
 
 - Tests tissus
 - Changement de `constants.h`
@@ -66,25 +66,42 @@
 - Détruire QT
 - Amitié finie avec QT maintenant imgui c'est mon meilleur copain
 
-# Semaine 8
+## Semaine 8
 
 - Classes `System`, `Drawable`, `Renderer`
 - Nouveau `Makefile`
 - Exam yolo
 
-# Semaine 9
+## Semaine 9
 
 - R E F A C T O R I N G  <sub>trois</sub> : `Cloth`, `Masse`, `Spring`...
 - Test du graphisme sur les VMs: ultramegastonks
 - Exercice P10
 
-# Semaine 10
+## Semaine 10
 
 - Dessin des `Spring`
 - Cleanup du code
 - Exercice P13
 - Première tentative d'implémentation de RK4: très instable
 
-# Semaine 11
+## Semaine 11
 
 - Ajout dynamique des tissus et des contraintes dans la simulation
+- Petites améliorations dans la conception
+- Un peu d'optimisation
+
+## Semaine 12
+
+- Modification de l'implémentation des intégrateurs, RK4 toujours instable
+- Amélioration du graphisme et de l'interface d'utilisation (flag de compilation AZERTY)
+- Le `main.cpp` créé le `System` désormais et le donne à `window.cpp`
+- Corrections diverses
+- Noms de variables plus cohérents
+
+## Semaine 13
+
+- Troisième implémentation des intégrateurs: RK4 et Newmark stables et fonctionnels
+- Modification dynamique du paramètre de convergence `epsilon` de l'intégrateur de Newmark
+- Nouvelle conception des contraintes
+- Début du nettoyage du code
