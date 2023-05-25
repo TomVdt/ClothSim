@@ -4,18 +4,18 @@ Projet programmation OOP - PH BA2
 
 # Finalisation - TODO
 
-[ ] Completer journal
-[ ] Completer conception
-[ ] Verifier réponses
+[ ] Completer journal - M
+[ ] Completer conception - M & T
+[ ] Verifier réponses - M
 [ ] Documenter code
-- [ ] Partie physique
-- [ ] Partie graphique
-[ ] Corriger tests
-[ ] Rajouter tests nouveaux intégrateurs
-[ ] Rajouter tests tissus complexes
-[ ] Nettoyers includes
-[ ] Nettoyer TODOs
-[ ] Nettoyer shitposts extremes
+- [ ] Partie physique - M
+- [ ] Partie graphique - T
+[ ] Corriger tests - T
+[ ] Rajouter tests nouveaux intégrateurs - M
+[ ] Rajouter tests tissus complexes - T
+[ ] Nettoyers includes - T
+[ ] Nettoyer TODOs - M & T
+[ ] Nettoyer shitposts extremes - M & T
 
 À LA FIN:
 [ ] Passer un coup de formatage automatique
@@ -24,6 +24,7 @@ Projet programmation OOP - PH BA2
 - [ ] Instructions d'utilisation
 - [ ] Structure du projet
 - [ ] Screenshots
+[ ] NOMS.txt
 
 # Dépendences
 
