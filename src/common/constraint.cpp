@@ -9,7 +9,7 @@
 
 Constraint::Constraint(const Vector3D& pos, double radius): pos(pos), radius(radius) {}
 
-bool Constraint::isApplicable(const Masse& masse) const {
+bool Constraint::isApplicable(const Masse& masse, double time) const {
     return Vector3D::dist(masse.getPos(), pos) < radius;
 }
 
@@ -23,11 +23,8 @@ void Constraint::apply(Cloth& cloth, double time) const {
 HookConstraint::HookConstraint(const Vector3D& pos, double radius): Constraint(pos, radius) {}
 
 void HookConstraint::apply(Masse& mass, double time) const {
-    // TODO: vraiment check ici pour le range (plutot def à la construction sur quoi ca s'applique?)
-    if (isApplicable(mass)) {
-        mass.setVel(Vector3D(0, 0, 0));
-        mass.addForce(-mass.getForce());
-    }
+    mass.setVel(Vector3D(0, 0, 0));
+    mass.addForce(-mass.getForce());
 }
 
 //// Impulsion ////
@@ -59,15 +56,13 @@ bool ImpulsionConstraint::isInTime(double time) const {
     return startTime <= time and time <= endTime;
 }
 
-bool ImpulsionConstraint::isApplicable(const Masse& mass) const {
-    return Constraint::isApplicable(mass) and isInList(mass);
+bool ImpulsionConstraint::isApplicable(const Masse& mass, double time) const {
+    return Constraint::isApplicable(mass, time) and isInList(mass) and isInTime(time);
 }
 
 void ImpulsionConstraint::apply(Masse& mass, double time) const {
-    if (isInTime(time) and isInList(mass)) {
-        mass.addForce(-CONSTANTS::g * mass.getMass());
-        mass.addForce(force);
-    }
+    mass.addForce(-CONSTANTS::g * mass.getMass());
+    mass.addForce(force);
 }
 
 //// Sine impulsion ////
@@ -78,10 +73,7 @@ SineImpulsionConstraint::SineImpulsionConstraint(const Vector3D& pos, double rad
 {}
 
 void SineImpulsionConstraint::apply(Masse& mass, double time) const {
-    // TODO: unduplicate code
     Vector3D theRealForce(std::sin(2 * M_PI * frequency * (time - startTime)) * force);
-    if (isInTime(time) and isInList(mass)) {
-        mass.addForce(-CONSTANTS::g * mass.getMass());
-        mass.addForce(theRealForce);
-    }
+    mass.addForce(-CONSTANTS::g * mass.getMass());
+    mass.addForce(theRealForce);
 }

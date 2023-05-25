@@ -80,15 +80,14 @@ void Cloth::updateForce() {
 
 void Cloth::addConstraint(const Constraint& constraint) {
     for (auto& mass : masses) {
-        if (constraint.isApplicable(*mass)) {
-            mass->addConstraint(constraint);
-        }
+        // todo: reference à la liste?
+        mass->addConstraint(constraint);
     }
 }
 
 void Cloth::applyConstraint(const Constraint& constraint, double time) {
     for (auto& mass : masses) {
-        if (constraint.isApplicable(*mass)) {
+        if (constraint.isApplicable(*mass, time)) {
             mass->applyConstraint(constraint, time);
         }
     }
@@ -101,9 +100,13 @@ void Cloth::applyConstraints(double time) {
 }
 
 void Cloth::step(Integrator const& integratator, double dt, double time) {
-    for (auto& mass : masses) {
-        integratator.integrate(*mass, dt, time);
+    static unsigned int offset(1);
+    const int N(getMassCount());
+    for (int i(0); i < N; ++i) {
+        Masse& mass(*masses[(i + offset) % N]);
+        integratator.integrate(mass, dt, time);
     }
+    offset += N / 6;
 }
 
 void Cloth::display(std::ostream& out, size_t level) const {

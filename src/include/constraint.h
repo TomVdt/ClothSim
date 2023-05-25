@@ -15,7 +15,7 @@ public:
 
     virtual ~Constraint() = default;
 
-    virtual bool isApplicable(const Masse& mass) const;
+    virtual bool isApplicable(const Masse& mass, double time) const;
 
     void apply(Cloth& cloth, double time) const;
 
@@ -35,19 +35,19 @@ class ImpulsionConstraint: public Constraint {
 private:
     std::vector<int> massIds;
 
+    bool isInList(const Masse& mass) const;
+
+    bool isInTime(double time) const;
+
 protected:
     double startTime;
     double endTime;
     Vector3D force;
 
-    bool isInList(const Masse& mass) const;
-
-    bool isInTime(double time) const;
-
 public:
     ImpulsionConstraint(const Vector3D& pos, double radius, double start, double end, const Vector3D& force, std::vector<Cloth*> targetCloths);
 
-    virtual bool isApplicable(const Masse& mass) const override;
+    virtual bool isApplicable(const Masse& mass, double time) const override;
 
     virtual void apply(Masse& mass, double time) const override;
 };

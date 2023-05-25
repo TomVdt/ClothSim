@@ -70,12 +70,14 @@ void Masse::clearConstraints() {
 }
 
 void Masse::applyConstraint(const Constraint& constraint, double time) {
-    constraint.apply(*this, time);
+    if (constraint.isApplicable(*this, time)) {
+        constraint.apply(*this, time);
+    }
 }
 
 void Masse::applyConstraints(double time) {
     for (const auto& constraint : constraints) {
-        constraint->apply(*this, time);
+        applyConstraint(*constraint, time);
     }
 }
 
