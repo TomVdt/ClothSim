@@ -369,10 +369,10 @@ void Window::run() {
                 }
                 break;
             case 1:
-                ImGui::Text("TODO");
+                ImGui::TextWrapped("Because of time constraints, this has not been implemented");
                 break;
             case 2:
-                ImGui::Text("TODO");
+                ImGui::TextWrapped("Because of time constraints, this has not been implemented");
                 break;
             default:
                 break;
