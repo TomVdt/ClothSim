@@ -15,6 +15,4 @@ public:
     ChainCloth& operator=(ChainCloth&&) = default;
 
     virtual ~ChainCloth() = default;
-
-    // TODO: draw, display
 };

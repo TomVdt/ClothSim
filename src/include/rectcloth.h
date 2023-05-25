@@ -15,6 +15,4 @@ public:
     RectCloth& operator=(RectCloth&&) = default;
 
     virtual ~RectCloth() = default;
-
-    // TODO: draw, display
 };

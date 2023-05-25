@@ -16,6 +16,4 @@ public:
     DiskCloth& operator=(DiskCloth&&) = default;
 
     virtual ~DiskCloth() = default;
-
-    // TODO: draw, display
 };
