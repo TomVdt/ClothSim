@@ -8,7 +8,7 @@ Projet programmation OOP - PH BA2
 [ ] Completer conception - M & T
 [ ] Verifier réponses - M
 [ ] Documenter code
-- [ ] Partie physique - M
+- [ ] Partie physique - M , faits: cloth, 
 - [ ] Partie graphique - T
 [ ] Corriger tests - T
 [ ] Rajouter tests nouveaux intégrateurs - M
