@@ -87,9 +87,7 @@ void Cloth::addConstraint(const Constraint& constraint) {
 
 void Cloth::applyConstraint(const Constraint& constraint, double time) {
     for (auto& mass : masses) {
-        if (constraint.isApplicable(*mass, time)) {
-            mass->applyConstraint(constraint, time);
-        }
+        mass->applyConstraint(constraint, time);
     }
 }
 

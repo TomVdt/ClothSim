@@ -14,24 +14,31 @@ class CompositeCloth;
 
 class Cloth: public Drawable {
 protected:
-    // Pour nos soldats ManySpring et ManyMass parti trop tot :F:
+    /**
+     * Liste de unique_ptr sur les masses, le tissu stocke les masses
+    */
     std::vector<std::unique_ptr<Masse>> masses;
+    
+    /**
+     * Liste de unique_ptr sur les ressorts, le tissu stocke les ressorts
+    */
     std::vector<std::unique_ptr<Spring>> springs;
 
-    // Pourquoi un friend ici?
-    //  - CompositeCloth à besoin d'acceder au masses du tissu qu'il connecte
-    //  - Un getter protected ne fonctionne pas car on n'est pas dans la bonne portée
-    //  - Un getter public n'est pas une bonne idée (fuite d'encapsulation)
-    //  - Un tissu composé pourrait très bien être un tissu, mais cela ne rendrait plus les tissus "simples"
-    //  - Un tissu composé est très proche d'un tissu simple, avec simplement une méthode pour
-    //    connecter des tissus entre eux au lieu de masses
-    //  - Les tissus complexes en général pourraient très simplement être des constructeurs spécifiques aux
-    //    tissus simples, mais cela enlèverait de la "simplicité"
+    /** Pourquoi un friend ici?
+     *  - CompositeCloth à besoin d'acceder au masses du tissu qu'il connecte
+     *  - Un getter protected ne fonctionne pas car on n'est pas dans la bonne portée
+     *  - Un getter public n'est pas une bonne idée (fuite d'encapsulation)
+     *  - Un tissu composé pourrait très bien être un tissu, mais cela ne rendrait plus les tissus "simples"
+     *  - Un tissu composé est très proche d'un tissu simple, avec simplement une méthode pour
+     *    connecter des tissus entre eux au lieu de masses
+     *  - Les tissus complexes en général pourraient très simplement être des constructeurs spécifiques aux
+     *    tissus simples, mais cela enlèverait de la "simplicité"
+    */
     friend CompositeCloth;
 
 public:
     /** 
-     * Constructeur par défaut
+     * Constructeur par défaut, initialise les listes des composants du tissu à des listes vides
     */
     Cloth();
 
@@ -70,10 +77,19 @@ public:
     */
     virtual unsigned int getSpringCount() const;
     
+    /**
+     * Retourne la position de la masse d'indice fourni dans la liste de masses
+    */
     virtual const Vector3D& getMassPos(size_t index) const;
 
+    /**
+     * Retourne une liste de toutes les ID des masses de ce tissu dans un rayon autour du vecteur fourni
+    */
     virtual std::vector<int> getMassIdsInRange(const Vector3D& pos, double radius) const;
 
+    /**
+     * Retourne l'énergie du tissu en additionant les énergies de toutes les masses et tous les ressorts
+    */
     virtual double energy() const;
 
     /**
@@ -97,8 +113,7 @@ public:
     virtual void updateForce();
 
     /**
-     * Rajoute une contrainte au tissu. Les masses concernées par les contraintes
-     * auront ensuite une reference vers cette contrainte
+     * Rajoute une contrainte au tissu en donnant à toutes les masses une références à cette contrainte
     */
     virtual void addConstraint(const Constraint& constraint);
 
@@ -108,7 +123,7 @@ public:
     virtual void applyConstraint(const Constraint& constraint, double time);
 
     /**
-     * Applique les contraintes des masses du tissu
+     * Applique toutes les contraintes des masses du tissu
     */
     virtual void applyConstraints(double time);
 
