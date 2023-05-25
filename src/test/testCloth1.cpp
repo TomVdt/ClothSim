@@ -34,7 +34,7 @@ int main() {
     cloth.connect(0, 2, 1.9, 1.75);
     cloth.connect(1, 2, 5.5, 1.25);
 
-    std::ofstream file("testCloth1.txt", std::ofstream::out | std::ofstream::trunc);
+    std::ofstream file("output/testCloth1.txt", std::ofstream::out | std::ofstream::trunc);
 
     std::ostream& out(file.fail() ? cout : file);
     if (file.fail()) {

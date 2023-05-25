@@ -25,13 +25,13 @@ int main() {
 
     Masse mass1(0.33, 0.3, { 0, -3, 0 }, { 0, 0, 0 });
     Masse mass2(1, 0.3, { -2, 0, 0 }, { 0, 0, 0 });
-    Masse mass3(1, 0.3, { 0.5, 0, 0 }, { 0, 0, 0 });
+    Masse mass3(1, 0.3, { 2, 0, 0 }, { 0, 0, 0 });
     Spring spring1(0.6, 2.5, mass1, mass2);
     connectMassSpring(mass1, mass2, spring1);
     Spring spring2(0.6, 2.5, mass1, mass3);
     connectMassSpring(mass1, mass3, spring2);
 
-    std::ofstream file("testIntegrator3.txt", std::ofstream::out | std::ofstream::trunc);
+    std::ofstream file("output/testIntegrator3.txt", std::ofstream::out | std::ofstream::trunc);
 
     std::ostream& out(file.fail() ? cout : file);
     if (file.fail()) {

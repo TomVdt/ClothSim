@@ -29,7 +29,7 @@ int main() {
     Spring spring1(0.6, 3, mass1, mass2);
     connectMassSpring(mass1, mass2, spring1);
 
-    std::ofstream file("testIntegrator4.txt", std::ofstream::out | std::ofstream::trunc);
+    std::ofstream file("output/testIntegrator4.txt", std::ofstream::out | std::ofstream::trunc);
 
     std::ostream& out(file.fail() ? cout : file);
 

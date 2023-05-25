@@ -57,7 +57,7 @@ int main() {
     system.addConstraint(std::unique_ptr<Constraint>(constraint3));
     system.addConstraint(std::unique_ptr<Constraint>(constraint4));
 
-    std::ofstream file("testConstraint2.txt");
+    std::ofstream file("output/testConstraint2.txt");
     TextRenderer renderer(file);
     EulerCromerIntegrator integrator;
 
