@@ -2,11 +2,35 @@
 
 Projet programmation OOP - PH BA2
 
+# Finalisation - TODO
+
+[ ] Completer journal
+[ ] Completer conception
+[ ] Verifier réponses
+[ ] Documenter code
+- [ ] Partie physique
+- [ ] Partie graphique
+[ ] Corriger tests
+[ ] Rajouter tests nouveaux intégrateurs
+[ ] Rajouter tests tissus complexes
+[ ] Nettoyers includes
+[ ] Nettoyer TODOs
+[ ] Nettoyer shitposts extremes
+
+À LA FIN:
+[ ] Passer un coup de formatage automatique
+[ ] Completer README
+- [ ] Questions
+- [ ] Instructions d'utilisation
+- [ ] Structure du projet
+- [ ] Screenshots
+
 # Dépendences
 
 - GLFW pour la fenêtre OpenGL
 - glm pour les calculs matriciels
 - Dear ImGui pour une interface de simulation agréable et configurable
+- doxygen pour une documentation
 - doxygen-awesome-css pour une belle documentation
 
 # Liens utiles
@@ -14,7 +38,4 @@ Projet programmation OOP - PH BA2
 - Projet https://progmaph.epfl.ch/projet/descriptif.html
 - Administration https://progmaph.epfl.ch/projet/administration.php
 - Docs OpenGl https://www.khronos.org/opengl/wiki/Vertex_Specification
-- Tuto #1 QtOpenGl https://master.qt.io/learning/developerguides/qtopengltutorial/OpenGLTutorial.pdf
-- Tuto #2 QWindow + OpenGL https://doc.qt.io/qt-5/qtgui-openglwindow-example.html
-- Even easier to use https://doc.qt.io/qt-5/qopenglwidget.html
-- Tuto Qt5 QOpenGLWidget https://www.trentreed.net/blog/qt5-opengl-part-0-creating-a-window/
+- Manuel ImGui https://pthom.github.io/imgui_manual_online/manual/imgui_manual.html
