@@ -57,7 +57,7 @@ bool ImpulsionConstraint::isInTime(double time) const {
 }
 
 bool ImpulsionConstraint::isApplicable(const Masse& mass, double time) const {
-    return Constraint::isApplicable(mass, time) and isInList(mass) and isInTime(time);
+    return isInList(mass) and isInTime(time);
 }
 
 void ImpulsionConstraint::apply(Masse& mass, double time) const {
