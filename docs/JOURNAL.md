@@ -8,35 +8,33 @@
 
 - Prototypage classe `Vector3D`
 - Implémentation classe `Vector3D`
+- Mise en place d'un système de test général
 - Tests pour `Vector3D`
-- Écriture d'un macro pour faciliter les tests pour l'instant
-- Écriture d'un `Makefile`
+- Écriture d'un premier `Makefile`
 
 ## Semaine 3
 
 - Refactoring de `Vector3D`
-- Rajout de l'opérateur `~` (unitaire)
-- `Vector3D::normalize()` retourne une réference sur l'instance
-- Rajout de tests pour `Vector3D`
-- Tentative ratée de refaire la méthode de tests (enlever macros)
+- Nouvelles méthodes et opérateurs pour le calcul de `Vector3D`
+- Rajout de tests supplémentaires pour `Vector3D`
 - Documentation de `Vector3D`
-- Refonte du `Makefile`: nouvelles cibles `run_tests`, `build`, réécriture des autres cibles
-- Fichier pour les constantes `constants.cpp`, déplacement de `EPSILON` du `vector3d.h`
+- Refonte du `Makefile`: meilleure gestion des cibles
+- Gestion des constantes nécessaires au projet
 
 ## Semaine 4
 
-- Début de création de `Masse`
-- Début de création de `Spring`
+- Début de l'implémentation de la classe `Masse`
+- Début de l'implémentation de la classe `Spring`
 - Correction de bugs dans `Vector3D`
-- Beaucoup, beaucoup de lecture de documentation de Qt5
+- Lecture de documentations de Qt5
 - Début de travail sur la partie graphique (fenetre, 3d, caméra)
 
 ## Semaine 5
 
-- Documentation `Masse`
-- Documentation `Spring`
-- Tests `Masse`
-- Tests `Spring`
+- Documentation de `Masse`
+- Documentation de `Spring`
+- Tests de `Masse`
+- Tests de `Spring`
 - Début des `Integrator`
 
 ## Semaine 6
@@ -50,32 +48,32 @@
 ## Semaine 7
 
 - Fin des tests intégrateurs
-- Finir classe `Cloth`
-- Création des exceptions dans `exceptions.h`
-- Refactoring
+- Finition de la classe `Cloth`
+- Gestion des erreurs à l'aide d'un `exceptions.h`
+- Refactoring divers
 - Nouveau `Makefile`
 - Exercice P9
 
-## Semaine 7.5
+## Semaine 7.5 - vacances
 
 - Tests tissus
-- Changement de `constants.h`
+- Changement dans la gestion des constantes
 - Plus de refactoring
 - Réglage des segfault
-- Finir QT
+- Faire fonctionner QT
 - Détruire QT
-- Amitié finie avec QT maintenant imgui c'est mon meilleur copain
+- Amitié finie avec QT maintenant imgui est mon meilleur ami
 
 ## Semaine 8
 
 - Classes `System`, `Drawable`, `Renderer`
 - Nouveau `Makefile`
-- Exam yolo
+- Examen du milieu de semestre
 
 ## Semaine 9
 
-- R E F A C T O R I N G  <sub>trois</sub> : `Cloth`, `Masse`, `Spring`...
-- Test du graphisme sur les VMs: ultramegastonks
+- REFACTORING  <sub>trois</sub> : `Cloth`, `Masse`, `Spring`...
+- Test du graphisme sur les VMs: ça fonctionne
 - Exercice P10
 
 ## Semaine 10
@@ -95,13 +93,15 @@
 
 - Modification de l'implémentation des intégrateurs, RK4 toujours instable
 - Amélioration du graphisme et de l'interface d'utilisation (flag de compilation AZERTY)
-- Le `main.cpp` créé le `System` désormais et le donne à `window.cpp`
+- Changement dans la gestion des `System` dans la conception
 - Corrections diverses
 - Noms de variables plus cohérents
+- Amélioration du système d'erreur
 
 ## Semaine 13
 
 - Troisième implémentation des intégrateurs: RK4 et Newmark stables et fonctionnels
+- Rectification d'erreurs d'intégration
 - Modification dynamique du paramètre de convergence `epsilon` de l'intégrateur de Newmark
 - Nouvelle conception des contraintes
-- Début du nettoyage du code
+- Début du nettoyage final du code
