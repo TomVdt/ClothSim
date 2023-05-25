@@ -199,10 +199,11 @@ void Window::run() {
         paused = shouldPause and not shouldStep;
         shouldStep = false;
 
+        // TODO: unshitpost a bit
         ImGui::Text("Integrator selection");
         if (ImGui::RadioButton("Euler-Cromer", &integratorSelection, 0))
             physicsIntegrator = std::make_unique<EulerCromerIntegrator>();
-        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Classic Euler-Cromer method, not very precise");
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Classic Euler-Cromer, simplectic");
         ImGui::SameLine();
         if (ImGui::RadioButton("RK4", &integratorSelection, 1))
             physicsIntegrator = std::make_unique<RK4Integrator>();
@@ -211,17 +212,14 @@ void Window::run() {
         if (ImGui::RadioButton("Newmark", &integratorSelection, 2))
             physicsIntegrator = std::make_unique<NewmarkIntegrator>(0.05);
         if (ImGui::IsItemHovered()) ImGui::SetTooltip("NeUwUmark");
-        // ImGui::SameLine();
-        // if (ImGui::RadioButton("Non-existant", &integratorSelection, 3))
-        //     physicsIntegrator = std::unique_ptr<Integrator>(nullptr);
-        // if (ImGui::IsItemHovered()) ImGui::SetTooltip("Crap nullptr integrator that segfault this lol");
 
         if (integratorSelection == 2) {
-            static float epsilon(0.05);
-            ImGui::InputFloat("Integrator epsilon", &epsilon, 0.001, 0.005, "%.3f");
+            static float epsilon(CONSTANTS::PHYSICS_DPOS);
+            ImGui::SetNextItemWidth(100);
+            ImGui::InputFloat("Epsilon", &epsilon, 0.001, 0.005, "%.3f");
             if (epsilon < 0.0) epsilon = 0.0;
-            
-            if (ImGui::Button("Update integrator with epsilon")) {
+            ImGui::SameLine();
+            if (ImGui::Button("Update")) {
                 physicsIntegrator = std::make_unique<NewmarkIntegrator>(epsilon);
             }
         }

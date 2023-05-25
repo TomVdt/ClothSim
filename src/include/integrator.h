@@ -43,9 +43,10 @@ public:
 
 class NewmarkIntegrator: public Integrator {
 private:
-    double epsilon = 0.05;
+    double epsilon;
+
 public:
-    NewmarkIntegrator(double epsilon): epsilon(epsilon) {}
+    NewmarkIntegrator(double epsilon = CONSTANTS::PHYSICS_DPOS): epsilon(epsilon) {}
     /**
      * Intègre avec les formules pour l'intégrateur de Newmark
     */
