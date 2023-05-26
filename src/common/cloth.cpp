@@ -57,6 +57,9 @@ std::pair<std::vector<std::unique_ptr<Masse>>, std::vector<std::unique_ptr<Sprin
 }
 
 void Cloth::connect(size_t m1, size_t m2, double k, double l0) {
+    if (m1 == m2) {
+        ERROR(ValueError, "Can't connect mass to itself");
+    }
     const size_t taille(masses.size());
     if (m1 < taille and m2 < taille) {
         std::unique_ptr<Spring> s(std::make_unique<Spring>(k, l0, *masses[m1], *masses[m2]));
