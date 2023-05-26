@@ -1,5 +1,6 @@
 #include <iostream>
 #include "include/vector3d.h"
+#include "include/exceptions.h"
 #include "include/test.h"
 
 using std::cout;
@@ -75,6 +76,9 @@ int main() {
     assertmsg("*=", changeme2 *= 2.0, changeme3);
     assertmsg("/=", changeme3 /= 4.0, changeme4);
     assertmsg("-=", changeme4 -= changeme4, zero);
+
+    cout << "\n==== Exceptions ====\n";
+    assertexception("Normalisation vecteur nul", zero.normalized(), ZeroDivisionError);
 
     return 0;
 }
