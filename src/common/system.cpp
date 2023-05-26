@@ -61,6 +61,7 @@ void System::display(std::ostream& out, size_t level) const {
     unsigned int springCount(0);
 
     out << indent(level) << "System " << this << " {" << std::endl
+        << indent(level + 1) << "temps: " << time << std::endl
         << indent(level + 1) << "tissus: [" << std::endl;
     for (const auto& cloth : cloths) {
         cloth->display(out, level + 2);

@@ -4,9 +4,6 @@
 #include "include/constraint.h"
 
 int main() {
-    // Create window
-    Window window;
-
     // Create system
     System system;
     Cloth* cloth1(new DiskCloth(
@@ -26,8 +23,8 @@ int main() {
     system.addCloth(std::unique_ptr<Cloth>(cloth1));
     system.addConstraint(std::unique_ptr<Constraint>(constraint1));
 
-    // Give system to window for visualisation
-    window.setSystem(std::move(system));
+    // Create window
+    Window window(std::move(system));
 
     // Execute update & draw loop
     window.run();
