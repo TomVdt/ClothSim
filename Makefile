@@ -25,24 +25,24 @@ CXXFLAGS += -D$(LAYOUT)
 APP_DIR = src/app
 APP = buffer.cpp window.cpp openglrenderer.cpp vertexarray.cpp shaderprogram.cpp camera.cpp
 SOURCES += $(addprefix $(APP_DIR)/, $(APP))
-CXXFLAGS += -Iinclude -I$(APP_DIR)
+CXXFLAGS += -I$(APP_DIR)
 
 # Common (backend)
 COMMON_DIR = src/common
 COMMON = vector3d.cpp masse.cpp spring.cpp integrator.cpp cloth.cpp system.cpp util.cpp textrenderer.cpp chaincloth.cpp rectcloth.cpp diskcloth.cpp compositecloth.cpp constraint.cpp
 SOURCES += $(addprefix $(COMMON_DIR)/, $(COMMON))
-CXXFLAGS += -Isrc
+CXXFLAGS += -Ilibs -I$(COMMON_DIR)
 
 # Tests
-TESTS_DIR = src/test
+TESTS_DIR = tests
 TESTS = testVector3d testMasse testSpring testIntegrator1 testIntegrator2 testIntegrator3 testIntegrator4 testCloth1 testCloth2 testCloth3 testSystem testConstraint1 testConstraint2 testChainCloth testRectCloth testDiskCloth testCompositeCloth
 
 # Exercices
-EXERCICES_DIR = src/exercices
+EXERCICES_DIR = exercices
 EXERCICES = exerciceP9 exerciceP10 exerciceP11
 
 # Dear ImGui source files
-IMGUI_DIR = include/imgui
+IMGUI_DIR = libs/imgui
 IMGUI = imgui.cpp imgui_draw.cpp imgui_tables.cpp imgui_widgets.cpp
 IMGUI += imgui_impl_glfw.cpp imgui_impl_opengl3.cpp
 SOURCES += $(addprefix $(IMGUI_DIR)/, $(IMGUI))
@@ -53,10 +53,10 @@ OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 
 # Manual libs (because glfw is not installed on the VM...)
 # A pre-compiled version of GLFW can be found in GLFW/libglfw3.a
-LIBS += -Linclude/GLFW -lGL -lGLEW -lglfw3 -lX11 -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor
+LIBS += -Llibs/GLFW -lGL -lGLEW -lglfw3 -lX11 -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor
 
 # Tell make where to look for files
-vpath %.h src/include src/app/include
+vpath %.h src/libs src/app/include
 vpath % bin bin/tests bin/exercices
 vpath %.cpp \
 	$(APP_DIR) \
