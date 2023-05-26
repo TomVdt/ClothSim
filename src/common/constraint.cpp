@@ -11,6 +11,7 @@
 Constraint::Constraint(const Vector3D& pos, double radius): pos(pos), radius(radius) {}
 
 bool Constraint::isApplicable(const Masse& masse, double time) const {
+    UNUSED(time);
     return Vector3D::dist(masse.getPos(), pos) < radius;
 }
 
@@ -20,6 +21,7 @@ void Constraint::apply(Cloth& cloth, double time) const {
 }
 
 void Constraint::display(std::ostream& out, size_t level) const {
+    UNUSED(level);
     out << "pos: " << pos << ", radius: " << radius;
 }
 
@@ -28,6 +30,7 @@ void Constraint::display(std::ostream& out, size_t level) const {
 HookConstraint::HookConstraint(const Vector3D& pos, double radius): Constraint(pos, radius) {}
 
 void HookConstraint::apply(Masse& mass, double time) const {
+    UNUSED(time);
     mass.setVel(Vector3D(0, 0, 0));
     mass.addForce(-mass.getForce());
 }
@@ -72,6 +75,7 @@ bool ImpulsionConstraint::isApplicable(const Masse& mass, double time) const {
 }
 
 void ImpulsionConstraint::apply(Masse& mass, double time) const {
+    UNUSED(time);
     mass.addForce(-CONSTANTS::g * mass.getMass());
     mass.addForce(force);
 }

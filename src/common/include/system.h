@@ -24,6 +24,8 @@ public:
     System(System&&) = default;
     System& operator=(System&&) = default;
 
+    virtual ~System() = default;
+
     double getTime() const;
 
     double energy() const;

@@ -16,8 +16,8 @@ int main() {
     std::cout << "Tissu rectangle plat:\n";
     std::cout << cloth1 << "\n";
 
-    assertmsg("Nombre de masses", cloth1.getMassCount(), 6 * 6);
-    assertmsg("Nombre de ressorts", cloth1.getSpringCount(), 5 * 6 * 2);
+    assertmsg("Nombre de masses", cloth1.getMassCount(), 36u);
+    assertmsg("Nombre de ressorts", cloth1.getSpringCount(), 60u);
     assertmsg("Valide", cloth1.check(), true);
 
     RectCloth cloth2(
@@ -32,8 +32,8 @@ int main() {
     std::cout << "Colinéaire:\n";
     std::cout << cloth2 << "\n";
 
-    assertmsg("Nombre de masses", cloth2.getMassCount(), 0);
-    assertmsg("Nombre de ressorts", cloth2.getSpringCount(), 0);
+    assertmsg("Nombre de masses", cloth2.getMassCount(), 0u);
+    assertmsg("Nombre de ressorts", cloth2.getSpringCount(), 0u);
     assertmsg("Valide", cloth2.check(), true);
 
     RectCloth cloth3(
@@ -48,8 +48,8 @@ int main() {
     std::cout << "Colinéaire différent:\n";
     std::cout << cloth3 << "\n";
 
-    assertmsg("Nombre de masses", cloth3.getMassCount(), 0);
-    assertmsg("Nombre de ressorts", cloth3.getSpringCount(), 0);
+    assertmsg("Nombre de masses", cloth3.getMassCount(), 0u);
+    assertmsg("Nombre de ressorts", cloth3.getSpringCount(), 0u);
     assertmsg("Valide", cloth3.check(), true);
 
     return 0;

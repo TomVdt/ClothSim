@@ -3,6 +3,7 @@
 #include "include/spring.h"
 #include "include/cloth.h"
 #include "include/system.h"
+#include "include/util.h"
 
 void TextRenderer::draw(const Masse& mass) {
     // out << mass << std::endl;
@@ -11,6 +12,7 @@ void TextRenderer::draw(const Masse& mass) {
 }
 
 void TextRenderer::draw(const Spring& spring) {
+    UNUSED(spring);
     // do nothing
     // out << spring << std::endl;
 }

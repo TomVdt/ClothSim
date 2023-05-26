@@ -18,8 +18,8 @@ int main() {
     std::cout << "Tissu chaine:\n";
     std::cout << cloth << "\n";
 
-    assertmsg("Nombre de masses", cloth.getMassCount(), 5);
-    assertmsg("Nombre de ressorts", cloth.getSpringCount(), 4);
+    assertmsg("Nombre de masses", cloth.getMassCount(), 5u);
+    assertmsg("Nombre de ressorts", cloth.getSpringCount(), 4u);
     assertmsg("Valide", cloth.check(), true);
 
     return 0;

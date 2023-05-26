@@ -3,10 +3,11 @@
 #include <iostream>
 #include <iomanip>
 
-
-/* Classe simple pour indenter une sortie dans cout
+/**
+ * Classe simple pour indenter une sortie dans cout
  * Plus élégant que de faire `std::cout << "  " << std::setw(...) << ...;`
- * Avec: `std::cout << indent(...) << ...;` */
+ * Avec: `std::cout << indent(...) << ...;` 
+*/
 class indent {
 private:
     size_t level;
@@ -18,3 +19,7 @@ public:
 };
 
 std::ostream& operator<<(std::ostream& out, const indent& ind);
+
+// Pour enlever les warnings "unused parameter"
+#define UNUSED(x) (void)(x)
+

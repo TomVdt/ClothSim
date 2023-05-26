@@ -18,24 +18,24 @@ ShaderProgram::ShaderProgram(const char* vertexPath, const char* fragmentPath) :
     link();
 }
 
-bool ShaderProgram::checkCompileErrors(GLuint id) {
+bool ShaderProgram::checkCompileErrors(GLuint shaderId) {
     int code;
     char infoLog[512];
-    glGetShaderiv(id, GL_COMPILE_STATUS, &code);
+    glGetShaderiv(shaderId, GL_COMPILE_STATUS, &code);
     if (not code) {
-        glGetShaderInfoLog(id, 512, NULL, infoLog);
+        glGetShaderInfoLog(shaderId, 512, NULL, infoLog);
         std::cout << "Failed to compile shader!\n" << infoLog << std::endl;
         return true;
     };
     return false;
 }
 
-bool ShaderProgram::checkLinkErrors(GLuint id) {
+bool ShaderProgram::checkLinkErrors(GLuint shaderId) {
     int code;
     char infoLog[512];
-    glGetProgramiv(id, GL_LINK_STATUS, &code);
+    glGetProgramiv(shaderId, GL_LINK_STATUS, &code);
     if (not code) {
-        glGetProgramInfoLog(id, 512, NULL, infoLog);
+        glGetProgramInfoLog(shaderId, 512, NULL, infoLog);
         std::cout << "Failed to link shader program!\n" << infoLog << std::endl;
         return true;
     }

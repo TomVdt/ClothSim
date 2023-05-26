@@ -66,24 +66,24 @@ namespace Geometry {
         return vertices;
     }
 
-    static Indices UVSphereIndices(int meridians, int parallels, int vertexCount) {
+    static Indices UVSphereIndices(unsigned int meridians, unsigned int parallels, unsigned int vertexCount) {
         Indices indices;
-        for (int i = 0; i < meridians; ++i) {
-            int const a = i + 1;
-            int const b = (i + 1) % meridians + 1;
+        for (unsigned int i = 0; i < meridians; ++i) {
+            unsigned int const a = i + 1;
+            unsigned int const b = (i + 1) % meridians + 1;
             indices.push_back(0);
             indices.push_back(b);
             indices.push_back(a);
         }
 
-        for (int j = 0; j < parallels - 2; ++j) {
-            int aStart = j * meridians + 1;
-            int bStart = (j + 1) * meridians + 1;
-            for (int i = 0; i < meridians; ++i) {
-                const int a = aStart + i;
-                const int a1 = aStart + (i + 1) % meridians;
-                const int b = bStart + i;
-                const int b1 = bStart + (i + 1) % meridians;
+        for (unsigned int j = 0; j < parallels - 2; ++j) {
+            unsigned int aStart = j * meridians + 1;
+            unsigned int bStart = (j + 1) * meridians + 1;
+            for (unsigned int i = 0; i < meridians; ++i) {
+                const unsigned int a = aStart + i;
+                const unsigned int a1 = aStart + (i + 1) % meridians;
+                const unsigned int b = bStart + i;
+                const unsigned int b1 = bStart + (i + 1) % meridians;
                 indices.push_back(a);
                 indices.push_back(a1);
                 indices.push_back(b1);
@@ -94,9 +94,9 @@ namespace Geometry {
             }
         }
 
-        for (int i = 0; i < meridians; ++i) {
-            int const a = i + meridians * (parallels - 2) + 1;
-            int const b = (i + 1) % meridians + meridians * (parallels - 2) + 1;
+        for (unsigned int i = 0; i < meridians; ++i) {
+            unsigned int const a = i + meridians * (parallels - 2) + 1;
+            unsigned int const b = (i + 1) % meridians + meridians * (parallels - 2) + 1;
             // Divide by 3 because 3 values per vertex
             indices.push_back(vertexCount / 3 - 1);
             indices.push_back(a);

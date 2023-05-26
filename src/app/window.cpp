@@ -10,6 +10,7 @@
 #include "include/compositecloth.h"
 #include "include/constraint.h"
 #include "include/settings.h"
+#include "include/util.h"
 
 #include "GLFW/glfw3.h"
 #include "imgui/imgui.h"
@@ -129,6 +130,7 @@ void Window::deinit() {
 
 // For window resizing, glfw isn't very OOP friendly
 void Window::fbResizeCallback(GLFWwindow* window, int width, int height) {
+    UNUSED(window); UNUSED(width); UNUSED(height);
     Window::needsResize = true;
 }
 

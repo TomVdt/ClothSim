@@ -25,16 +25,16 @@ int main() {
     cloth.addMass(std::unique_ptr<Masse>(mass2));
     cloth.addMass(std::unique_ptr<Masse>(mass3));
 
-    assertmsg("Nombre de masses", cloth.getMassCount(), 3);
-    assertmsg("Nombre de ressorts", cloth.getSpringCount(), 0);
+    assertmsg("Nombre de masses", cloth.getMassCount(), 3u);
+    assertmsg("Nombre de ressorts", cloth.getSpringCount(), 0u);
 
     std::cout << "\n==== Connection des masses ====\n";
     cloth.connect(0, 1, 9, 1.5);
     cloth.connect(0, 2, 1.9, 1.75);
     cloth.connect(1, 2, 5.5, 1.25);
 
-    assertmsg("Nombre de masses", cloth.getMassCount(), 3);
-    assertmsg("Nombre de ressorts", cloth.getSpringCount(), 3);
+    assertmsg("Nombre de masses", cloth.getMassCount(), 3u);
+    assertmsg("Nombre de ressorts", cloth.getSpringCount(), 3u);
     assertmsg("Valide", cloth.check(), true);
 
     std::cout << "\n==== Mise a jour des forces et step ====\n";
@@ -49,8 +49,8 @@ int main() {
 
     std::cout << "\n==== Suicide de tissu ====\n";
     cloth.lootCorpse();
-    assertmsg("Nombre de masses", cloth.getMassCount(), 0);
-    assertmsg("Nombre de ressorts", cloth.getSpringCount(), 0);
+    assertmsg("Nombre de masses", cloth.getMassCount(), 0u);
+    assertmsg("Nombre de ressorts", cloth.getSpringCount(), 0u);
 
     return 0;
 }

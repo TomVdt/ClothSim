@@ -4,8 +4,10 @@ class Renderer;
 
 class Drawable {
 public:
+    virtual ~Drawable() = default;
+
     /**
-     * fonction à surcharger pour afficher les objets concernés
+     * Fonction à surcharger pour afficher les objets concernés
     */
     virtual void draw(Renderer& dest) = 0;
 };

@@ -10,8 +10,8 @@
 #include <cmath>
 
 int main() {
-    int massCount(0);
-    int springCount(0);
+    unsigned int massCount(0);
+    unsigned int springCount(0);
     DiskCloth* cloth1 = new DiskCloth(
         1.0,
         { 0.0, 0.0, 0.0 },

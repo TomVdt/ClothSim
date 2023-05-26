@@ -7,7 +7,13 @@ CXX = clang++
 EXE = clothSimulation
 
 # Compiler flags
-CXXFLAGS = -std=c++17 -Wall
+CXXFLAGS = -std=c++17
+# https://stackoverflow.com/questions/5088460/flags-to-enable-thorough-and-verbose-g-warnings
+CXXFLAGS += -Wall -Weffc++ -pedantic -pedantic-errors -Wextra -Waggregate-return -Wcast-align -Wcast-qual -Wimplicit -Wdisabled-optimization \
+			-Wfloat-equal -Wformat=2 -Wformat-nonliteral -Wformat-security -Wimport -Winit-self -Winline -Winvalid-pch \
+			-Wlong-long -Wmissing-field-initializers -Wmissing-format-attribute -Wmissing-include-dirs -Wmissing-noreturn -Wpacked \
+			-Wpointer-arith -Wredundant-decls -Wshadow -Wstack-protector -Wstrict-aliasing=2 -Wswitch-default -Wswitch-enum -Wunreachable-code \
+			-Wunused -Wunused-parameter -Wvariadic-macros -Wwrite-strings
 CXXFLAGS += -g -O2
 
 # Debug segfaults
@@ -56,7 +62,7 @@ OBJS = $(addsuffix .o, $(basename $(notdir $(SOURCES))))
 LIBS += -Llibs/GLFW -lGL -lGLEW -lglfw3 -lX11 -lXrandr -lpthread -lXi -ldl -lXinerama -lXcursor
 
 # Tell make where to look for files
-vpath %.h src/libs src/app/include
+vpath %.h $(COMMON_DIR)/include $(APP_DIR)/include
 vpath % bin bin/tests bin/exercices
 vpath %.cpp \
 	$(APP_DIR) \

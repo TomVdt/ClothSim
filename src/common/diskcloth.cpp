@@ -29,12 +29,12 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
     }
 
     // Number of rings
-    const int diskCount(std::floor(totalRadius / radialStep));
+    const unsigned int diskCount(std::floor(totalRadius / radialStep));
     // Number of masses per ring
-    const int countPerDisk(std::abs(2.0 * M_PI / angularStep));
+    const unsigned int countPerDisk(std::abs(2.0 * M_PI / angularStep));
 
-    for (int i(0); i < countPerDisk; ++i) {
-        for (int j(0); j < diskCount; ++j) {
+    for (unsigned int i(0); i < countPerDisk; ++i) {
+        for (unsigned int j(0); j < diskCount; ++j) {
             Vector3D pos(center + current * currentRadius);
 
             addMass(std::make_unique<Masse>(mass, lambda, pos));
@@ -45,12 +45,12 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
         current.rotate(angularStep, normal);
     }
 
-    for (int a(0); a < countPerDisk; ++a) {
-        for (int r(0); r < diskCount; ++r) {
+    for (unsigned int a(0); a < countPerDisk; ++a) {
+        for (unsigned int r(0); r < diskCount; ++r) {
             // Weird because 1st circle has a single mass.
-            int index(1 + a * diskCount + r);
+            unsigned int index(1 + a * diskCount + r);
             
-            int right(index + diskCount);
+            unsigned int right(index + diskCount);
             // Edge case
             if (right > masses.size() - 1) {
                 right = right % masses.size() + 1;
@@ -62,7 +62,7 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
             );
             connect(index, right, k, dist);
             
-            int inner(index - 1);
+            unsigned int inner(index - 1);
             // Inner ring
             if (index % diskCount == 1) {
                 inner = 0;

@@ -2,9 +2,11 @@
 #include "include/masse.h"
 #include "include/cloth.h"
 #include "include/vector3d.h"
+#include "include/util.h"
 
 
-void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) const {    
+void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) const {  
+    UNUSED(time);  
     // Calcule le nouvel état
     const Vector3D vel(mass.getVel() + mass.acceleration() * dt);
     const Vector3D pos(mass.getPos() + vel * dt);
