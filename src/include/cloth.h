@@ -64,32 +64,32 @@ public:
     /**
      *  Destructeur par defaut suffisant car nous utilisons des `unique_ptr` 
     */
-    virtual ~Cloth() = default;
+    ~Cloth() = default;
 
     /**
      *  Nombre de masses dans le tissu 
     */
-    virtual unsigned int getMassCount() const;
+    unsigned int getMassCount() const;
 
     /**
      *  Nombre de ressorts dans le tissu 
     */
-    virtual unsigned int getSpringCount() const;
+    unsigned int getSpringCount() const;
     
     /**
      * Retourne la position de la masse d'indice fourni dans la liste de masses
     */
-    virtual const Vector3D& getMassPos(size_t index) const;
+    const Vector3D& getMassPos(size_t index) const;
 
     /**
      * Retourne une liste de toutes les ID des masses de ce tissu dans un rayon autour du vecteur fourni
     */
-    virtual std::vector<int> getMassIdsInRange(const Vector3D& pos, double radius) const;
+    std::vector<int> getMassIdsInRange(const Vector3D& pos, double radius) const;
 
     /**
      * Retourne l'énergie du tissu en additionant les énergies de toutes les masses et tous les ressorts
     */
-    virtual double energy() const;
+    double energy() const;
 
     /**
      * Rajoute une masse dans le tissu
@@ -104,38 +104,38 @@ public:
     /**
      *  Vérifie pour tous les ressorts et toutes les masses que les connections sont valides 
     */
-    virtual bool check() const;
+    bool check() const;
 
     /**
      * Prend possession des masses et ressorts du tissu
      * @warning Rend le tissu invalide, ne devrait pas être réutilisé
     */
-    virtual std::pair<std::vector<std::unique_ptr<Masse>>, std::vector<std::unique_ptr<Spring>>> lootCorpse();
+    std::pair<std::vector<std::unique_ptr<Masse>>, std::vector<std::unique_ptr<Spring>>> lootCorpse();
 
     /**
      *  Met à jour les forces sur les masses 
     */
-    virtual void updateForce();
+    void updateForce();
 
     /**
      * Rajoute une contrainte au tissu en donnant à toutes les masses une références à cette contrainte
     */
-    virtual void addConstraint(const Constraint& constraint);
+    void addConstraint(const Constraint& constraint);
 
     /**
      * Applique une contrainte au tissu
     */
-    virtual void applyConstraint(const Constraint& constraint, double time);
+    void applyConstraint(const Constraint& constraint, double time);
 
     /**
      * Applique toutes les contraintes des masses du tissu
     */
-    virtual void applyConstraints(double time);
+    void applyConstraints(double time);
 
     /**
      *  Utilise l'intégrateur pour mettre à jour les masses du tissu 
     */
-    virtual void step(Integrator const& integratator, double dt = CONSTANTS::PHYSICS_DT, double time = 0);
+    void step(Integrator const& integratator, double dt = CONSTANTS::PHYSICS_DT, double time = 0);
 
     /**
      * Dessine le tissu
@@ -145,12 +145,12 @@ public:
     /**
      * Dessine les masses du tissu
     */
-    virtual void drawParticles(Renderer& dest) const;
+    void drawParticles(Renderer& dest) const;
 
     /**
      * Affichage dans un flot
     */
-    virtual void display(std::ostream&, size_t level = 0) const;
+    void display(std::ostream&, size_t level = 0) const;
 };
 
 /**
