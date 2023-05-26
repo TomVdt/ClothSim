@@ -35,7 +35,7 @@ CXXFLAGS += -Isrc
 
 # Tests
 TESTS_DIR = src/test
-TESTS = testVector3d testMasse testSpring testIntegrator1 testIntegrator2 testIntegrator3 testIntegrator4 testCloth0 testCloth1 testCloth2 testSystem testConstraint1 testConstraint2 testChainCloth testRectCloth testDiskCloth testCompositeCloth
+TESTS = testVector3d testMasse testSpring testIntegrator1 testIntegrator2 testIntegrator3 testIntegrator4 testCloth1 testCloth2 testCloth3 testSystem testConstraint1 testConstraint2 testChainCloth testRectCloth testDiskCloth testCompositeCloth
 
 # Exercices
 EXERCICES_DIR = src/exercices
@@ -64,7 +64,7 @@ vpath %.cpp \
 	$(IMGUI_DIR) \
 	$(IMGUI_DIR)/backends \
 	$(wildcard $(EXERCICES_DIR)/*) \
-	$(TESTS_DIR)
+	$(wildcard $(TESTS_DIR)/*)
 vpath %.o build
 
 # Build
