@@ -3,7 +3,6 @@
 #include "include/drawable.h"
 
 #include <vector>
-// #include <memory>
 #include <iostream>
 
 class Spring;
@@ -11,16 +10,53 @@ class Constraint;
 
 class Masse: public Drawable {
 private:
+    /**
+     * Valeur de la masse de cette instance
+    */
     double mass;
+
+    /**
+     * Valeur du coefficient de frottement pour cette masse
+    */
     double lambda;
+
+    /**
+     * Vecteur position de la masse
+    */
     Vector3D pos;
+
+    /**
+     * Vecteur vitesse de la masse
+    */
     Vector3D vel;
+
+    /**
+     * Vecteur de la somme des forces sur la masse
+    */
     Vector3D force;
+
+    /**
+     * Liste de tous les ressorts connectés à cette masse
+     * Ce sont des pointeurs constants car il ne revient pas à la masse de les modifier
+    */
     std::vector<const Spring*> springs;
+
+    /**
+     * Liste de toutes les contraintes qui peuvent concerner cette masse
+     * (les contraintes du tissu auquel elle appartient généralement)
+     * Ce sont des pointeurs constants car il ne revient pas à la masse de les modiifier
+    */
     std::vector<const Constraint*> constraints;
 
+    /**
+     * Identificateur unique de la masse à partir de la variable de classe COUNT
+    */
     int id;
 
+    /**
+     * Variable de classe permettant de donner des identificateurs uniques aux masses 
+     * en comptant le nombre de masses crées
+    */
     static int COUNT;
 
 public:
