@@ -5,8 +5,13 @@
 #include <cmath>
 
 RectCloth::RectCloth(double mass, Vector3D width, Vector3D length, const Vector3D& origin, double lambda, double step, double k, double l0) {
+    const double widthNorm(width.norm());
+    const double lengthNorm(length.norm());
+    width.normalize();
+    length.normalize();
+    
     // Colinéaires
-    if (width.normalized() == length.normalized()) {
+    if (width == length or width == -length) {
         return;
     }
 
@@ -16,14 +21,8 @@ RectCloth::RectCloth(double mass, Vector3D width, Vector3D length, const Vector3
     }
 
     // Créer les masses
-    const double widthNorm(width.norm());
-    const double lengthNorm(length.norm());
     Vector3D currWidth;
     Vector3D currLength;
-
-    width.normalize();
-    length.normalize();
-
     const int lengthCount(lengthNorm / step + 1);
     const int widthCount(widthNorm / step + 1);
     for (int l(0); l < lengthCount; ++l) {

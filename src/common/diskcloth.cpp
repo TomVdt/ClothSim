@@ -2,10 +2,19 @@
 #include "include/exceptions.h"
 
 DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius, double radialStep, double lambda, double k, double angularStep) {
-    if (radialStep <= 0.0) {
+    if (radialStep < CONSTANTS::EPSILON) {
         ERROR(ValueError, "Radial step must be strictly positive");
     }
+
+    if (angularStep < -M_PI or angularStep > M_PI) {
+        ERROR(ValueError, "Angular step must be between -π and π");
+    }
+
+    if (std::abs(angularStep) < CONSTANTS::EPSILON) {
+        ERROR(ValueError, "Angular step must not be 0");
+    }
     
+    // Central mass
     addMass(std::make_unique<Masse>(mass, lambda, center));
 
     const double totalRadius(radius.norm());
@@ -19,11 +28,13 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
         current = Vector3D(0, -normal.getZ(), normal.getY());
     }
 
-    const int diskCount(std::ceil(totalRadius / radialStep));
-    const int countPerDisk(2 * M_PI / angularStep);
-    
-    for (int i(0); i < countPerDisk; i++) {
-        while (currentRadius < totalRadius) {
+    // Number of rings
+    const int diskCount(std::floor(totalRadius / radialStep));
+    // Number of masses per ring
+    const int countPerDisk(std::abs(2.0 * M_PI / angularStep));
+
+    for (int i(0); i < countPerDisk; ++i) {
+        for (int j(0); j < diskCount; ++j) {
             Vector3D pos(center + current * currentRadius);
 
             addMass(std::make_unique<Masse>(mass, lambda, pos));
@@ -35,15 +46,14 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
     }
 
     for (int a(0); a < countPerDisk; ++a) {
-        for (int r(1); r < diskCount; ++r) {
-            // Weird because 1st circle has a single mass... and I wanted to do this in a single loop
-            int index(a * (diskCount - 1) + r);
+        for (int r(0); r < diskCount; ++r) {
+            // Weird because 1st circle has a single mass.
+            int index(1 + a * diskCount + r);
             
-            // Horrendous index math because of the layout...
-            // complete circle then increase in radius would be easier to work with
-            int right(index + diskCount - 1);
+            int right(index + diskCount);
+            // Edge case
             if (right > masses.size() - 1) {
-                right = (right % masses.size()) + 1;
+                right = right % masses.size() + 1;
             }
             double dist(
                 Vector3D::dist(
@@ -53,7 +63,8 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
             connect(index, right, k, dist);
             
             int inner(index - 1);
-            if ((index - 1) % (diskCount - 1) == 0) {
+            // Inner ring
+            if (index % diskCount == 1) {
                 inner = 0;
             }
             dist = Vector3D::dist(
