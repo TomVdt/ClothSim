@@ -1,4 +1,5 @@
 #include "include/constraint.h"
+#include "include/util.h"
 #include "include/constants.h"
 
 #include <cmath>
@@ -18,6 +19,10 @@ void Constraint::apply(Cloth& cloth, double time) const {
     cloth.applyConstraint(*this, time);
 }
 
+void Constraint::display(std::ostream& out, size_t level) const {
+    out << "pos: " << pos << ", radius: " << radius;
+}
+
 //// Captain Hook ////
 
 HookConstraint::HookConstraint(const Vector3D& pos, double radius): Constraint(pos, radius) {}
@@ -25,6 +30,12 @@ HookConstraint::HookConstraint(const Vector3D& pos, double radius): Constraint(p
 void HookConstraint::apply(Masse& mass, double time) const {
     mass.setVel(Vector3D(0, 0, 0));
     mass.addForce(-mass.getForce());
+}
+
+void HookConstraint::display(std::ostream& out, size_t level) const {
+    out << indent(level) << "HookConstraint {";
+    Constraint::display(out, level);
+    out << "}";
 }
 
 //// Impulsion ////
@@ -65,6 +76,12 @@ void ImpulsionConstraint::apply(Masse& mass, double time) const {
     mass.addForce(force);
 }
 
+void ImpulsionConstraint::display(std::ostream& out, size_t level) const {
+    out << indent(level) << "ImpulsionConstraint {";
+    Constraint::display(out, level);
+    out << ", force: " << force << "}";
+}
+
 //// Sine impulsion ////
 
 SineImpulsionConstraint::SineImpulsionConstraint(const Vector3D& pos, double radius, double start, double end, const Vector3D& force, double frequency, std::vector<Cloth*> targetCloths):
@@ -76,4 +93,10 @@ void SineImpulsionConstraint::apply(Masse& mass, double time) const {
     Vector3D theRealForce(std::sin(2 * M_PI * frequency * (time - startTime)) * force);
     mass.addForce(-CONSTANTS::g * mass.getMass());
     mass.addForce(theRealForce);
+}
+
+void SineImpulsionConstraint::display(std::ostream& out, size_t level) const {
+    out << indent(level) << "SineImpulsionConstraint {";
+    Constraint::display(out, level);
+    out << ", force: " << force << ", frequence: " << frequency << "}";
 }

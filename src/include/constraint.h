@@ -4,6 +4,7 @@
 #include "include/cloth.h"
 
 #include <vector>
+#include <iostream>
 
 class Constraint {
 private:
@@ -20,6 +21,8 @@ public:
     void apply(Cloth& cloth, double time) const;
 
     virtual void apply(Masse& mass, double time) const = 0;
+
+    virtual void display(std::ostream& out, size_t level = 0) const;
 };
 
 class HookConstraint: public Constraint {
@@ -29,6 +32,8 @@ public:
     virtual ~HookConstraint() = default;
 
     virtual void apply(Masse& mass, double time) const override;
+
+    virtual void display(std::ostream& out, size_t level = 0) const override;
 };
 
 class ImpulsionConstraint: public Constraint {
@@ -50,6 +55,8 @@ public:
     virtual bool isApplicable(const Masse& mass, double time) const override;
 
     virtual void apply(Masse& mass, double time) const override;
+
+    virtual void display(std::ostream& out, size_t level = 0) const override;
 };
 
 class SineImpulsionConstraint : public ImpulsionConstraint {
@@ -60,4 +67,6 @@ public:
     SineImpulsionConstraint(const Vector3D& pos, double radius, double start, double end, const Vector3D& force, double frequency, std::vector<Cloth*> targetCloths);
 
     virtual void apply(Masse& mass, double time) const override;
+
+    virtual void display(std::ostream& out, size_t level = 0) const override;
 };

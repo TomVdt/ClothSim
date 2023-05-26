@@ -70,6 +70,12 @@ void System::display(std::ostream& out, size_t level) const {
         springCount += cloth->getSpringCount();
     }
     out << indent(level + 1) << "]," << std::endl
+        << indent(level + 1) << "contraintes: [" << std::endl;
+    for (const auto& constraint : constraints) {
+        constraint->display(out, level + 2);
+        out << std::endl;
+    }
+    out << indent(level + 1) << "]," << std::endl
         << indent(level + 1) << "masses: " << massCount << "," << std::endl
         << indent(level + 1) << "ressorts: " << springCount << std::endl
         << indent(level) << "}";
