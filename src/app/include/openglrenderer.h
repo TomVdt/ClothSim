@@ -41,6 +41,7 @@ private:
     float massScale;
     bool drawMasses;
     bool drawSprings;
+    int frameCount;
 
 public:
     OpenGLRenderer();

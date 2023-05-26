@@ -28,7 +28,8 @@ OpenGLRenderer::OpenGLRenderer():
     indexLine(0), indexCube(0), indexSphere(0),
     camera(),
     massColor(1.0), massScale(0.25),
-    drawMasses(true), drawSprings(true)
+    drawMasses(true), drawSprings(true),
+    frameCount(0)
 {
     reset();
 }
@@ -62,7 +63,8 @@ void OpenGLRenderer::init() {
     #endif
 
     // Background color
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    // #9ddcea
+    glClearColor(157.0 / 255.0, 220.0 / 255.0, 234.0 / 255.0, 1.0f);
 
     // Create shader
     // TODO: unhardcode path?
@@ -169,6 +171,7 @@ void OpenGLRenderer::beginFrame() {
 void OpenGLRenderer::endFrame() {
     vao.release();
     program.release();
+    ++frameCount;
 }
 
 void OpenGLRenderer::deinit() {
@@ -219,13 +222,41 @@ void OpenGLRenderer::update(double dt) {
  * Drawing stuff! *
  ******************/
 
-void OpenGLRenderer::draw(const Masse& masse) {
+#ifdef PRIDE
+// https://stackoverflow.com/questions/8208905/hsv-0-255-to-rgb-0-255
+glm::vec4 hsvToRgba(double h, double s, double v){
+    double r, g, b;
+
+    int i = h * 6;
+    double f = h * 6 - i;
+    double p = v * (1 - s);
+    double q = v * (1 - f * s);
+    double t = v * (1 - (1 - f) * s);
+
+    switch (i % 6) {
+        case 0: r = v, g = t, b = p; break;
+        case 1: r = q, g = v, b = p; break;
+        case 2: r = p, g = v, b = t; break;
+        case 3: r = p, g = q, b = v; break;
+        case 4: r = t, g = p, b = v; break;
+        case 5: r = v, g = p, b = q; break;
+    }
+
+    return glm::vec4(r, g, b, 1.0);
+}
+#endif
+
+void OpenGLRenderer::draw(const Masse& mass) {
     if (not drawMasses) {
         return;
     }
 
+    #ifdef PRIDE
+    massColor = hsvToRgba(frameCount * 0.01 + mass.getId() * 0.1, 1.0, 1.0);
+    #endif
+
     // Set to correct position
-    const Vector3D& pos(masse.getPos());
+    const Vector3D& pos(mass.getPos());
     const Vector3D scaling(massScale, massScale, massScale);
     drawSphere(pos, scaling, massColor);
 }
