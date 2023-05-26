@@ -8,12 +8,7 @@ EXE = clothSimulation
 
 # Compiler flags
 CXXFLAGS = -std=c++17
-# https://stackoverflow.com/questions/5088460/flags-to-enable-thorough-and-verbose-g-warnings
-CXXFLAGS += -Wall -Weffc++ -pedantic -pedantic-errors -Wextra -Waggregate-return -Wcast-align -Wcast-qual -Wimplicit -Wdisabled-optimization \
-			-Wfloat-equal -Wformat=2 -Wformat-nonliteral -Wformat-security -Wimport -Winit-self -Winline -Winvalid-pch \
-			-Wlong-long -Wmissing-field-initializers -Wmissing-format-attribute -Wmissing-include-dirs -Wmissing-noreturn -Wpacked \
-			-Wpointer-arith -Wredundant-decls -Wshadow -Wstack-protector -Wstrict-aliasing=2 -Wswitch-default -Wswitch-enum -Wunreachable-code \
-			-Wunused -Wunused-parameter -Wvariadic-macros -Wwrite-strings
+CXXFLAGS += -Wall -Wextra
 CXXFLAGS += -g -O2
 
 # Debug segfaults
