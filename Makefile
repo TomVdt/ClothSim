@@ -21,9 +21,10 @@ LAYOUT ?= QWERTY
 CXXFLAGS += -D$(LAYOUT)
 
 # Source files to compile
+# Graphics
 APP_DIR = src/app
-APP = main.cpp buffer.cpp window.cpp openglrenderer.cpp vertexarray.cpp shaderprogram.cpp camera.cpp
-SOURCES = $(addprefix $(APP_DIR)/, $(APP))
+APP = buffer.cpp window.cpp openglrenderer.cpp vertexarray.cpp shaderprogram.cpp camera.cpp
+SOURCES += $(addprefix $(APP_DIR)/, $(APP))
 CXXFLAGS += -Iinclude -I$(APP_DIR)
 
 # Common (backend)
@@ -73,7 +74,7 @@ vpath %.o build
 	@$(CXX) $(CXXFLAGS) -c -o build/$@ $<
 
 # Link
-$(EXE): $(OBJS)
+$(EXE): $(EXE).o $(OBJS)
 	@echo "[LD] Linking $(EXE)"
 	@$(CXX) -o bin/$@ $(addprefix build/, $(notdir $^)) $(CXXFLAGS) $(LIBS)
 
