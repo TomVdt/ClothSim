@@ -12,18 +12,11 @@
 #include "include/settings.h"
 #include "include/util.h"
 
+#include <iostream>
 #include "GLFW/glfw3.h"
 #include "imgui/imgui.h"
 #include "imgui/backends/imgui_impl_glfw.h"
 #include "imgui/backends/imgui_impl_opengl3.h"
-
-
-
- #include <iostream>
-
-
-
-
 
 bool Window::needsResize(true);
 
