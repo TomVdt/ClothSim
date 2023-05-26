@@ -10,9 +10,9 @@ Projet programmation OOP - PH BA2
 [ ] Documenter code
 - [ ] Partie physique - M , faits: cloth, 
 - [ ] Partie graphique - T
-[ ] Corriger tests - T
+[x] Corriger tests - T
 [ ] Rajouter tests nouveaux intégrateurs - M
-[ ] Rajouter tests tissus complexes - T
+[x] Rajouter tests tissus complexes - T
 [ ] Nettoyers includes - T
 [ ] Nettoyer TODOs - M & T
 [ ] Nettoyer shitposts extremes - M & T
