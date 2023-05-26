@@ -7,10 +7,11 @@
 
 class CompositeCloth: public Cloth {
 private:
-    static constexpr double epsilon = 0.5;
+    double k;
+    double delta;
 
 public:
-    CompositeCloth();
+    CompositeCloth(double k, double delta = 0.5): k(k), delta(delta) {}
 
     CompositeCloth(const CompositeCloth&) = delete;
     CompositeCloth& operator=(const CompositeCloth&) = delete;
@@ -20,5 +21,5 @@ public:
 
     virtual ~CompositeCloth() = default;
 
-    void linkCloth(std::unique_ptr<Cloth>&& cloth, double k);
+    void linkCloth(std::unique_ptr<Cloth>&& cloth);
 };

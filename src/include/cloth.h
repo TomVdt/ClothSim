@@ -10,7 +10,6 @@
 
 class Integrator;
 class Constraint;
-class CompositeCloth;
 
 class Cloth: public Drawable {
 protected:
@@ -24,17 +23,17 @@ protected:
     */
     std::vector<std::unique_ptr<Spring>> springs;
 
-    /** Pourquoi un friend ici?
-     *  - CompositeCloth à besoin d'acceder au masses du tissu qu'il connecte
-     *  - Un getter protected ne fonctionne pas car on n'est pas dans la bonne portée
-     *  - Un getter public n'est pas une bonne idée (fuite d'encapsulation)
-     *  - Un tissu composé pourrait très bien être un tissu, mais cela ne rendrait plus les tissus "simples"
-     *  - Un tissu composé est très proche d'un tissu simple, avec simplement une méthode pour
-     *    connecter des tissus entre eux au lieu de masses
-     *  - Les tissus complexes en général pourraient très simplement être des constructeurs spécifiques aux
-     *    tissus simples, mais cela enlèverait de la "simplicité"
-    */
-    friend CompositeCloth;
+    // Pourquoi un friend ici?
+    //  - CompositeCloth à besoin d'acceder au masses du tissu qu'il connecte
+    //  - Un getter protected ne fonctionne pas car on n'est pas dans la bonne portée
+    //  - Un getter public n'est pas une bonne idée (fuite d'encapsulation)
+    //  - Un tissu composé pourrait très bien être un tissu, mais cela ne rendrait plus les tissus "simples"
+    //  - Un tissu composé est très proche d'un tissu simple, avec simplement une méthode pour
+    //    connecter des tissus entre eux au lieu de masses
+    //  - Les tissus complexes en général pourraient très simplement être des constructeurs spécifiques aux
+    //    tissus simples, mais cela enlèverait de la "simplicité"
+    //  - Le suicide, c'est mal
+    // friend CompositeCloth;
 
 public:
     /** 
@@ -106,6 +105,12 @@ public:
      *  Vérifie pour tous les ressorts et toutes les masses que les connections sont valides 
     */
     virtual bool check() const;
+
+    /**
+     * Prend possession des masses et ressorts du tissu
+     * @warning Rend le tissu invalide, ne devrait pas être réutilisé
+    */
+    virtual std::pair<std::vector<std::unique_ptr<Masse>>, std::vector<std::unique_ptr<Spring>>> lootCorpse();
 
     /**
      *  Met à jour les forces sur les masses 

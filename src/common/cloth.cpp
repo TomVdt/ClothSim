@@ -52,6 +52,10 @@ void Cloth::addMass(std::unique_ptr<Masse>&& mass) {
     masses.push_back(std::move(mass));
 }
 
+std::pair<std::vector<std::unique_ptr<Masse>>, std::vector<std::unique_ptr<Spring>>> Cloth::lootCorpse() {
+    return std::make_pair(std::move(masses), std::move(springs));
+}
+
 void Cloth::connect(size_t m1, size_t m2, double k, double l0) {
     const size_t taille(masses.size());
     if (m1 < taille and m2 < taille) {
