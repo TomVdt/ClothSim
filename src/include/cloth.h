@@ -62,9 +62,9 @@ public:
     Cloth& operator=(Cloth&&) = default;
 
     /**
-     *  Destructeur par defaut suffisant car nous utilisons des `unique_ptr` 
+     *  Destructeur par defaut virtuel suffisant car nous utilisons des `unique_ptr` 
     */
-    ~Cloth() = default;
+    virtual ~Cloth() = default;
 
     /**
      *  Nombre de masses dans le tissu 
