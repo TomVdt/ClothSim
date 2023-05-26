@@ -3,6 +3,9 @@
 #include <cmath>
 #include <vector>
 
+/**
+ * Différents primitifs géométriques: ligne, cube et sphère
+*/
 namespace Geometry {
     typedef std::vector<float> Vertices;
     typedef std::vector<unsigned int> Indices;

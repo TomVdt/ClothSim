@@ -7,8 +7,7 @@
 #include <glm/trigonometric.hpp>
 #include <algorithm>
 
-Camera::Camera() :
-    Camera(CAMERA_FOV, CAMERA_RATIO, CAMERA_NEAR, CAMERA_FAR) {}
+Camera::Camera(): Camera(CAMERA_FOV, CAMERA_RATIO, CAMERA_NEAR, CAMERA_FAR) {}
 
 Camera::Camera(double fov, double ratio, double near, double far):
     fov(fov), ratio(ratio), near(near), far(far),

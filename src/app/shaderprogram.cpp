@@ -123,6 +123,12 @@ void ShaderProgram::release() {
     glUseProgram(0);
 }
 
+void ShaderProgram::destroy() {
+    glUseProgram(0);
+	glDeleteProgram(id);
+    id = 0;
+}
+
 GLuint ShaderProgram::attributeLocation(const char* name) {
     return glGetAttribLocation(id, name);
 }

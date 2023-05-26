@@ -177,6 +177,8 @@ void OpenGLRenderer::endFrame() {
 void OpenGLRenderer::deinit() {
     vao.destroy();
     vbo.destroy();
+    ebo.destroy();
+    program.destroy();
 }
 
 void OpenGLRenderer::update(double dt) {

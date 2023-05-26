@@ -2,6 +2,9 @@
 
 #include <imgui/imgui.h>
 
+/**
+ * Différents parametres de la fenetre et controles de la caméra
+*/
 namespace Settings {
     inline constexpr int WINDOW_WIDTH(1280);
     inline constexpr int WINDOW_HEIGHT(720);
