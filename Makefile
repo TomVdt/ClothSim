@@ -39,11 +39,11 @@ TESTS = testVector3d testMasse testSpring testIntegrator1 testIntegrator2 testIn
 
 # Exercices
 EXERCICES_DIR = src/exercices
-EXERCICES = exerciceP9 exerciceP10
+EXERCICES = exerciceP9 exerciceP10 exerciceP11
 
 # Dear ImGui source files
 IMGUI_DIR = include/imgui
-IMGUI = imgui.cpp imgui_demo.cpp imgui_draw.cpp imgui_tables.cpp imgui_widgets.cpp
+IMGUI = imgui.cpp imgui_draw.cpp imgui_tables.cpp imgui_widgets.cpp
 IMGUI += imgui_impl_glfw.cpp imgui_impl_opengl3.cpp
 SOURCES += $(addprefix $(IMGUI_DIR)/, $(IMGUI))
 CXXFLAGS += -I$(IMGUI_DIR) -I$(IMGUI_DIR)/backends
@@ -63,8 +63,7 @@ vpath %.cpp \
 	$(COMMON_DIR) \
 	$(IMGUI_DIR) \
 	$(IMGUI_DIR)/backends \
-	$(EXERCICES_DIR)/P9 \
-	$(EXERCICES_DIR)/P10 \
+	$(wildcard $(EXERCICES_DIR)/*) \
 	$(TESTS_DIR)
 vpath %.o build
 
@@ -85,6 +84,10 @@ test%: test%.o $(addsuffix .o, $(basename $(notdir $(COMMON))))
 
 # Exercices
 exerciceP%: exerciceP%.o $(addsuffix .o, $(basename $(notdir $(COMMON))))
+	@echo "[LD] Linking $@"
+	@$(CXX) -o bin/exercices/$@ $(addprefix build/, $(notdir $^)) $(CXXFLAGS) $(LIBS)
+
+exerciceP11: exerciceP11.o $(OBJS)
 	@echo "[LD] Linking $@"
 	@$(CXX) -o bin/exercices/$@ $(addprefix build/, $(notdir $^)) $(CXXFLAGS) $(LIBS)
 

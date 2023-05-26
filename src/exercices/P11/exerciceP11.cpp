@@ -1,18 +1,14 @@
-#include "include/vector3d.h"
-#include "include/masse.h"
-#include "include/spring.h"
-#include "include/integrator.h"
-#include "include/textrenderer.h"
+#include "include/window.h"
 #include "include/system.h"
 #include "include/cloth.h"
-#include "include/constraint.h"
 
-#include <iostream>
-#include <fstream>
-#include <memory>
+// La majorité de l'implémentation pour l'exercice P11 se situe dans le repertoire "app/openglrenderer.[cpp,h]"
+// Ceci est simplement une démo de l'exercice P10, en mode graphique
 
 int main() {
-    std::unique_ptr<Cloth> cloth(std::make_unique<Cloth>());
+    System system;
+    
+    Cloth* cloth(new Cloth());
 
     cloth->addMass(std::make_unique<Masse>(0.33, 0.3, Vector3D(0, -3, 0), Vector3D(0, 0, 0)));
     cloth->addMass(std::make_unique<Masse>(1, 0.3, Vector3D(-0.5, 0, 0), Vector3D(0, 0, 0)));
@@ -20,19 +16,13 @@ int main() {
     cloth->connect(0, 1, 0.6, 2.5);
     cloth->connect(0, 2, 0.6, 2.5);
 
-    EulerCromerIntegrator integrator;
-    System system;
-    system.addCloth(std::move(cloth));
+    system.addCloth(std::unique_ptr<Cloth>(cloth));
+
     system.addConstraint(std::make_unique<HookConstraint>(Vector3D(-0.5, 0, 0), 0.1));
     system.addConstraint(std::make_unique<HookConstraint>(Vector3D(0.5, 0, 0), 0.1));
 
-    TextRenderer renderer(std::cout);
-
-    for (int i(0); i < 251; ++i) {
-        system.step(integrator, 0.1);
-        std::cout << "===============\nt = " << 0.1 * i << std::endl;
-        system.draw(renderer);
-    }
+    Window window(std::move(system));
+    window.run();
 
     return 0;
 }
