@@ -12,14 +12,6 @@
 
 Cloth::Cloth(): masses(), springs() {}
 
-unsigned int Cloth::getMassCount() const {
-    return masses.size();
-}
-
-unsigned int Cloth::getSpringCount() const {
-    return springs.size();
-}
-
 const Vector3D& Cloth::getMassPos(size_t index) const {
     if (index >= masses.size()) {
         ERROR(IndexError, "Index out of range");

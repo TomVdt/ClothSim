@@ -26,7 +26,7 @@ public:
 
     virtual ~System() = default;
 
-    double getTime() const;
+    double getTime() const { return time; };
 
     double energy() const;
 

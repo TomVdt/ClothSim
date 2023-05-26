@@ -11,10 +11,6 @@ void System::addCloth(std::unique_ptr<Cloth>&& cloth) {
     cloths.push_back(std::move(cloth));
 }
 
-double System::getTime() const {
-    return time;
-}
-
 double System::energy() const {
     double sum(0.0);
     for (const auto& cloth : cloths) {

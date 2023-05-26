@@ -23,18 +23,6 @@ protected:
     */
     std::vector<std::unique_ptr<Spring>> springs;
 
-    // Pourquoi un friend ici?
-    //  - CompositeCloth à besoin d'acceder au masses du tissu qu'il connecte
-    //  - Un getter protected ne fonctionne pas car on n'est pas dans la bonne portée
-    //  - Un getter public n'est pas une bonne idée (fuite d'encapsulation)
-    //  - Un tissu composé pourrait très bien être un tissu, mais cela ne rendrait plus les tissus "simples"
-    //  - Un tissu composé est très proche d'un tissu simple, avec simplement une méthode pour
-    //    connecter des tissus entre eux au lieu de masses
-    //  - Les tissus complexes en général pourraient très simplement être des constructeurs spécifiques aux
-    //    tissus simples, mais cela enlèverait de la "simplicité"
-    //  - Le suicide, c'est mal
-    // friend CompositeCloth;
-
 public:
     /** 
      * Constructeur par défaut, initialise les listes des composants du tissu à des listes vides
@@ -69,12 +57,12 @@ public:
     /**
      *  Nombre de masses dans le tissu 
     */
-    unsigned int getMassCount() const;
+    unsigned int getMassCount() const { return masses.size(); };
 
     /**
      *  Nombre de ressorts dans le tissu 
     */
-    unsigned int getSpringCount() const;
+    unsigned int getSpringCount() const { return springs.size(); };
     
     /**
      * Retourne la position de la masse d'indice fourni dans la liste de masses
