@@ -22,3 +22,11 @@ bool EQ<double, double>(double a, double b) {
         assert(((void)msg, (EQ(val, expected))));\
         std::cout << msg << ": " << "\x1B[32mPASS\033[0m\n";\
     } while (0)
+
+#define assertexception(msg, expr, exception) \
+    try {\
+        expr;\
+        assert(((void)msg, (void)"expected "#exception, false));\
+    } catch (exception& e) {\
+        std::cout << msg << ": " << "\x1B[32mPASS\033[0m\n";\
+    }\
