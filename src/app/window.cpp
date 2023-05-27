@@ -59,7 +59,7 @@ void Window::setSystem(System&& sys) {
 
 #ifdef DEBUG
 void glfwErrorCallback(int err, const char* description) {
-    printf("GLFW Error %d: %s\n", err, description);
+    std::cerr << "GLFW Error " << err << ": " << description << "\n";
 }
 #endif
 
@@ -264,8 +264,8 @@ void Window::run() {
                     static float positions[100][3] = { {0.0} };
                     for (int i(0); i < count; ++i) {
                         ImGui::SetNextItemWidth(200);
-                        char id[16];
-                        snprintf(id, 16, "Position##%i", i);
+                        char id[24];
+                        snprintf(id, 24, "Position##%i", i);
                         ImGui::InputFloat3(id, positions[i]);
                     }
                     if (ImGui::Button("+") and count < 100) ++count;

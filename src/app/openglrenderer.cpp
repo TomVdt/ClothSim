@@ -50,7 +50,7 @@ void GLAPIENTRY MessageCallback(GLenum source,
     const GLchar* message,
     const void* userParam)
 {
-    UNUSED(id); UNUSED(length); UNUSED(userParam);
+    UNUSED(source); UNUSED(id); UNUSED(length); UNUSED(userParam);
     if (severity >= GL_DEBUG_SEVERITY_MEDIUM) {
         std::cerr << "GL CALLBACK: "
                   << (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "")
@@ -248,7 +248,7 @@ void OpenGLRenderer::update(double dt) {
 #ifdef PRIDE
 // https://stackoverflow.com/questions/8208905/hsv-0-255-to-rgb-0-255
 glm::vec4 hsvToRgba(double h, double s, double v){
-    double r, g, b;
+    double r(0.0), g(0.0), b(0.0);
 
     int i = h * 6;
     double f = h * 6 - i;
