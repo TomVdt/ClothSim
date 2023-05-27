@@ -145,12 +145,12 @@ void Cloth::draw(Renderer& dest) {
 }
 
 void Cloth::drawParticles(Renderer& dest) const {
-    for (auto& particle : masses) {
-        particle->draw(dest);
-    }
-
     for (auto& spring : springs) {
         spring->draw(dest);
+    }
+
+    for (auto& particle : masses) {
+        particle->draw(dest);
     }
 }
 

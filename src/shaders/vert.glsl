@@ -6,11 +6,9 @@ uniform vec4 color;
 uniform mat4 m_matrix;
 uniform mat4 pv_matrix;
 
-// out vec4 varying_pos;
 out vec4 varying_color;
 
 void main() {
-    // varying_pos = m_matrix * varying_pos;
     varying_color = color;
 
     vec4 res = pv_matrix * m_matrix * vertex;

@@ -53,9 +53,13 @@ void GLAPIENTRY MessageCallback(GLenum source,
 #endif
 
 void OpenGLRenderer::init() {
-    // Backface culling and z buffer
+    // Backface culling
     glEnable(GL_CULL_FACE);
+    // Depth buffer
     glEnable(GL_DEPTH_TEST);
+    // Transparency
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     #ifdef DEBUG
     glEnable(GL_DEBUG_OUTPUT);
@@ -250,7 +254,9 @@ glm::vec4 hsvToRgba(double h, double s, double v){
 
 void OpenGLRenderer::draw(const Masse& mass) {
     #ifdef PRIDE
+    const float alpha(massColor.a);
     massColor = hsvToRgba(frameCount * 0.01 + mass.getId() * 0.1, 1.0, 1.0);
+    massColor.a = alpha;
     #endif
 
     const Vector3D& pos(mass.getPos());
@@ -300,7 +306,7 @@ void OpenGLRenderer::draw(const System& system) {
 }
 
 void OpenGLRenderer::drawControls() {
-    ImGui::ColorEdit3("Color", &massColor[0]);
+    ImGui::ColorEdit4("Color", &massColor[0]);
     ImGui::SliderFloat("Scale", &massScale, 0.1, 0.5);
     ImGui::Checkbox("Draw Masses?", &drawMasses);
     ImGui::Checkbox("Draw Speed Vectors?", &drawSpeedVectors);
