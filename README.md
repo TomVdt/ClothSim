@@ -9,7 +9,7 @@ Projet programmation OOP - PH BA2
 [ ] Verifier réponses - M
 [ ] Documenter code
 - [ ] Partie physique - M , faits: cloth, 
-- [ ] Partie graphique - T
+- [x] Partie graphique - T
 [x] Corriger tests - T
 [ ] Rajouter tests nouveaux intégrateurs - M
 [x] Rajouter tests tissus complexes - T
