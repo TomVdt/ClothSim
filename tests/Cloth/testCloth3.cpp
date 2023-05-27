@@ -48,9 +48,14 @@ int main() {
     assertexception("Connection d'une masse à elle même", cloth.connect(0, 0), ValueError);
 
     std::cout << "\n==== Suicide de tissu ====\n";
-    cloth.lootCorpse();
+    Cloth tmpCloth;
+    cloth.giveGutsTo(tmpCloth);
+    std::cout << cloth << "\n";
+    std::cout << tmpCloth << "\n";
     assertmsg("Nombre de masses", cloth.getMassCount(), 0u);
     assertmsg("Nombre de ressorts", cloth.getSpringCount(), 0u);
+    assertmsg("Nombre de masses transmises", tmpCloth.getMassCount(), 3u);
+    assertmsg("Nombre de ressorts transmis", tmpCloth.getSpringCount(), 3u);
 
     return 0;
 }

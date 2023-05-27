@@ -3,40 +3,40 @@
 #include "include/util.h"
 
 void CompositeCloth::linkCloth(std::unique_ptr<Cloth>&& newCloth) {
-    // Mama, just killed a man
-    // Put a gun against his head, pulled my trigger, now he's dead
-    auto pair(newCloth->lootCorpse());
-    // Mama, life had just begun
-    auto& newMasses(pair.first);
-    // But now I've gone and thrown it all away
-    auto& newSprings(pair.second);
+    newCloth->giveGutsTo(*this);
+}
 
-    // Mama, ooh, didn't mean to make you cry
-    bool connected(masses.empty());
-    for (auto& mass1 : masses) {
-        for (auto& mass2 : newMasses) {
-            const double dist(Vector3D::dist(mass1->getPos(), mass2->getPos()));
+void CompositeCloth::lootCorpse(std::vector<std::unique_ptr<Masse>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring) {
+    std::vector<std::pair<size_t, size_t>> toConnect;
+    for (size_t i(0); i < getMassCount(); ++i) {
+        for (size_t j(0); j < manyMass.size(); ++j) {
+            const double dist(
+                Vector3D::dist(
+                    masses[i]->getPos(), manyMass[j]->getPos()
+                )
+            );
             if (dist < delta) {
-                // Les indices ne sont pas encore fixés, on ne peut donc pas utilser `connect`
-                std::unique_ptr<Spring> s(std::make_unique<Spring>(k, dist, *mass1, *mass2));
-                mass1->connectSpring(*s);
-                mass2->connectSpring(*s);
-                springs.push_back(std::move(s));
-                connected = true;
+                // Offset j by current mass count to take into account the merging of the lists
+                toConnect.emplace_back(i, getMassCount() + j);
             }
         }
     }
-    
-    // If I'm not back again this time tomorrow
-    if (not connected) {
+
+    // Raise an error if unable to make any connections, but don't if the composite cloth is empty
+    if (toConnect.empty() and not masses.empty()) {
         ERROR(ConnectionError, "Failed to connect cloths");
     }
 
-    // Carry on, carry on as if nothing really matters
-    for (auto& mass : newMasses) {
-        masses.push_back(std::move(mass));
-    }
-    for (auto& spring : newSprings) {
-        springs.push_back(std::move(spring));
+    // Combine lists
+    Cloth::lootCorpse(std::move(manyMass), std::move(manySpring));
+
+    // Make the pending connections
+    for (auto& pair : toConnect) {
+        const double dist(
+            Vector3D::dist(
+                masses[pair.first]->getPos(), masses[pair.second]->getPos()
+            )
+        );
+        connect(pair.first, pair.second, k, dist);
     }
 }

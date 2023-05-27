@@ -23,6 +23,11 @@ protected:
     */
     std::vector<std::unique_ptr<Spring>> springs;
 
+    /**
+     * Récupère et prend possession les masses et ressorts d'un autre tissu
+    */
+    virtual void lootCorpse(std::vector<std::unique_ptr<Masse>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring);
+
 public:
     /** 
      * Constructeur par défaut, initialise les listes des composants du tissu à des listes vides
@@ -95,10 +100,10 @@ public:
     bool check() const;
 
     /**
-     * Prend possession des masses et ressorts du tissu
-     * @warning Rend le tissu invalide, ne devrait pas être réutilisé
+     * Donne les masses et ressorts du tissu à un autre tissu
+     * @warning Ce tissu ne contient plus rien après, et peut être détruit
     */
-    std::pair<std::vector<std::unique_ptr<Masse>>, std::vector<std::unique_ptr<Spring>>> lootCorpse();
+    void giveGutsTo(Cloth& cloth);
 
     /**
      *  Met à jour les forces sur les masses 

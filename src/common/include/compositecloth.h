@@ -10,6 +10,9 @@ private:
     double k;
     double delta;
 
+protected:
+    virtual void lootCorpse(std::vector<std::unique_ptr<Masse>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring) override;
+
 public:
     CompositeCloth(double k, double delta = 0.5): k(k), delta(delta) {}
 
