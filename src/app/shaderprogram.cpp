@@ -1,9 +1,13 @@
 #include "include/shaderprogram.h"
 
-#include <glm/gtc/type_ptr.hpp>
-#include <iostream>
-#include <sstream>
 #include <fstream>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <GL/glew.h>
+#include <glm/gtc/type_ptr.hpp>
+#include <glm/vec4.hpp>
+#include <glm/mat4x4.hpp>
 
 // Based on
 // https://learnopengl.com/Getting-started/Shaders

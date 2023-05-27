@@ -1,18 +1,23 @@
-#include "include/openglrenderer.h"
-#include "include/masse.h"
 #include "include/cloth.h"
-#include "include/system.h"
-#include "include/vector3d.h"
+#include "include/constants.h"
+#include "include/constraint.h"
 #include "include/exceptions.h"
 #include "include/geometry.h"
+#include "include/masse.h"
+#include "include/openglrenderer.h"
 #include "include/settings.h"
-#include "include/constraint.h"
+#include "include/shaderprogram.h"
+#include "include/spring.h"
+#include "include/system.h"
+#include "include/vector3d.h"
 
-#include "GLFW/glfw3.h"
-#include <imgui/imgui.h>
+#ifdef DEBUG
+#include "include/util.h"
 #include <iostream>
-#include <stdio.h>
+#endif
 
+#include <imgui/imgui.h>
+#include <GL/glew.h>
 #include <glm/vec3.hpp>
 #include <glm/vec4.hpp>
 #include <glm/trigonometric.hpp>
@@ -35,8 +40,8 @@ OpenGLRenderer::OpenGLRenderer():
     reset();
 }
 
-// https://www.khronos.org/opengl/wiki/Example/OpenGL_Error_Testing_with_Message_Callbacks
 #ifdef DEBUG
+// https://www.khronos.org/opengl/wiki/Example/OpenGL_Error_Testing_with_Message_Callbacks
 void GLAPIENTRY MessageCallback(GLenum source,
     GLenum type,
     GLuint id,
@@ -45,10 +50,14 @@ void GLAPIENTRY MessageCallback(GLenum source,
     const GLchar* message,
     const void* userParam)
 {
+    UNUSED(id); UNUSED(length); UNUSED(userParam);
     if (severity >= GL_DEBUG_SEVERITY_MEDIUM) {
-        fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
-            (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
-            type, severity, message);
+        std::cerr << "GL CALLBACK: "
+                  << (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : "")
+                  << " type = 0x" << type
+                  << ", severity = 0x" << severity
+                  << ", message = " << message
+                  << "\n";
     }
 }
 #endif

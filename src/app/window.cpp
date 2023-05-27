@@ -1,22 +1,24 @@
-#include "include/window.h"
-#include "include/cloth.h"
-#include "include/masse.h"
-#include "include/vector3d.h"
-#include "include/constants.h"
-#include "include/exceptions.h"
 #include "include/chaincloth.h"
-#include "include/rectcloth.h"
-#include "include/diskcloth.h"
+#include "include/cloth.h"
 #include "include/compositecloth.h"
+#include "include/constants.h"
 #include "include/constraint.h"
+#include "include/diskcloth.h"
+#include "include/exceptions.h"
+#include "include/masse.h"
+#include "include/rectcloth.h"
 #include "include/settings.h"
 #include "include/util.h"
+#include "include/vector3d.h"
+#include "include/window.h"
 
 #include <iostream>
-#include "GLFW/glfw3.h"
-#include "imgui/imgui.h"
-#include "imgui/backends/imgui_impl_glfw.h"
-#include "imgui/backends/imgui_impl_opengl3.h"
+#include <memory>
+#include <vector>
+#include <GLFW/glfw3.h>
+#include <imgui/imgui.h>
+#include <imgui/backends/imgui_impl_glfw.h>
+#include <imgui/backends/imgui_impl_opengl3.h>
 
 bool Window::needsResize(true);
 

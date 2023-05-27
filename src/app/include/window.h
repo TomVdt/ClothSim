@@ -1,9 +1,9 @@
 #pragma once
+#include "include/integrator.h"
 #include "include/openglrenderer.h"
 #include "include/system.h"
-#include "include/integrator.h"
 
-#include "GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 #include <memory>
 
 class Window {

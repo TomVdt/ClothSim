@@ -1,11 +1,11 @@
 #include "include/camera.h"
-#include "include/constants.h"
 
+#include <algorithm>
+#include <cmath>
+#include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <glm/trigonometric.hpp>
-#include <algorithm>
 
 Camera::Camera(): Camera(CAMERA_FOV, CAMERA_RATIO, CAMERA_NEAR, CAMERA_FAR) {}
 

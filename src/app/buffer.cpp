@@ -1,6 +1,5 @@
 #include "include/buffer.h"
 
-
 Buffer::Buffer(BufferType bufferType) : id(0) {
     switch (bufferType) {
     case Vertex:

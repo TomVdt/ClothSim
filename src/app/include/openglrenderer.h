@@ -1,10 +1,13 @@
-#include "include/renderer.h"
+#pragma once
+#include "include/buffer.h"
 #include "include/camera.h"
+#include "include/renderer.h"
 #include "include/shaderprogram.h"
 #include "include/vertexarray.h"
-#include "include/buffer.h"
 
 #include <GL/glew.h>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
 
 class Vector3D;
 

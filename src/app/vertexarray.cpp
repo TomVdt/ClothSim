@@ -1,5 +1,6 @@
 #include "include/vertexarray.h"
 
+#include <GL/glew.h>
 
 VertexArray::VertexArray() : id(0) {}
 
