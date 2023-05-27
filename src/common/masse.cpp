@@ -54,9 +54,6 @@ Vector3D Masse::acceleration(double time, const Vector3D& p, const Vector3D& v) 
 }
 
 double Masse::energy() const {
-    // TODO: gravity norm, correctly with constexpr
-    // return - mass * CONSTANTS::g.getY() * pos.getY();
-    // return 1/2 * mass * vel.normSq();
     return 0.5 * mass * vel.normSq() + mass * CONSTANTS::g.norm() * pos.getY();
 }
 

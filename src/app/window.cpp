@@ -179,7 +179,6 @@ void Window::run() {
         ImGui::SeparatorText("Simulation");
         ImGui::Text("Elapsed time: %.3fs", system.getTime());
 
-        // nrj12
         if (not paused) {
             energy[energyOffset] = system.energy();
             energyMin = std::min(energyMin, energy[energyOffset]);
@@ -196,19 +195,18 @@ void Window::run() {
         paused = shouldPause and not shouldStep;
         shouldStep = false;
 
-        // TODO: unshitpost a bit
         ImGui::Text("Integrator selection");
         if (ImGui::RadioButton("Euler-Cromer", &integratorSelection, 0))
             physicsIntegrator = std::make_unique<EulerCromerIntegrator>();
-        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Classic Euler-Cromer, simplectic");
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Classic Euler-Cromer method, simplectic");
         ImGui::SameLine();
         if (ImGui::RadioButton("RK4", &integratorSelection, 1))
             physicsIntegrator = std::make_unique<RK4Integrator>();
-        if (ImGui::IsItemHovered()) ImGui::SetTooltip("RK4 wouhouhouhouhou");
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("4th order Runge-Kutta method, non simplectic");
         ImGui::SameLine();
         if (ImGui::RadioButton("Newmark", &integratorSelection, 2))
             physicsIntegrator = std::make_unique<NewmarkIntegrator>(0.05);
-        if (ImGui::IsItemHovered()) ImGui::SetTooltip("NeUwUmark");
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Newmark method, simplectic");
 
         if (integratorSelection == 2) {
             static float epsilon(CONSTANTS::PHYSICS_DPOS);

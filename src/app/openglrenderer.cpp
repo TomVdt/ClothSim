@@ -81,9 +81,16 @@ void OpenGLRenderer::init() {
     glClearColor(157.0 / 255.0, 220.0 / 255.0, 234.0 / 255.0, 1.0f);
 
     // Create shader
-    // TODO: unhardcode path?
-    program.addShader("src/shaders/vert.glsl", ShaderProgram::Vertex);
-    program.addShader("src/shaders/frag.glsl", ShaderProgram::Fragment);
+    // Macros used to avoid hardcoding the path
+    // Gets set correctly by the Makefile during compilation
+    #ifndef VERTEX_PATH
+    #define VERTEX_PATH "src/shaders/vert.glsl"
+    #endif
+    program.addShader(VERTEX_PATH, ShaderProgram::Vertex);
+    #ifndef FRAGMENT_PATH
+    #define FRAGMENT_PATH "src/shaders/frag.glsl"
+    #endif
+    program.addShader(FRAGMENT_PATH, ShaderProgram::Fragment);
     program.link();
     program.bind();
 

@@ -94,7 +94,6 @@ void Cloth::updateForce() {
 
 void Cloth::addConstraint(const Constraint& constraint) {
     for (auto& mass : masses) {
-        // todo: reference à la liste?
         mass->addConstraint(constraint);
     }
 }

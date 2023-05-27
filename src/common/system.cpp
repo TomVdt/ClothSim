@@ -7,6 +7,9 @@
 
 void System::addCloth(std::unique_ptr<Cloth>&& cloth) {
     cloths.push_back(std::move(cloth));
+    for (const auto& constraint : constraints) {
+        cloths.back()->addConstraint(*constraint);
+    }
 }
 
 double System::energy() const {
@@ -21,7 +24,6 @@ void System::step(const Integrator& integrator, double dt) {
     for (auto& cloth : cloths) {
         cloth->updateForce();
         cloth->applyConstraints(time);
-        // TODO: revoir ca
         cloth->step(integrator, dt, time);
     }
     time += dt;

@@ -5,6 +5,7 @@ CXX = clang++
 
 # Executable name (target)
 EXE = clothSimulation
+ROOT_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # Compiler flags
 CXXFLAGS = -std=c++17
@@ -27,6 +28,8 @@ APP_DIR = src/app
 APP = buffer.cpp window.cpp openglrenderer.cpp vertexarray.cpp shaderprogram.cpp camera.cpp
 SOURCES += $(addprefix $(APP_DIR)/, $(APP))
 CXXFLAGS += -I$(APP_DIR)
+# Define absolute vertex and fragment shader paths
+CXXFLAGS += -DVERTEX_PATH=\"$(ROOT_DIR)src/shaders/vert.glsl\" -DFRAGMENT_PATH=\"$(ROOT_DIR)src/shaders/frag.glsl\"
 
 # Common (backend)
 COMMON_DIR = src/common
@@ -104,6 +107,7 @@ exercices: $(EXERCICES)
 	@echo "[MAKE] Build complete for exercices"
 
 run: dir $(EXE)
+	@echo "[MAKE] CWD: $(ROOT_DIR)"
 	@echo "[MAKE] Launching program"
 	@bin/$(EXE)
 
