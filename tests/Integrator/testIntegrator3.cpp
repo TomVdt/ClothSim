@@ -1,14 +1,10 @@
-#include "include/vector3d.h"
+#include "include/integrator.h"
 #include "include/masse.h"
 #include "include/spring.h"
-#include "include/integrator.h"
-#include "include/test.h"
+#include "include/vector3d.h"
 
-#include <iostream>
 #include <fstream>
-
-using std::cout;
-using std::endl;
+#include <iostream>
 
 /* définition d'un nouvel affichage pour un Vector3D avec un autre formatage */
 void log(std::ostream& file, const Vector3D& vec) {
@@ -33,13 +29,13 @@ int main() {
 
     std::ofstream file("output/testIntegrator3.txt", std::ofstream::out | std::ofstream::trunc);
 
-    std::ostream& out(file.fail() ? cout : file);
+    std::ostream& out(file.fail() ? std::cout : file);
     if (file.fail()) {
-        cout << "# WARNING: le fichier n'a pas pu être ouvert." << endl;
+        std::cout << "# WARNING: le fichier n'a pas pu être ouvert." << std::endl;
     }
 
     // "Header" du txt
-    out << "# x1, y1, z1, x2, y2, z2, x3, y3, z3" << endl;
+    out << "# x1, y1, z1, x2, y2, z2, x3, y3, z3" << std::endl;
 
     // Le 201ème point n'est pas loggé
     for (int i(0); i < 201; ++i) {
@@ -48,7 +44,7 @@ int main() {
         log(out, mass2.getPos());
         out << ",";
         log(out, mass3.getPos());
-        out << endl;
+        out << std::endl;
         mass1.updateForce();
         mass2.updateForce();
         mass3.updateForce();

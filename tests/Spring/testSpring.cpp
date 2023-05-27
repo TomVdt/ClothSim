@@ -1,27 +1,25 @@
-#include "include/vector3d.h"
 #include "include/masse.h"
 #include "include/spring.h"
 #include "include/test.h"
+#include "include/vector3d.h"
 
 #include <iostream>
-
-using std::cout;
 
 int main() {
     Masse mass1(1, 0, { 0, 0, 0 });
     Masse mass2(1, 0, { 1, 0, 0 });
     Spring spring1(1, 1, mass1, mass2);
 
-    cout << "==== Pre-connection ====\n";
-    cout << "Spring 1: " << spring1 << "\n";
+    std::cout << "==== Pre-connection ====\n";
+    std::cout << "Spring 1: " << spring1 << "\n";
 
     mass1.connectSpring(spring1);
     mass2.connectSpring(spring1);
 
-    cout << "\n==== Post-connection ====\n";
-    cout << "Spring 1: " << spring1 << "\n";
+    std::cout << "\n==== Post-connection ====\n";
+    std::cout << "Spring 1: " << spring1 << "\n";
 
-    cout << "\n==== Forces ressorts ====\n";
+    std::cout << "\n==== Forces ressorts ====\n";
     Spring spring2(1, 2, mass1, mass2);
     Spring spring3(1, 0.5, mass1, mass2);
     mass1.connectSpring(spring2);
@@ -49,24 +47,24 @@ int main() {
     mass4.connectSpring(spring5);
     assertmsg("Surcompression", spring5.springForce(mass1), Vector3D(-9.999999, 0, 0));
 
-    cout << "\n==== Springs malformés ====\n" << "\n";
+    std::cout << "\n==== Springs malformés ====\n" << "\n";
     Spring spring6(1, 1, mass1, mass1);
     assertmsg("2 masses identiques", spring6.valid(), false);
     assertmsg("Ressort correct", spring1.valid(), true);
 
-    cout << "\n==== Changement des masses (pos, vel, etc) ====\n";
+    std::cout << "\n==== Changement des masses (pos, vel, etc) ====\n";
     Masse mass5(1.0);
     Masse mass6(2.0);
     Spring spring7(1, 1, mass5, mass6);
     mass5.connectSpring(spring7);
     mass6.connectSpring(spring7);
 
-    cout << "Avant changement Spring 7: " << spring7 << "\n";
+    std::cout << "Avant changement Spring 7: " << spring7 << "\n";
     mass5.setPos({ 69, 42, 6 });
     mass6.setVel({ 420, 420, 420 });
-    cout << "Après changement Spring 7: " << spring7 << "\n";
+    std::cout << "Après changement Spring 7: " << spring7 << "\n";
 
-    cout << "\n==== Methodes d'aide ====\n";
+    std::cout << "\n==== Methodes d'aide ====\n";
     Spring spring8(1, 1, mass5, mass6);
     mass5.connectSpring(spring8);
     assertmsg("Connection complete fausse", spring8.areEndsValid(), false);

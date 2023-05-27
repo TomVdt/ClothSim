@@ -1,9 +1,10 @@
-#include "include/vector3d.h"
-#include "include/cloth.h"
 #include "include/chaincloth.h"
+#include "include/cloth.h"
 #include "include/constraint.h"
+#include "include/integrator.h"
 #include "include/system.h"
 #include "include/textrenderer.h"
+#include "include/vector3d.h"
 
 #include <fstream>
 

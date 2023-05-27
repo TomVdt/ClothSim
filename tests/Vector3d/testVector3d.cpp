@@ -1,9 +1,8 @@
-#include <iostream>
-#include "include/vector3d.h"
 #include "include/exceptions.h"
 #include "include/test.h"
+#include "include/vector3d.h"
 
-using std::cout;
+#include <iostream>
 
 int main() {
     const Vector3D vec1(1.0, 2.0, -0.1);
@@ -12,10 +11,10 @@ int main() {
     const Vector3D random(1.0, 2.0, 3.0);
     Vector3D tobeset(6.9, 4.2, 6.0);
 
-    cout << "==== Affichage ====\n";
-    cout << "Vec1: " << vec1 << "\n";
+    std::cout << "==== Affichage ====\n";
+    std::cout << "Vec1: " << vec1 << "\n";
 
-    cout << "\n==== Sanity check ====\n";
+    std::cout << "\n==== Sanity check ====\n";
     assertmsg("Coords", vec1.getX(), 1.0);
     assertmsg("Coords", vec1.getY(), 2.0);
     assertmsg("Coords", vec1.getZ(), -0.1);
@@ -29,7 +28,7 @@ int main() {
     assertmsg("Constructeur 2", Vector3D(1, 2.0, 3), random);
     assertmsg("Copie", Vector3D(vec1), vec1);
 
-    cout << "\n==== Interface ====\n";
+    std::cout << "\n==== Interface ====\n";
     const Vector3D threezerozero(3.0, 0.0, 0.0);
     Vector3D zerofivezero_to_mod(0.0, 5.0, 0.0);
     assertmsg("Norme", threezerozero.norm(), 3.0);
@@ -42,7 +41,7 @@ int main() {
     assertmsg("Vectoriel", vec1.cross(vec2), Vector3D(8.55, -4.36, -1.7));
     assertmsg("Vectoriel anticommutatif", vec2.cross(vec1), Vector3D(-8.55, 4.36, 1.7));
 
-    cout << "\n==== Opérateurs ====\n";
+    std::cout << "\n==== Opérateurs ====\n";
     assertmsg("Addition", vec1 + vec2, Vector3D(3.6, 5.5, 4));
     assertmsg("Addition commutative", vec2 + vec1, Vector3D(3.6, 5.5, 4));
     assertmsg("Addition zero", vec2 + Vector3D(), Vector3D(2.6, 3.5, 4.1));
@@ -67,7 +66,7 @@ int main() {
     assertmsg("Different", vec1 != vec1, false);
     assertmsg("Different", vec1 != vec2, true);
 
-    cout << "\n==== Opérateurs en place ====\n";
+    std::cout << "\n==== Opérateurs en place ====\n";
     Vector3D changeme1(1.0, 2.0, 3.0);
     Vector3D changeme2(2.0, 4.0, 6.0);
     Vector3D changeme3(4.0, 8.0, 12.0);
@@ -77,7 +76,7 @@ int main() {
     assertmsg("/=", changeme3 /= 4.0, changeme4);
     assertmsg("-=", changeme4 -= changeme4, zero);
 
-    cout << "\n==== Exceptions ====\n";
+    std::cout << "\n==== Exceptions ====\n";
     assertexception("Normalisation vecteur nul", zero.normalized(), ZeroDivisionError);
 
     return 0;

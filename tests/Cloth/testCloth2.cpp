@@ -1,16 +1,13 @@
-#include "include/vector3d.h"
+#include "include/cloth.h"
+#include "include/integrator.h"
 #include "include/masse.h"
 #include "include/spring.h"
-#include "include/integrator.h"
 #include "include/test.h"
-#include "include/cloth.h"
+#include "include/vector3d.h"
 
+#include <fstream>
 #include <iostream>
 #include <memory>
-#include <fstream>
-
-using std::cout;
-using std::endl;
 
 /* définition d'un nouvel affichage pour un Vector3D avec un autre formatage */
 void log(std::ostream& file, const Vector3D& vec) {
@@ -32,24 +29,17 @@ int main() {
     cloth.connect(0, 1, 0.6, 2.5);
     cloth.connect(0, 2, 0.6, 2.5);
 
+    assertmsg("Tissu valide", cloth.check(), true);
+
     std::ofstream file("output/testCloth2.txt", std::ofstream::out | std::ofstream::trunc);
 
-    std::ostream& out(file.fail() ? cout : file);
+    std::ostream& out(file.fail() ? std::cout : file);
     if (file.fail()) {
-        cout << "# WARNING: le fichier n'a pas pu être ouvert." << endl;
-    }
-
-    if (cloth.check()) {
-        out << "# le tissu est cohérent yey" << endl;
-    }
-    else {
-        out << "# problème notre tissu a transcendé la réalité pour atteindre de nouveaux plans d'existence" << endl;
-        file.close();
-        return 1;
+        std::cout << "# WARNING: le fichier n'a pas pu être ouvert." << std::endl;
     }
 
     // "Header" du txt
-    out << "# x1, y1, z1, x2, y2, z2, x3, y3, z3" << endl;
+    out << "# x1, y1, z1, x2, y2, z2, x3, y3, z3" << std::endl;
 
     // Le 201ème point n'est pas loggé
     for (int i(0); i < 201; ++i) {
@@ -58,7 +48,7 @@ int main() {
         log(out, mass2->getPos());
         out << ",";
         log(out, mass3->getPos());
-        out << endl;
+        out << std::endl;
 
         cloth.updateForce();
 

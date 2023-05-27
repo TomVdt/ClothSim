@@ -2,8 +2,8 @@
 #include "include/exceptions.h"
 #include "include/test.h"
 
-#include <iostream>
 #include <cmath>
+#include <iostream>
 
 int main() {
     DiskCloth cloth1(

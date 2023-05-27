@@ -1,13 +1,9 @@
-#include "include/vector3d.h"
-#include "include/masse.h"
 #include "include/integrator.h"
-#include "include/test.h"
+#include "include/masse.h"
+#include "include/vector3d.h"
 
-#include <iostream>
 #include <fstream>
-
-using std::cout;
-using std::endl;
+#include <iostream>
 
 /* définition d'un nouvel affichage pour un Vector3D avec un autre formatage */
 void log(std::ostream& file, const Vector3D& vec) {
@@ -25,13 +21,13 @@ int main() {
 
     std::ofstream file("output/testIntegrator1.txt", std::ofstream::out | std::ofstream::trunc);
 
-    std::ostream& out(file.fail() ? cout : file);
+    std::ostream& out(file.fail() ? std::cout : file);
     if (file.fail()) {
-        cout << "# WARNING: le fichier n'a pas pu être ouvert." << endl;
+        std::cout << "# WARNING: le fichier n'a pas pu être ouvert." << std::endl;
     }
 
     // "Header" du txt
-    out << "# x, y, z" << endl;
+    out << "# x, y, z" << std::endl;
 
     for (int i(0); i < 70; ++i) {
         log(out, mass1.getPos());
@@ -41,7 +37,7 @@ int main() {
         log(out, mass3.getPos());
         out << ",";
         log(out, mass4.getPos());
-        out << endl;
+        out << std::endl;
         mass1.updateForce();
         mass2.updateForce();
         mass3.updateForce();

@@ -1,13 +1,13 @@
-#include "include/diskcloth.h"
 #include "include/chaincloth.h"
-#include "include/rectcloth.h"
 #include "include/compositecloth.h"
+#include "include/diskcloth.h"
 #include "include/exceptions.h"
+#include "include/rectcloth.h"
 #include "include/test.h"
 
+#include <cmath>
 #include <iostream>
 #include <memory>
-#include <cmath>
 
 int main() {
     unsigned int massCount(0);
