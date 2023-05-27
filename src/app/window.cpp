@@ -206,13 +206,13 @@ void Window::run() {
         ImGui::SameLine();
         if (ImGui::RadioButton("Newmark", &integratorSelection, 2))
             physicsIntegrator = std::make_unique<NewmarkIntegrator>(0.05);
-        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Newmark method, simplectic");
+        if (ImGui::IsItemHovered()) ImGui::SetTooltip("Newmark method, very unstable, please use low dt and epsilon values");
 
         if (integratorSelection == 2) {
             static float epsilon(CONSTANTS::PHYSICS_DPOS);
             ImGui::SetNextItemWidth(100);
             ImGui::InputFloat("Epsilon", &epsilon, 0.001, 0.005, "%.3f");
-            if (epsilon < 0.0) epsilon = 0.0;
+            if (epsilon < 0.001) epsilon = 0.001;
             ImGui::SameLine();
             if (ImGui::Button("Update")) {
                 physicsIntegrator = std::make_unique<NewmarkIntegrator>(epsilon);

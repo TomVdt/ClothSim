@@ -33,8 +33,8 @@ OpenGLRenderer::OpenGLRenderer():
     offsetLine(0), offsetCube(0), offsetSphere(0),
     indexLine(0), indexCube(0), indexSphere(0),
     camera(),
-    massColor(1.0), constraintColor(0.1), massScale(0.25),
-    drawMasses(true), drawSpeedVectors(true), drawSprings(true), drawConstraints(true),
+    massColor(1.0), constraintColor(0.1, 0.1, 0.1, 0.04), massScale(0.25),
+    drawMasses(true), drawSpeedVectors(false), drawSprings(true), drawConstraints(true),
     frameCount(0)
 {
     reset();
@@ -178,8 +178,8 @@ void OpenGLRenderer::clear() {
 }
 
 void OpenGLRenderer::reset() {
-    camera.setRotation(glm::radians(35.0), glm::radians(135.0), 0);
-    camera.setPosition(-20, 20, -20);
+    camera.setRotation(glm::radians(15.0), glm::radians(180.0), 0);
+    camera.setPosition(0, 38, -80);
 }
 
 void OpenGLRenderer::beginFrame() {
@@ -294,7 +294,7 @@ void OpenGLRenderer::draw(const Spring& spring) {
         return;
     }
 
-    glm::vec4 squishColor(1.0, 0.0, 0.0, 1.0);
+    glm::vec4 squishColor(1.0, 0.7, 0.0, 1.0);
     glm::vec4 neutralColor(1.0);
     glm::vec4 stretchColor(0.0, 0.0, 1.0, 1.0);
     const double springDelta(spring.length() - spring.getL0());
