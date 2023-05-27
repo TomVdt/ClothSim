@@ -1,8 +1,10 @@
-#include "include/vector3d.h"
 #include "include/constants.h"
 #include "include/exceptions.h"
+#include "include/vector3d.h"
 
 #include <cmath>
+#include <iostream>
+#include <glm/vec3.hpp>
 
 
 double Vector3D::norm() const {

@@ -1,9 +1,7 @@
 #include "include/integrator.h"
 #include "include/masse.h"
-#include "include/cloth.h"
-#include "include/vector3d.h"
 #include "include/util.h"
-
+#include "include/vector3d.h"
 
 void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) const {  
     UNUSED(time);  
@@ -15,9 +13,6 @@ void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) const
     mass.setPos(pos);
     mass.setVel(vel);
 }
-
-
-
 
 void RK4Integrator::integrate(Masse& mass, double dt, double time) const {    
     Vector3D OGPos(mass.getPos());
@@ -38,9 +33,6 @@ void RK4Integrator::integrate(Masse& mass, double dt, double time) const {
 
 }
 
-
-
-
 void NewmarkIntegrator::integrate(Masse& mass, double dt, double time) const {
     const Vector3D OGPos(mass.getPos());
     const Vector3D OGVel(mass.getVel());
@@ -60,5 +52,3 @@ void NewmarkIntegrator::integrate(Masse& mass, double dt, double time) const {
     mass.setPos(pos);
     mass.setVel(vel);
 }
-
-

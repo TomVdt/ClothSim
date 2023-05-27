@@ -1,6 +1,8 @@
 #pragma once
-#include "include/vector3d.h"
 #include "include/cloth.h"
+#include "include/masse.h"
+#include "include/spring.h"
+#include "include/vector3d.h"
 
 #include <vector>
 #include <memory>
@@ -17,6 +19,8 @@ private:
     */
     double delta;
 
+    static constexpr double DELTA = 0.5;
+
 protected:
     /**
      * Récupère les masses et ressorts passés en argument et relie les masses situées à la bonne distance 
@@ -29,7 +33,7 @@ public:
      * Constructeur d'un tissu composé vide prenant la constante de raideur des ressorts utilisés pour connecter les tissus
      * et la distance maximale entre deux masses pour les connecter lors du lien entre deux tissus
     */
-    CompositeCloth(double k, double delta = 0.5): k(k), delta(delta) {}
+    CompositeCloth(double k, double delta = DELTA): k(k), delta(delta) {}
 
     /** 
      * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire 

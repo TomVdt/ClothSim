@@ -1,12 +1,12 @@
 #pragma once
-#include "include/masse.h"
-#include "include/spring.h"
 #include "include/constants.h"
 #include "include/drawable.h"
+#include "include/masse.h"
+#include "include/spring.h"
 
 #include <iostream>
-#include <vector>
 #include <memory>
+#include <vector>
 
 class Integrator;
 class Constraint;

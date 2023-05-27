@@ -1,7 +1,7 @@
 #include "include/constants.h"
-#include "include/renderer.h"
-#include "include/rectcloth.h"
 #include "include/exceptions.h"
+#include "include/rectcloth.h"
+#include "include/vector3d.h"
 
 #include <cmath>
 

@@ -1,8 +1,9 @@
 #include "include/chaincloth.h"
-#include "include/renderer.h"
 #include "include/exceptions.h"
+#include "include/vector3d.h"
 
 #include <memory>
+#include <vector>
 
 ChainCloth::ChainCloth(double mass, double lambda, double k, double l0, std::vector<Vector3D> pos) {
     // Add mass

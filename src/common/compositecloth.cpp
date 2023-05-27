@@ -2,6 +2,10 @@
 #include "include/exceptions.h"
 #include "include/util.h"
 
+#include <memory>
+#include <utility>
+#include <vector>
+
 void CompositeCloth::linkCloth(std::unique_ptr<Cloth>&& newCloth) {
     newCloth->giveGutsTo(*this);
 }

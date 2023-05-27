@@ -1,14 +1,16 @@
 #include "include/cloth.h"
+#include "include/constraint.h"
 #include "include/exceptions.h"
 #include "include/integrator.h"
 #include "include/masse.h"
 #include "include/renderer.h"
 #include "include/spring.h"
-#include "include/constraint.h"
 #include "include/util.h"
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
+#include <memory>
+#include <vector>
 
 Cloth::Cloth(): masses(), springs() {}
 

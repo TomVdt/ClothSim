@@ -1,5 +1,7 @@
 #pragma once
-#include <iostream>  // for std::ostream
+
+#include <iostream>
+// Pour la conversion Vector3D -> glm::vec3
 #include <glm/vec3.hpp>
 
 

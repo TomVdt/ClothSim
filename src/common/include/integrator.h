@@ -1,8 +1,5 @@
 #pragma once
 #include "include/constants.h"
-#include "include/constraint.h"
-
-#include <vector>
 
 class Masse;
 

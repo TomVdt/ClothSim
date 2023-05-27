@@ -1,12 +1,13 @@
 #pragma once
-#include "include/vector3d.h"
-#include "include/masse.h"
-#include "include/cloth.h"
 #include "include/drawable.h"
-#include "include/renderer.h"
+#include "include/vector3d.h"
 
 #include <vector>
 #include <iostream>
+
+class Masse;
+class Cloth;
+class Renderer;
 
 class Constraint: public Drawable {
 private:

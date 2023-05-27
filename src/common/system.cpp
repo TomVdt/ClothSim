@@ -1,11 +1,9 @@
-#include "include/system.h"
 #include "include/cloth.h"
-#include "include/renderer.h"
 #include "include/exceptions.h"
+#include "include/renderer.h"
+#include "include/system.h"
 #include "include/util.h"
-#include "include/masse.h"
 #include "include/vector3d.h"
-
 
 void System::addCloth(std::unique_ptr<Cloth>&& cloth) {
     cloths.push_back(std::move(cloth));

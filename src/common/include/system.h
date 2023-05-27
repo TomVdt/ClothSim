@@ -1,13 +1,15 @@
 #pragma once
-#include "include/drawable.h"
-#include "include/constants.h"
-#include "include/integrator.h"
 #include "include/cloth.h"
+#include "include/constants.h"
+#include "include/drawable.h"
 #include "include/constraint.h"
 
 #include <iostream>
 #include <vector>
 #include <memory>
+
+class Integrator;
+class Renderer;
 
 class System: public Drawable {
 private:

@@ -1,8 +1,7 @@
 #pragma once
-#include "include/vector3d.h"
 #include "include/cloth.h"
+#include "include/vector3d.h"
 
-#include <vector>
 #include <cmath>
 
 class DiskCloth: public Cloth {

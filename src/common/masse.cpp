@@ -1,19 +1,18 @@
 #include "include/constants.h"
+#include "include/constraint.h"
+#include "include/exceptions.h"
 #include "include/masse.h"
 #include "include/spring.h"
-#include "include/exceptions.h"
 #include "include/renderer.h"
-#include "include/constraint.h"
 #include "include/util.h"
+#include "include/vector3d.h"
 
+#include <algorithm>
+#include <iostream>
+#include <memory>
 // for std::swap
 #include <utility>
-#include <algorithm>
-#include <memory>
-
-using CONSTANTS::g;
-using std::endl;
-using std::swap;
+#include <vector>
 
 int Masse::COUNT(0);
 
@@ -22,7 +21,7 @@ Masse::Masse(double mass, double lambda, const Vector3D& pos, const Vector3D& ve
     lambda(lambda),
     pos(pos),
     vel(vel),
-    force(mass * g),
+    force(mass * CONSTANTS::g),
     springs(),
     constraints(),
     id(COUNT++)
@@ -86,7 +85,7 @@ void Masse::updateForce() {
     for (const auto& spring : springs) {
         springForce += spring->springForce(*this);
     }
-    force = mass * g - lambda * vel + springForce;
+    force = mass * CONSTANTS::g - lambda * vel + springForce;
 }
 
 void Masse::addForce(const Vector3D& df) {
@@ -102,7 +101,7 @@ void Masse::connectSpring(Spring& spring) {
 void Masse::disconnectSpring(const Spring& spring) {
     for (size_t i(0); i < springs.size(); ++i) {
         if (&spring == springs[i]) {
-            swap(springs[i], springs.back());
+            std::swap(springs[i], springs.back());
             springs.pop_back();
             return;
         }
@@ -121,7 +120,6 @@ bool Masse::springConnected(const Spring& spring) const {
     }
     return false;
 }
-
 
 void Masse::draw(Renderer& dest) {
     dest.draw(*this);

@@ -1,11 +1,16 @@
-#include "include/constraint.h"
-#include "include/util.h"
+#include "include/cloth.h"
 #include "include/constants.h"
+#include "include/constraint.h"
 #include "include/exceptions.h"
+#include "include/masse.h"
+#include "include/renderer.h"
+#include "include/util.h"
+#include "include/vector3d.h"
 
-#include <cmath>
 #include <algorithm>
+#include <cmath>
 #include <iostream>
+#include <vector>
 
 //// Generic constraint ////
 

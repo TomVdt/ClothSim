@@ -1,6 +1,8 @@
 #include "include/diskcloth.h"
 #include "include/exceptions.h"
 
+#include <cmath>
+
 DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius, double radialStep, double lambda, double k, double angularStep) {
     if (radialStep < CONSTANTS::EPSILON) {
         ERROR(ValueError, "Radial step must be strictly positive");
