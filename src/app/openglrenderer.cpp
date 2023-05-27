@@ -28,7 +28,7 @@ OpenGLRenderer::OpenGLRenderer():
     indexLine(0), indexCube(0), indexSphere(0),
     camera(),
     massColor(1.0), massScale(0.25),
-    drawMasses(true), drawSprings(true),
+    drawMasses(true), drawSpeedVectors(true), drawSprings(true),
     frameCount(0)
 {
     reset();
@@ -249,18 +249,21 @@ glm::vec4 hsvToRgba(double h, double s, double v){
 #endif
 
 void OpenGLRenderer::draw(const Masse& mass) {
-    if (not drawMasses) {
-        return;
-    }
-
     #ifdef PRIDE
     massColor = hsvToRgba(frameCount * 0.01 + mass.getId() * 0.1, 1.0, 1.0);
     #endif
 
-    // Set to correct position
     const Vector3D& pos(mass.getPos());
-    const Vector3D scaling(massScale, massScale, massScale);
-    drawSphere(pos, scaling, massColor);
+
+    if (drawMasses) {
+        const Vector3D scaling(massScale, massScale, massScale);
+        drawSphere(pos, scaling, massColor);
+    }
+
+    if (drawSpeedVectors) {
+        const Vector3D& vel(mass.getVel());
+        drawLine(pos, pos + vel, massColor);
+    }
 }
 
 void OpenGLRenderer::draw(const Spring& spring) {
@@ -300,6 +303,7 @@ void OpenGLRenderer::drawControls() {
     ImGui::ColorEdit3("Color", &massColor[0]);
     ImGui::SliderFloat("Scale", &massScale, 0.1, 0.5);
     ImGui::Checkbox("Draw Masses?", &drawMasses);
+    ImGui::Checkbox("Draw Speed Vectors?", &drawSpeedVectors);
     ImGui::Checkbox("Draw Springs?", &drawSprings);
     
     if (ImGui::Button("Reset Camera")) reset();

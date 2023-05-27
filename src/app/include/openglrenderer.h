@@ -111,6 +111,11 @@ private:
     bool drawMasses;
 
     /**
+     * Activer le dessin des vecteurs vitesse?
+    */
+    bool drawSpeedVectors;
+
+    /**
      * Activer le dessin des ressorts?
     */
     bool drawSprings;
