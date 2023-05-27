@@ -6,6 +6,7 @@
 #include "include/exceptions.h"
 #include "include/geometry.h"
 #include "include/settings.h"
+#include "include/constraint.h"
 
 #include "GLFW/glfw3.h"
 #include <imgui/imgui.h>
@@ -27,8 +28,8 @@ OpenGLRenderer::OpenGLRenderer():
     offsetLine(0), offsetCube(0), offsetSphere(0),
     indexLine(0), indexCube(0), indexSphere(0),
     camera(),
-    massColor(1.0), massScale(0.25),
-    drawMasses(true), drawSpeedVectors(true), drawSprings(true),
+    massColor(1.0), constraintColor(0.1), massScale(0.25),
+    drawMasses(true), drawSpeedVectors(true), drawSprings(true), drawConstraints(true),
     frameCount(0)
 {
     reset();
@@ -305,12 +306,23 @@ void OpenGLRenderer::draw(const System& system) {
     system.drawContents(*this);
 }
 
+void OpenGLRenderer::draw(const Constraint& constraint) {
+    if (not drawConstraints) {
+        return;
+    }
+
+    double scale(constraint.getRadius());
+    drawSphere(constraint.getPos(), Vector3D(scale, scale, scale), constraintColor);
+}
+
 void OpenGLRenderer::drawControls() {
-    ImGui::ColorEdit4("Color", &massColor[0]);
+    ImGui::ColorEdit4("Mass color", &massColor[0]);
+    ImGui::ColorEdit4("Constraint color", &constraintColor[0]);
     ImGui::SliderFloat("Scale", &massScale, 0.1, 0.5);
     ImGui::Checkbox("Draw Masses?", &drawMasses);
     ImGui::Checkbox("Draw Speed Vectors?", &drawSpeedVectors);
     ImGui::Checkbox("Draw Springs?", &drawSprings);
+    ImGui::Checkbox("Draw Constraints?", &drawConstraints);
     
     if (ImGui::Button("Reset Camera")) reset();
 }

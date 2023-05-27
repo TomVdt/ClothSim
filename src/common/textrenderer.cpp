@@ -27,4 +27,10 @@ void TextRenderer::draw(const System& system) {
     system.drawContents(*this);
 }
 
+void TextRenderer::draw(const Constraint& constraint) {
+    UNUSED(constraint);
+    // do nothing
+    // out << constraint << std::endl;
+}
+
 

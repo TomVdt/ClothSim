@@ -17,4 +17,5 @@ public:
     virtual void draw(const Spring& mass);
     virtual void draw(const Cloth& cloth);
     virtual void draw(const System& system);
+    virtual void draw(const Constraint& constraint);
 };

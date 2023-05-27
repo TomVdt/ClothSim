@@ -101,6 +101,11 @@ private:
     glm::vec4 massColor;
 
     /**
+     * Couleur des contraintes
+    */
+    glm::vec4 constraintColor;
+
+    /**
      * Taille des masses
     */
     float massScale;
@@ -119,6 +124,11 @@ private:
      * Activer le dessin des ressorts?
     */
     bool drawSprings;
+
+    /**
+     * Activer le dessin des contraintes?
+    */
+    bool drawConstraints;
 
     /**
      * Nombre de frames depuis le début du programme
@@ -226,6 +236,11 @@ public:
      * Dessine un système
     */
     virtual void draw(const System&) override;
+
+    /**
+     * Dessine une contrainte
+    */
+    virtual void draw(const Constraint&) override;
 
     /**
      * Dessine les controles ImGui du renderer

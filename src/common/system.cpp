@@ -50,6 +50,10 @@ void System::drawContents(Renderer& dest) const {
     for (auto& cloth : cloths) {
         cloth->draw(dest);
     }
+
+    for (auto& constraint : constraints) {
+        constraint->draw(dest);
+    }
 }
 
 void System::display(std::ostream& out, size_t level) const {

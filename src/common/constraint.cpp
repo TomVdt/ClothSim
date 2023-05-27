@@ -1,6 +1,7 @@
 #include "include/constraint.h"
 #include "include/util.h"
 #include "include/constants.h"
+#include "include/exceptions.h"
 
 #include <cmath>
 #include <algorithm>
@@ -20,14 +21,21 @@ void Constraint::apply(Cloth& cloth, double time) const {
     cloth.applyConstraint(*this, time);
 }
 
+void Constraint::draw(Renderer& dest) {
+    dest.draw(*this);
+}
+
 void Constraint::display(std::ostream& out, size_t level) const {
     UNUSED(level);
     out << "pos: " << pos << ", radius: " << radius;
 }
 
-//// Captain Hook ////
+std::ostream& operator<<(std::ostream& out, const Constraint& constraint) {
+    constraint.display(out);
+    return out;
+}
 
-HookConstraint::HookConstraint(const Vector3D& pos, double radius): Constraint(pos, radius) {}
+//// Captain Hook ////
 
 void HookConstraint::apply(Masse& mass, double time) const {
     UNUSED(time);
@@ -103,4 +111,33 @@ void SineImpulsionConstraint::display(std::ostream& out, size_t level) const {
     out << indent(level) << "SineImpulsionConstraint {";
     Constraint::display(out, level);
     out << ", force: " << force << ", frequence: " << frequency << "}";
+}
+
+//// Attraction point ////
+
+AttractionConstraint::AttractionConstraint(const Vector3D& pos, double spherOfInfluence, double intensity, double innerRadius): Constraint(pos, spherOfInfluence), intensity(intensity), innerRadius(innerRadius) {
+    if (innerRadius < CONSTANTS::EPSILON) {
+        ERROR(ValueError, "Inner radius must be strictly positive");
+    }
+}
+
+void AttractionConstraint::apply(Masse& mass, double time) const {
+    UNUSED(time);
+    Vector3D dir;
+    if (mass.getPos() == getPos()) {
+        dir = Vector3D(0, 1, 0);
+    } else {
+        dir = ~(getPos() - mass.getPos());
+    }
+    const double dist(
+        std::max(Vector3D::dist(mass.getPos(), getPos()), innerRadius)
+    );
+    const Vector3D force(mass.getMass() * intensity / (dist * dist) * dir);
+    mass.addForce(force);
+}
+
+void AttractionConstraint::display(std::ostream& out, size_t level) const {
+    out << indent(level) << "AttractionConstraint {";
+    Constraint::display(out, level);
+    out << "}";
 }

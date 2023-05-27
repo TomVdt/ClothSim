@@ -342,9 +342,9 @@ void Window::run() {
 
         if (showConstraintMenu) {
             ImGui::Begin("Add new constraint", &showConstraintMenu);
-            const char* options[] = { "Hook Constraint", "Impulsion Constraint", "Sine Impulsion Constraint" };
+            const char* options[] = { "Hook Constraint", "Gravity Constraint"};
             static int selected(0);
-            ImGui::Combo("Cloth type", &selected, options, 3);
+            ImGui::Combo("Constraint type", &selected, options, 2);
 
             static float pos[3] = { 0.0, 0.0, 0.0 };
             ImGui::SetNextItemWidth(200);
@@ -364,10 +364,23 @@ void Window::run() {
                 }
                 break;
             case 1:
-                ImGui::TextWrapped("Because of time constraints, this has not been implemented");
-                break;
-            case 2:
-                ImGui::TextWrapped("Because of time constraints, this has not been implemented");
+                {
+                    static float intensity(0.1);
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputFloat("Intensity", &intensity, 0.5, 2.0, "%.2f");
+                    static float innerRadius(0.1);
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputFloat("Inner Radius", &innerRadius, 0.01, 0.05, "%.3f");
+                    if (innerRadius < CONSTANTS::EPSILON) innerRadius = CONSTANTS::EPSILON;
+                    if (ImGui::Button("Add")) {
+                        system.addConstraint(std::make_unique<AttractionConstraint>(
+                            Vector3D(pos[0], pos[1], pos[2]),
+                            radius,
+                            intensity,
+                            innerRadius
+                        ));
+                    }
+                }
                 break;
             default:
                 break;

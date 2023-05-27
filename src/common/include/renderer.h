@@ -4,6 +4,7 @@ class Masse;
 class Spring;
 class Cloth;
 class System;
+class Constraint;
 
 class Renderer {
 public:
@@ -22,4 +23,5 @@ public:
     virtual void draw(const Spring&) = 0;
     virtual void draw(const Cloth&) = 0;
     virtual void draw(const System&) = 0;
+    virtual void draw(const Constraint&) = 0;
 };
