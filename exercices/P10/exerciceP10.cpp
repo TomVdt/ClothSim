@@ -1,14 +1,12 @@
-#include "include/vector3d.h"
-#include "include/masse.h"
-#include "include/spring.h"
-#include "include/integrator.h"
-#include "include/textrenderer.h"
-#include "include/system.h"
 #include "include/cloth.h"
 #include "include/constraint.h"
+#include "include/integrator.h"
+#include "include/masse.h"
+#include "include/system.h"
+#include "include/textrenderer.h"
+#include "include/vector3d.h"
 
 #include <iostream>
-#include <fstream>
 #include <memory>
 
 int main() {

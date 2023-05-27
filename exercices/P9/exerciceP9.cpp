@@ -1,12 +1,9 @@
-#include "include/masse.h"
-#include "include/integrator.h"
 #include "include/cloth.h"
+#include "include/integrator.h"
+#include "include/masse.h"
 #include "include/system.h"
 
 #include <iostream>
-
-using std::cout;
-using std::endl;
 
 int main() {
     EulerCromerIntegrator cromer;
@@ -24,7 +21,7 @@ int main() {
     // Ajout d'un tissu au système (le système possède les tissus)
     system.addCloth(std::move(cloth));
 
-    cout << system << endl;
+    std::cout << system << "\n";
 
     return 0;
 }

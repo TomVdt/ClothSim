@@ -1,8 +1,11 @@
-#include "include/window.h"
-#include "include/system.h"
 #include "include/cloth.h"
+#include "include/constraint.h"
+#include "include/masse.h"
+#include "include/system.h"
+#include "include/vector3d.h"
+#include "include/window.h"
 
-// La majorité de l'implémentation pour l'exercice P11 se situe dans le repertoire "app/openglrenderer.[cpp,h]"
+// La majorité de l'implémentation pour l'exercice P11 se situe dans le repertoire "app/openglrenderer.[cpp,h]" et "app/window.[cpp,h]"
 // Ceci est simplement une démo de l'exercice P10, en mode graphique
 
 int main() {
