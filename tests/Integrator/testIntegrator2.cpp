@@ -43,7 +43,7 @@ int main() {
     // "Header" du txt
     out << "# x1, y1, z1, x2, y2, z2, x3, y3, z3" << endl;
 
-    for (int i(0); i < 201; ++i) {
+    for (int i(0); i < 10; ++i) {
         log(out, mass1.getPos());
         out << ",";
         log(out, mass2.getPos());

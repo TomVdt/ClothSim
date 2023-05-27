@@ -12,19 +12,19 @@ int main() {
         1, 0.3,
         3.0, 1.0,
         {
-            Vector3D(-2, 0, 0),
-            Vector3D(0, -1, 0),
-            Vector3D(2, 0, 0)
+            Vector3D(-0.5, 0, 0),
+            Vector3D(0, -3, 0),
+            Vector3D(0.5, 0, 0)
         }
     ));
 
     Constraint* constraint1(new HookConstraint(
-        Vector3D(-2, 0, 0),
+        Vector3D(-0.5, 0, 0),
         0.1
     ));
 
     Constraint* constraint2(new HookConstraint(
-        Vector3D(2, 0, 0),
+        Vector3D(0.5, 0, 0),
         0.1
     ));
 
