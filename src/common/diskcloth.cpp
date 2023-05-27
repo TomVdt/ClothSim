@@ -33,7 +33,7 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
     // Number of rings
     const unsigned int diskCount(std::floor(totalRadius / radialStep));
     // Number of masses per ring
-    const unsigned int countPerDisk(std::abs(2.0 * M_PI / angularStep));
+    const unsigned int countPerDisk(std::ceil(std::abs(2.0 * M_PI / angularStep)));
 
     for (unsigned int i(0); i < countPerDisk; ++i) {
         for (unsigned int j(0); j < diskCount; ++j) {
