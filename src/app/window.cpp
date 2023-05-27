@@ -230,6 +230,7 @@ void Window::run() {
             system.clear();
             paused = true;
             shouldPause = true;
+            for (size_t i(0); i < energyCount; ++i) energy[i] = 0.0;
             energyOffset = 0;
             energyMin = 0.0;
             energyMax = 0.0;
@@ -273,10 +274,14 @@ void Window::run() {
                     if (ImGui::Button("Add")) {
                         std::vector<Vector3D> realPositions;
                         for (int i(0); i < count; ++i) realPositions.emplace_back(positions[i][0], positions[i][1], positions[i][2]);
-                        system.addCloth(std::make_unique<ChainCloth>(
-                            mass, lambda, k, l0,
-                            realPositions
-                        ));
+                        try {
+                            system.addCloth(std::make_unique<ChainCloth>(
+                                mass, lambda, k, l0,
+                                realPositions
+                            ));
+                        } catch (const ValueError& e) {
+                            std::cerr << e.what() << "\n";
+                        }
                     }
                 }
                 break;
@@ -295,12 +300,16 @@ void Window::run() {
                     ImGui::InputFloat("Step between masses", &step, 0.01, 0.05, "%.2f units");
                     if (step < 0.01) step = 0.01;
                     if (ImGui::Button("Add")) {
-                        system.addCloth(std::make_unique<RectCloth>(
-                            mass,
-                            Vector3D(vec1[0], vec1[1], vec1[2]), Vector3D(vec2[0], vec2[1], vec2[2]),
-                            Vector3D(origin[0], origin[1], origin[2]),
-                            lambda, step, k, l0
-                        ));
+                        try {
+                            system.addCloth(std::make_unique<RectCloth>(
+                                mass,
+                                Vector3D(vec1[0], vec1[1], vec1[2]), Vector3D(vec2[0], vec2[1], vec2[2]),
+                                Vector3D(origin[0], origin[1], origin[2]),
+                                lambda, step, k, l0
+                            ));
+                        } catch (const ValueError& e) {
+                            std::cerr << e.what() << "\n";
+                        }
                     }
                 }
                 break;
@@ -322,14 +331,18 @@ void Window::run() {
                     if (angStep < 0.0) angStep = 0.0;
                     if (angStep > 180.0) angStep = 180.0;
                     if (ImGui::Button("Add")) {
-                        system.addCloth(std::make_unique<DiskCloth>(
-                            mass,
-                            Vector3D(origin[0], origin[1], origin[2]),
-                            Vector3D(radius[0], radius[1], radius[2]),
-                            radStep,
-                            lambda, k,
-                            angStep * M_PI / 180.0
-                        ));
+                        try {
+                            system.addCloth(std::make_unique<DiskCloth>(
+                                mass,
+                                Vector3D(origin[0], origin[1], origin[2]),
+                                Vector3D(radius[0], radius[1], radius[2]),
+                                radStep,
+                                lambda, k,
+                                angStep * M_PI / 180.0
+                            ));
+                        } catch (const ValueError& e) {
+                            std::cerr << e.what() << "\n";
+                        }
                     }
                 }
                 break;

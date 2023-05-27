@@ -1,5 +1,6 @@
 #include "include/chaincloth.h"
 #include "include/renderer.h"
+#include "include/exceptions.h"
 
 #include <memory>
 
@@ -11,6 +12,9 @@ ChainCloth::ChainCloth(double mass, double lambda, double k, double l0, std::vec
 
     // Connect them
     for (size_t i(0); i < masses.size() - 1; ++i) {
+        if (masses[i]->getPos() == masses[i + 1]->getPos()) {
+            ERROR(ValueError, "Connected masses may not have the same position");
+        }
         connect(i, i + 1, k, l0);
     }
 }

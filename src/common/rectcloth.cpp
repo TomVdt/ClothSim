@@ -1,6 +1,7 @@
 #include "include/constants.h"
 #include "include/renderer.h"
 #include "include/rectcloth.h"
+#include "include/exceptions.h"
 
 #include <cmath>
 
@@ -12,7 +13,7 @@ RectCloth::RectCloth(double mass, Vector3D width, Vector3D length, const Vector3
     
     // Colinéaires
     if (width == length or width == -length) {
-        return;
+        ERROR(ValueError, "Width and length vectors must not be colinear");
     }
 
     // Pas perpendiculaires
