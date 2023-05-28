@@ -9,6 +9,8 @@
 #include <iostream>
 #include <memory>
 
+// "TextViewer" -> common/include/textrenderer.h, common/textrenderer.cpp
+
 int main() {
     std::unique_ptr<Cloth> cloth(std::make_unique<Cloth>());
 

@@ -5,6 +5,10 @@
 
 #include <iostream>
 
+// "Dessinable" -> common/include/drawable.h
+// "SupportADessin" -> common/include/renderer.h
+// "Systeme" -> common/include/system.h, common/system.cpp
+
 int main() {
     EulerCromerIntegrator cromer;
     std::unique_ptr<Cloth> cloth(std::make_unique<Cloth>());
