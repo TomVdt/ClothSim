@@ -4,6 +4,9 @@ class Renderer;
 
 class Drawable {
 public:
+    /**
+     * Destructeur par défaut virtuel pour l'héritage
+    */
     virtual ~Drawable() = default;
 
     /**

@@ -62,16 +62,17 @@ private:
 public:
     /** 
      * Constructeur masse nécesssaire ensuite lambda, pos et vel peuvent etre par defaut
-     * N'est pas propriétaire des springs 
+     * N'est pas propriétaire des springs
     */
     Masse(double mass, double lambda = 0.0, const Vector3D& pos = Vector3D(), const Vector3D& vel = Vector3D());
     
     /**
-     *  Pas de copie de masse: à quels ressorts connecter? 
+     * Pas de copie de masse: à quels ressorts connecter? 
     */
     Masse(const Masse&) = delete;
+
     /**
-     *  Pas de copie de masse: à quels ressorts connecter? 
+     * Pas de copie de masse: à quels ressorts connecter? 
     */
     Masse& operator=(const Masse&) = delete;
 
@@ -79,38 +80,39 @@ public:
      * Possible de déplacer les masses
     */
     Masse(Masse&&) = default;
+
     /** 
      * Possible de déplacer les masses
     */
     Masse& operator=(Masse&&) = default;
 
     /**
-     * Redéfinition du destructeur pour les masses
+     * Destructeur par défaut pour les masses
     */
     virtual ~Masse() = default;
 
     /**
-     * Vecteur position 
+     * Vecteur position de la masse
     */
     const Vector3D& getPos() const { return pos; }
 
     /** 
-     * Vecteur vitesse 
+     * Vecteur vitesse de la masse
     */
     const Vector3D& getVel() const { return vel; }
     
     /** 
-     * Vecteur de la force 
+     * Vecteur de la force actuelle sur la masse
     */
     const Vector3D& getForce() const { return force; }
     
     /** 
-     * Masse 
+     * Renvoie la valeur de la masse de cette instance 
     */
     double getMass() const { return mass; }
     
     /** 
-     * Coefficient de frottement 
+     * Coefficient de frottement
     */
     double getLambda() const { return lambda; }
 
@@ -120,27 +122,27 @@ public:
     int getId() const { return id; }
 
     /**
-     *  Set postion 
+     * Modifie la position de la masse
     */
     void setPos(const Vector3D& vec) { pos = vec; }
     
     /** 
-     * Set vitesse
+     * Modifie la vitesse de la masse
     */
     void setVel(const Vector3D& vec) { vel = vec; }
 
     /** 
-     * Vecteur accélération de la masse 
+     * Vecteur accélération de la masse
     */
     Vector3D acceleration() const;
 
     /**
-     * Fonction de l'accélération en fonction du temps, position et vitesse (pour les integrateurs)
+     * Fonction de l'accélération en fonction du temps, position et vitesse (pour les intégrateurs)
     */
     Vector3D acceleration(double time, const Vector3D& p, const Vector3D& v);
 
     /**
-     * Energie potentielle de la masse
+     * Energie mécanique de la masse
     */
     double energy() const;
 
@@ -150,12 +152,12 @@ public:
     void addConstraint(const Constraint& constraint);
     
     /**
-     * Supprime toutes les contraintes sur les masses
+     * Supprime toutes les contraintes sur la masse
     */
     void clearConstraints();
 
     /**
-     * Modifie la force en fonction de la contrainte
+     * Modifie la force en fonction de la contrainte fournie
     */
     void applyConstraint(const Constraint& constraint, double time);
 
@@ -208,6 +210,6 @@ public:
 };
 
 /** 
- * surcharge externe de l'opérateur << pour les masses 
+ * Surcharge externe de l'opérateur << pour les masses 
 */
 std::ostream& operator<<(std::ostream& out, const Masse& mass);

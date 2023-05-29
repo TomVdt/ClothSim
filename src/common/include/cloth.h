@@ -45,27 +45,27 @@ public:
     Cloth& operator=(const Cloth&) = delete;
 
     /**
-     *  On peut (et doit!) déplacer les tissus 
+     * On peut (et doit!) déplacer les tissus 
     */
     Cloth(Cloth&&) = default;
 
     /**
-     *  On peut (et doit!) déplacer les tissus 
+     * On peut (et doit!) déplacer les tissus 
     */
     Cloth& operator=(Cloth&&) = default;
 
     /**
-     *  Destructeur par defaut virtuel suffisant car nous utilisons des `unique_ptr` 
+     * Destructeur par défaut virtuel suffisant car nous utilisons des `unique_ptr` 
     */
     virtual ~Cloth() = default;
 
     /**
-     *  Nombre de masses dans le tissu 
+     * Nombre de masses dans le tissu 
     */
     unsigned int getMassCount() const { return masses.size(); };
 
     /**
-     *  Nombre de ressorts dans le tissu 
+     * Nombre de ressorts dans le tissu 
     */
     unsigned int getSpringCount() const { return springs.size(); };
     
@@ -90,12 +90,12 @@ public:
     void addMass(std::unique_ptr<Masse>&&);
 
     /**
-     *  Crée un ressort entre deux masses d'indices m1 et m2, de raideur k et longueur au repos l0 
+     * Crée un ressort entre deux masses d'indices m1 et m2, de raideur k et longueur au repos l0 
     */
     void connect(size_t m1, size_t m2, double k = 0.1, double l0 = 1);
 
     /**
-     *  Vérifie pour tous les ressorts et toutes les masses que les connections sont valides 
+     * Vérifie pour tous les ressorts et toutes les masses que les connections sont valides 
     */
     bool check() const;
 
@@ -106,7 +106,7 @@ public:
     void giveGutsTo(Cloth& cloth);
 
     /**
-     *  Met à jour les forces sur les masses 
+     * Met à jour les forces sur les masses 
     */
     void updateForce();
 
@@ -126,17 +126,17 @@ public:
     void applyConstraints(double time);
 
     /**
-     *  Utilise l'intégrateur pour mettre à jour les masses du tissu 
+     * Utilise l'intégrateur pour mettre à jour les masses du tissu 
     */
     void step(Integrator const& integratator, double dt = CONSTANTS::PHYSICS_DT, double time = 0);
 
     /**
-     * Dessine le tissu
+     * Dessine le tissu sur le support fourni
     */
     virtual void draw(Renderer& dest) override;
 
     /**
-     * Dessine les masses du tissu
+     * Dessine les masses du tissu sur le support fourni
     */
     void drawParticles(Renderer& dest) const;
 

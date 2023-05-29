@@ -122,9 +122,6 @@ bool Masse::springConnected(const Spring& spring) const {
     return false;
 }
 
-// std::unique_ptr<Masse> Masse::copy() const {
-//     return std::make_unique<Masse>(mass, lambda, pos, vel, locked);
-// }
 
 void Masse::draw(Renderer& dest) {
     dest.draw(*this);

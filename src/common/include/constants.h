@@ -2,11 +2,24 @@
 #include "include/vector3d.h"
 
 namespace CONSTANTS {
-    // Comparaison double
+    /**
+     * Comparaison entre double
+    */
     inline constexpr double EPSILON(1e-10);
     
     // Physique
+    /**
+     * Vecteur du champ de pesanteur terrestre
+    */
     inline constexpr Vector3D g(0.0, -9.81, 0.0);
+
+    /**
+     * Pas de temps par défaut
+    */
     inline constexpr double PHYSICS_DT(0.01);
+
+    /**
+     * Distance par défaut (utilisée comme critère de convergence dans l'intégrateur de Newmark)
+    */
     inline constexpr double PHYSICS_DPOS(0.05);
 }

@@ -10,57 +10,96 @@ class Masse;
 
 class Spring: public Drawable {
 private:
-    /* Constante de raideur */
+    /**
+     * Constante de raideur du ressort
+    */
     double k;
 
-    /* Longueur de repos */
+    /**
+     * Longueur de repos du ressort
+    */
     double l0;
 
-    /* Masse de départ */
+    /**
+     * Masse de départ
+    */
     const Masse& mass1;
 
-    /* Masse d'arrivée */
+    /**
+     * Masse d'arrivée
+    */
     const Masse& mass2;
 
     /**
-     * Identifiant unique du ressort
+     * Identificateur unique du ressort à partir de la variable de classe COUNT
     */
     int id;
 
     /**
-     * Nombre de ressorts créés, pour générer l'`id`
+     * Variable de classe permettant de donner des identificateurs uniques aux ressorts 
+     * en comptant le nombre de ressorts crées
     */
     static int COUNT;
 
 public:
-    /* Constructeur
-     * Initialise constante de raideur et longueur à vide
-     * Les extremités doivent être données et ne peuvent pas etre modifiées après
-     * Pour supprimer une connection, simplement supprimer la référence à cette connection */
+    /** 
+     * Constructeur de ressort
+     * Initialise la constante de raideur et la longueur à vide
+     * Les masses des extremités doivent être données et ne peuvent pas etre modifiées après
+     * Pour supprimer une connection, simplement supprimer la référence à cette connection 
+    */
     Spring(double k, double l0, const Masse& mass1, const Masse& mass2): k(k), l0(l0), mass1(mass1), mass2(mass2), id(COUNT++) {}
 
-    /* Pas de copie de ressorts
-     * Un autre ressort agissant sur les même masses n'a pas trop de sens */
+    /**
+     * Pas de copie de ressorts
+     * Un autre ressort agissant sur les même masses n'a pas trop de sens 
+    */
     Spring(const Spring&) = delete;
+
+    /**
+     * Pas de copie de ressorts
+     * Un autre ressort agissant sur les même masses n'a pas trop de sens 
+    */
     Spring& operator=(const Spring&) = delete;
 
+    /**
+     * Destructeur par défaut suffisant
+    */
     virtual ~Spring() = default;
 
-    /* Getter pour constante de raideur */
+    /**
+     * Constante de raideur k 
+    */
     double getK() const { return k; }
 
-    /* Getter pour la longueur de repos */
+    /**
+     * Longueur de repos l0
+    */
     double getL0() const { return l0; }
 
+    /**
+     * Id unique du ressort
+    */
     int getId() const { return id; }
 
+    /**
+     * Retourne la position de la masse de départ
+    */
     const Vector3D& getStartPos() const { return mass1.getPos(); }
 
+    /**
+     * Retourne la position de la masse d'arrivée
+    */
     const Vector3D& getEndPos() const { return mass2.getPos(); }
 
-    /* Retourne la force exercée par le ressort sur une masse */
+    /**
+     * Retourne la force exercée par le ressort sur une masse
+    */
     Vector3D springForce(const Masse&) const;
 
+    /**
+     * Retourne l'énergie potentielle du ressort
+    */
     double energy() const;
 
     /**
@@ -68,21 +107,33 @@ public:
     */
     double length() const;
 
-    /* test si cette masse est connectée au ressort */
+    /**
+     * Test si la masse fournie est connectée au ressort
+    */
     bool massConnected(const Masse&) const;
 
-    /* Le ressort est-il valide?
-     * Un ressort valide est un ressort:
-     * - Où les extrémités sont des masses différentes */
+    /**
+     * Test si le ressort est valide, c'est-à-dire si ses extrêmités sont différentes
+    */
     bool valid() const;
     
-    /* Vérifie que les extremités soient connectées au ressort */
+    /**
+     * Vérifie que les extremités soient connectées au ressort
+    */
     bool areEndsValid() const;
 
-    /* Représentation du ressort dans un flot */
+    /**
+     * Représentation du ressort dans un flot
+    */
     void display(std::ostream& out, size_t level = 0) const;
 
+    /**
+     * Dessine le ressort sur le support fourni
+    */
     virtual void draw(Renderer& dest) override;
 };
 
+/**
+ * Surcharge de l'opérateur << pour afficher un ressort dans un flot
+*/
 std::ostream& operator<<(std::ostream&, const Spring&);
