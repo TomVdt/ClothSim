@@ -5,7 +5,7 @@
 > Comment représentez-vous ces vecteurs ? Comment sont-ils organisés : quels attributs ? quelles méthodes ? quels droits d'accès ?
 
 Les vecteurs sont représentés avec 3 `double` privés `x`, `y` et `z`. Ce sont les seuls attributs de la classe.
-Nous aurions bien sur aussi pu utiliser un array de taille 3 (`std::array` ou array à la C), mais notre choix semble plus naturel, plus performant et plus ergonomique à utiliser.
+Nous aurions bien sur aussi pu utiliser un array de taille 3 (`std::array` ou array à la C), mais notre choix semble plus naturel et plus ergonomique à utiliser.
 Utiliser un array serait probablement mieux si nous voulions pouvoir étendre la classe à N-dimensions.
 
 Nous avons des méthodes publiques:
@@ -40,7 +40,7 @@ Pour notre utilisation des vecteurs, les `Vector3D` en coordonnées cartésienne
 
 > Quels opérateurs avez vous introduits ?
 
-Nous avons introduit les opérateurs `<<` et `==` pour faire le role de `affiche` et `compare`, ainsi que d'autre opérateurs, qui sont documentés dans `CONCEPTION` (en résumé: opérateurs arithmétiques, normalisation `~`, produit scalaire et vectoriel).
+Nous avons introduit les opérateurs `<<` et `==` pour faire le role de `affiche` et `compare`, ainsi que d'autre opérateurs, qui sont documentés dans `CONCEPTION.md` (en résumé: opérateurs arithmétiques, normalisation `~`, produit scalaire et vectoriel).
 
 ## P5
 

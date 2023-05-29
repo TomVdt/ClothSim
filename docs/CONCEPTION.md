@@ -1,31 +1,11 @@
 # Conception
 
+La hierarchie de classes peut être vue dans la documentation générée par doxygen, sous "Classes > Class Hierarchy"
+
 ## Vector3D
 
-Nous avons crée une classe Vector3D avec les 3 coordonnées comme attributs et des méthodes publiques:
+Voici comment utiliser nos `Vector3D`
 
-- les constructeurs
-
-- des getters sur les attributs
-- `norm()` et `normSq()` pour avoir la norme et son carré
-
-- pour modifier cette instance du vecteur:
-    - des setters sur les 3 attributs
-    - `normalize()`
-    - les surcharges d'opérateurs: `+=` et `-=` avec des vecteurs
-    - les surcharges d'opérateurs: `*=` et `/=` avec des double
-
-- `normalized()` renvoie ce vecteur normalisé sans le modifier
-
-- les opérations classiques sur des vecteurs: 
-    - `dot()` ou `*` et `cross()` ou `^`
-    - `*` et `/` avec des double
-    - `-` pour renvoyer l'opposé du vecteur
-
-
-- la surcharge d'opérateurs `==` et `!=` pour tester les égalités
-
-Exemples:
 ```c++
 // Constructeurs
 Vector3D vec1;                  // initialise au vecteur (0, 0, 0)
@@ -67,3 +47,39 @@ Vector3D vec(1.0, 4.2, 2.0);
 
 cout << vec;                    // affiche (1.0 4.2 2.0)
 ```
+
+## Tissus simples
+
+Contrairement à ce qui avait été conseillé, nous avons choisi de rajouter les masses après avoir construit le tissu.
+Cela ne pose pas de problème avec notre moyen de stocker les masses, et nous trouvons que cela rend les tissus plus agréable à construire à la main, plutot que de passer un vecteur d'arguments permettant de tout contruire au départ, ce qui ne montre pas clairement ce que fait le constructeur et permet beaucoup d'erreurs.
+Les masses sont construites à l'interieur du tissu, à l'aide de `std::forward` (https://en.cppreference.com/w/cpp/utility/forward).
+Les connections se font par la méthode `Cloth::connect()`.
+La validité du tissu peut être vérifiée avec `Cloth::check()`.
+Les tissus possèdent les masses et ressorts qu'ils contiennent.
+
+## Tissus composés
+
+Pour implémenter nos `CompositeCloth` sans briser l'encapsulation, nous avons utilisé une méthode de transfert de possession des masses et ressorts.
+Les tissus peuvent par la méthode `Cloth::giveGutsTo(Cloth&)` donner toutes leurs masses et ressorts (avec un std::move()) au tissu donné, en appelant la méthode (virtuelle) protected `Cloth::lootCorpse()` sur le tissu donné, qui combine alors les deux listes.
+Pour les tissus composés, il suffit donc de, pour connecter un tissu, d'appeler la méthode `Cloth::giveGutsTo()` sur le tissu donné et d'override la méthode `Cloth::lootCorpse()` pour effectuer les nouvelles connections
+
+## Contraintes
+
+Pour toutes nos `Constraint`, nous avons opté d'utiliser un double-dispatch sur le tissu donné à la méthode `Constraint::apply(Cloth&, )`.
+La méthode appelle une méthode sur le tissu `Cloth::applyConstraint()`, qui va elle iterer sur les masses, vérifier si la contrainte s'applique et si c'est le cas, l'appliquer par la méthode `Constraint::apply(Masse&, )`.
+Cela permet de maintenir une bonne encapsulation en évitant un getter sur les masses.
+Nous considérons que, si la méthode `Constraint::apply()` est appelée, que la contrainte doit s'appliquer dans tous les cas, et que c'est à celui qui fait l'appel de vérifier si elle doit bien s'appliquer par la méthode `Constraint::isApplicable()`.
+
+Nos `ImpulsionConstraint` utilisent pour mémoriser à quelles masses elles doivent s'appliquer une liste d'identifiant unique pour toutes les masses concernées, sans enregistrer leur addresse, ce qui briserait l'encapsulation.
+Pour ce faire, nous attribuons automatiquement à chaque masse un entier unique, accessible en lecture seule depuis l'exterieur. Les tissus possèdent une méthode `Cloth::getMassIdsInRange()` qui, comme le nom l'indique, permet d'obtenir tous les identifiants des masses dans un certain rayon. Les contraintes enregistrent donc cette liste, pour chacun des tissus donnés.
+
+Nous avons aussi rendu nos contraintes dessinables, pour mieux voir sur quelles masses elles agissent, et parce que nous pouvions le faire ¯\\\_(ツ)\_/¯.
+
+## Util et exceptions
+
+Pour des fonctions utilisées de partout dans le projet, le fichier `util.h` définit une classe `indent` qui permet tout simplement d'indenter une sortie dans un flot, pour rendre l'affichage plus agréable et mieux séparer les objets.
+Un macro `UNUSED` y est aussi définit et permet d'enlever les warnings "unused argument"
+
+Nous avons aussi implémenté un système d'exceptions avec différents types et messages possibles.
+Les noms des types d'erreurs sont fortement inspirés du python.
+Un macro `ERROR` permet de spécifier le type d'erreur à envoyer et les message, et complète automatiquement les contructeurs des erreurs avec le fichier et la ligne où l'erreur s'est produite.

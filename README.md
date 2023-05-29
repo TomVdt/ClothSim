@@ -6,7 +6,7 @@ Projet programmation OOP - PH BA2
 
 [ ] Completer journal - M
 
-[ ] Completer conception - M & T
+[x] Completer conception - M & T
 
 [x] Verifier réponses - M
 
@@ -29,14 +29,14 @@ Projet programmation OOP - PH BA2
 
 À LA FIN:
 
-[ ] Passer un coup de formatage automatique
+[ ] Passer un coup de formattage automatique
 
-[ ] Completer README
+[x] Completer README
 
-- [ ] Questions
-- [ ] Instructions d'utilisation
-- [ ] Structure du projet
-- [ ] Screenshots
+- [x] Questions
+- [x] Instructions d'utilisation
+- [x] Structure du projet
+- [x] Screenshots
 
 [ ] NOMS.txt
 
@@ -47,11 +47,12 @@ Ce projet simule des tissus en les modélisant par des ensembles de masses et re
 ## Fonctionalités
 
 - Partie Phyisque
+  - Masses qu'on peut relier par des ressorts
   - Tissus simples à composer soi-même
   - Tissus complexes: chaine, rectangle, disque et composé
+  - Système contenant des tissus et contraintes, capable de calculer son énergie
   - Différents intégrateurs numériques: Euler-Cromer, Runge-Kutta, Newmark
   - Contraintes: crochets, impulsions, impulsions sinusoïdales, attraction / répulsion
-  - Système contenant des tissus et contraintes, capable de calculer son énergie
 - Partie Graphique (GLFW + glew)
   - Dessin de plusieurs primitifs géométriques (lignes, cubes et sphères)
   - Coloration des ressorts en fonction de leur extension et compression
@@ -80,17 +81,19 @@ Ce projet simule des tissus en les modélisant par des ensembles de masses et re
   - `constants.h` pour les constantes physiques: g, pas de temps et epsilon
   - `settings.h` pour les paramètres de la fenêtre et les contrôles
 
+Voir `GRAPHISME.md` pour plus d'informations sur nos choix de librairies.
+
 ## Temps
 
 Nous estimons avoir passé environ 6-8h par personne sur le projet.
 
 ## Dépendences
 
-- [GLFW](https://github.com/glfw/glfw) (license ZLIB) pour la fenêtre OpenGL
-- [glm](https://github.com/g-truc/glm) (license MIT) pour les calculs matriciels
-- [Dear ImGui](https://github.com/ocornut/imgui) (license MIT) pour une interface de simulation agréable et configurable
-- Optionel: [doxygen](https://github.com/doxygen/doxygen) pour générer la documentation
-- Optionel: [doxygen-awesome-css](https://github.com/jothepro/doxygen-awesome-css) (license MIT) pour une belle documentation
+- Inclus: [GLFW](https://github.com/glfw/glfw) (license ZLIB) pour la fenêtre OpenGL
+- Inclus: [glm](https://github.com/g-truc/glm) (license MIT) pour les calculs matriciels
+- Inclus: [Dear ImGui](https://github.com/ocornut/imgui) (license MIT) pour une interface de simulation agréable et configurable
+- Inclus: [doxygen-awesome-css](https://github.com/jothepro/doxygen-awesome-css) (license MIT) pour une belle documentation
+- Optionel, externe: [doxygen](https://github.com/doxygen/doxygen) pour générer la documentation
 
 Puisque GLFW n'est pas installé sur les VMs, nous avons inclu une version précompilée de la librairie dans notre projet: `libs/GLFW/libglfw.a`.
 
