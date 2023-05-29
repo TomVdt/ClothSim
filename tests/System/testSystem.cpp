@@ -14,13 +14,11 @@ int main() {
     std::cout << "=== Système vide ===\n";
     std::cout << system << "\n";
 
-    cloth->addMass(std::make_unique<Masse>(1, 0.3, Vector3D(0, 0, 0), Vector3D(0, 0, 0)));
-    cloth->addMass(std::make_unique<Masse>(1, 0.3, Vector3D(2, 0, 0), Vector3D(0, 0, 0)));
-    cloth->addMass(std::make_unique<Masse>(1, 0.3, Vector3D(0, 0, 2), Vector3D(0, 0, 0)));
-
-    cloth->connect(0, 1, 9, 1.5);
-    cloth->connect(0, 2, 1.9, 1.75);
-    cloth->connect(1, 2, 5.5, 1.25);
+    cloth->addMass(0.33, 0.3, Vector3D(0, -3, 0), Vector3D(0, 0, 0));
+    cloth->addMass(1, 0.3, Vector3D(-0.5, 0, 0), Vector3D(0, 0, 0));
+    cloth->addMass(1, 0.3, Vector3D(0.5, 0, 0), Vector3D(0, 0, 0));
+    cloth->connect(0, 1, 0.6, 2.5);
+    cloth->connect(0, 2, 0.6, 2.5);
 
     // Ajout d'un tissu au système (le système possède les tissus)
     system.addCloth(std::move(cloth));
