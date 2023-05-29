@@ -125,6 +125,8 @@ make exercices
 
 Pour executer les tests manuellement, faire, depuis la racine du projet, `./bin/test/<nom du test>`. Pour les exercices, `./bin/exercices/exerciceP<numero>`. Pour le programme principal, `./bin/clothSimulation`.
 
+Pour voir les résultats des tests, executer `jupyter-notebook output/plotTestResults.ipynb`
+
 ## Documentation
 
 Pour générer la documentation, executer

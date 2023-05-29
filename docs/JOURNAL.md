@@ -75,19 +75,22 @@
 - REFACTORING  <sub>trois</sub> : `Cloth`, `Masse`, `Spring`...
 - Test du graphisme sur les VMs: ça fonctionne
 - Exercice P10
+- Exercice P11
+- Début des tissus complexes
 
 ## Semaine 10
 
 - Dessin des `Spring`
 - Cleanup du code
+- Finition des tissus complexes
 - Exercice P13
 - Première tentative d'implémentation de RK4: très instable
 
 ## Semaine 11
 
 - Ajout dynamique des tissus et des contraintes dans la simulation
-- Petites améliorations dans la conception
-- Un peu d'optimisation
+- Petites améliorations dans la conception: meilleure encapsulation
+- Correction d'une petite faute dans les abstractions OpenGL
 
 ## Semaine 12
 
@@ -112,5 +115,10 @@
 
 ## Semaine 14
 
+- Réorganisation de la structure du projet pour le rendu
 - Fin de la documentation du code
-- 
+- Ecriture finale de la conception
+- Correction de tests
+- Dernières petites révisions aux tissus
+- Vérification de la compilation sur les VMs (ca compile!)
+- Écriture du README
