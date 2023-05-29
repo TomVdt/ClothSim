@@ -51,7 +51,7 @@ private:
     /**
      * Identificateur unique de la masse à partir de la variable de classe COUNT
     */
-    const int id;
+    int id;
 
     /**
      * Variable de classe permettant de donner des identificateurs uniques aux masses 
