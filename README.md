@@ -6,11 +6,11 @@ Projet programmation OOP - PH BA2
 
 [ ] Completer journal - M
 [ ] Completer conception - M & T
-[ ] Verifier réponses - M
+[x] Verifier réponses - M
 [ ] Documenter code
-- [ ] Partie physique - M , faits: cloth, 
+- [x] Partie physique - M 
 - [x] Partie graphique - T
-[x] Corriger tests - T
+[ ] Corriger tests - T
 [ ] Rajouter tests nouveaux intégrateurs - M
 [x] Rajouter tests tissus complexes - T
 [ ] Nettoyers includes - T

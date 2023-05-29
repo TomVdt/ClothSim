@@ -103,5 +103,14 @@
 - Troisième implémentation des intégrateurs: RK4 et Newmark stables et fonctionnels
 - Rectification d'erreurs d'intégration
 - Modification dynamique du paramètre de convergence `epsilon` de l'intégrateur de Newmark
-- Nouvelle conception des contraintes
+- Nouvelle conception des contraintes et rajout de la contrainte `AttractionConstraint`
+- Création d'une TODOList pour la fin du projet (nettoyage, finalisation de la conception, readme ...)
 - Début du nettoyage final du code
+- Amélioration du système de tests et rajouts de tests manquants
+- Gestion des warnings
+- Documentation extensive, exhaustive et exténuante
+
+## Semaine 14
+
+- Fin de la documentation du code
+- 
