@@ -17,13 +17,9 @@ int main() {
     std::cout << cloth << "\n";
 
     std::cout << "\n==== Ajout de masses ====\n";
-    Masse* mass1(new Masse(1, 0.3, Vector3D(0, 0, 0), Vector3D(0, 0, 0)));
-    Masse* mass2(new Masse(1, 0.3, Vector3D(2, 0, 0), Vector3D(0, 0, 0)));
-    Masse* mass3(new Masse(1, 0.3, Vector3D(0, 0, 2), Vector3D(0, 0, 0)));
-    // Ok de créer des unique_ptr, le tissu vit aussi longtemps que les masses
-    cloth.addMass(std::unique_ptr<Masse>(mass1));
-    cloth.addMass(std::unique_ptr<Masse>(mass2));
-    cloth.addMass(std::unique_ptr<Masse>(mass3));
+    cloth.addMass(1, 0.3, Vector3D(0, 0, 0), Vector3D(0, 0, 0));
+    cloth.addMass(1, 0.3, Vector3D(2, 0, 0), Vector3D(0, 0, 0));
+    cloth.addMass(1, 0.3, Vector3D(0, 0, 2), Vector3D(0, 0, 0));
 
     assertmsg("Nombre de masses", cloth.getMassCount(), 3u);
     assertmsg("Nombre de ressorts", cloth.getSpringCount(), 0u);

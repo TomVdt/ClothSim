@@ -42,10 +42,6 @@ double Cloth::energy() const {
     return sum;
 }
 
-void Cloth::addMass(std::unique_ptr<Masse>&& mass) {
-    masses.push_back(std::move(mass));
-}
-
 void Cloth::lootCorpse(std::vector<std::unique_ptr<Masse>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring) {
     // Combine mass lists
     for (auto& mass : manyMass) {

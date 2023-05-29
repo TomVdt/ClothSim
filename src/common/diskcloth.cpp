@@ -17,7 +17,7 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
     }
     
     // Central mass
-    addMass(std::make_unique<Masse>(mass, lambda, center));
+    addMass(mass, lambda, center);
 
     const double totalRadius(radius.norm());
     double currentRadius(radialStep);
@@ -39,7 +39,7 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
         for (unsigned int j(0); j < diskCount; ++j) {
             Vector3D pos(center + current * currentRadius);
 
-            addMass(std::make_unique<Masse>(mass, lambda, pos));
+            addMass(mass, lambda, pos);
 
             currentRadius += radialStep;
         }

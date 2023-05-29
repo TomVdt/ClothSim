@@ -1,4 +1,5 @@
 #include "include/cloth.h"
+#include "include/constraint.h"
 #include "include/integrator.h"
 #include "include/masse.h"
 #include "include/spring.h"
@@ -18,16 +19,17 @@ int main() {
     EulerCromerIntegrator integrator;
     Cloth cloth;
 
-    Masse* mass1(new Masse(0.33, 0.3, { 0, -3, 0 }, { 0, 0, 0 }));
-    Masse* mass2(new Masse(1, 0.3, { -2, 0, 0 }, { 0, 0, 0 }));
-    Masse* mass3(new Masse(1, 0.3, { 0.5, 0, 0 }, { 0, 0, 0 }));
-
-    cloth.addMass(std::unique_ptr<Masse>(mass1));
-    cloth.addMass(std::unique_ptr<Masse>(mass2));
-    cloth.addMass(std::unique_ptr<Masse>(mass3));
+    cloth.addMass(0.33, 0.3, Vector3D(0, -3, 0), Vector3D(0, 0, 0));
+    cloth.addMass(1, 0.3, Vector3D(-0.5, 0, 0), Vector3D(0, 0, 0));
+    cloth.addMass(1, 0.3, Vector3D(0.5, 0, 0), Vector3D(0, 0, 0));
 
     cloth.connect(0, 1, 0.6, 2.5);
     cloth.connect(0, 2, 0.6, 2.5);
+
+    HookConstraint constraint1(Vector3D(-0.5, 0, 0), 0.1);
+    HookConstraint constraint2(Vector3D(0.5, 0, 0), 0.1);
+    cloth.addConstraint(constraint1);
+    cloth.addConstraint(constraint2);
 
     assertmsg("Tissu valide", cloth.check(), true);
 
@@ -43,18 +45,16 @@ int main() {
 
     // Le 201ème point n'est pas loggé
     for (int i(0); i < 201; ++i) {
-        log(out, mass1->getPos());
+        // Pour faciliter le traitement des données après, on utilise getMassPos au lieu de cout << cloth
+        log(out, cloth.getMassPos(0));
         out << ",";
-        log(out, mass2->getPos());
+        log(out, cloth.getMassPos(1));
         out << ",";
-        log(out, mass3->getPos());
+        log(out, cloth.getMassPos(2));
         out << std::endl;
 
         cloth.updateForce();
-
-        // fixe les masses 2 et 3
-        mass2->addForce(-mass2->getForce());
-        mass3->addForce(-mass3->getForce());
+        cloth.applyConstraints(0.1 * i);
 
         cloth.step(integrator, 0.1);
     }

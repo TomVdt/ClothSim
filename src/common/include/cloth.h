@@ -87,7 +87,10 @@ public:
     /**
      * Rajoute une masse dans le tissu
     */
-    void addMass(std::unique_ptr<Masse>&&);
+    template<class... Args>
+    void addMass(Args&&... args) {
+        masses.emplace_back(new Masse(std::forward<Args>(args)...));
+    }
 
     /**
      * Crée un ressort entre deux masses d'indices m1 et m2, de raideur k et longueur au repos l0 

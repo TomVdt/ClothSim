@@ -8,7 +8,7 @@
 ChainCloth::ChainCloth(double mass, double lambda, double k, double l0, std::vector<Vector3D> pos) {
     // Add mass
     for (const auto& p : pos) {
-        addMass(std::make_unique<Masse>(mass, lambda, p));
+        addMass(mass, lambda, p);
     }
 
     // Connect them

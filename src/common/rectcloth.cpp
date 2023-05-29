@@ -29,7 +29,7 @@ RectCloth::RectCloth(double mass, Vector3D width, Vector3D length, const Vector3
     for (int l(0); l < lengthCount; ++l) {
         for (int w(0); w < widthCount; ++w) {
             Vector3D pos(origin + currWidth + currLength);
-            addMass(std::make_unique<Masse>(mass, lambda, pos));
+            addMass(mass, lambda, pos);
 
             currWidth += step * width;
         }

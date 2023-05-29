@@ -15,9 +15,9 @@ int main() {
     
     Cloth* cloth(new Cloth());
 
-    cloth->addMass(std::make_unique<Masse>(0.33, 0.3, Vector3D(0, -3, 0), Vector3D(0, 0, 0)));
-    cloth->addMass(std::make_unique<Masse>(1, 0.3, Vector3D(-0.5, 0, 0), Vector3D(0, 0, 0)));
-    cloth->addMass(std::make_unique<Masse>(1, 0.3, Vector3D(0.5, 0, 0), Vector3D(0, 0, 0)));
+    cloth->addMass(0.33, 0.3, Vector3D(0, -3, 0), Vector3D(0, 0, 0));
+    cloth->addMass(1, 0.3, Vector3D(-0.5, 0, 0), Vector3D(0, 0, 0));
+    cloth->addMass(1, 0.3, Vector3D(0.5, 0, 0), Vector3D(0, 0, 0));
     cloth->connect(0, 1, 0.6, 2.5);
     cloth->connect(0, 2, 0.6, 2.5);
 
