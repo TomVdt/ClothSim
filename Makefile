@@ -33,7 +33,7 @@ CXXFLAGS += -DVERTEX_PATH=\"$(ROOT_DIR)src/shaders/vert.glsl\" -DFRAGMENT_PATH=\
 
 # Common (backend)
 COMMON_DIR = src/common
-COMMON = vector3d.cpp mass.cpp spring.cpp integrator.cpp cloth.cpp system.cpp util.cpp textrenderer.cpp chaincloth.cpp rectcloth.cpp diskcloth.cpp compositecloth.cpp constraint.cpp
+COMMON = vector3d.cpp mass.cpp spring.cpp integrator.cpp cloth.cpp system.cpp util.cpp textrenderer.cpp chaincloth.cpp rectcloth.cpp diskcloth.cpp compositecloth.cpp constraint.cpp hookconstraint.cpp impulsionconstraint.cpp sineimpulsionconstraint.cpp attractionconstraint.cpp
 SOURCES += $(addprefix $(COMMON_DIR)/, $(COMMON))
 CXXFLAGS += -Ilibs -I$(COMMON_DIR)
 

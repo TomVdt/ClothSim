@@ -1,5 +1,5 @@
 #include "include/cloth.h"
-#include "include/constraint.h"
+#include "include/impulsionconstraint.h"
 #include "include/integrator.h"
 #include "include/mass.h"
 #include "include/spring.h"

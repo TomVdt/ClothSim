@@ -1,11 +1,14 @@
-#include "include/window.h"
-#include "include/cloth.h"
+#include "include/attractionconstraint.h"
 #include "include/chaincloth.h"
-#include "include/rectcloth.h"
-#include "include/diskcloth.h"
+#include "include/cloth.h"
 #include "include/compositecloth.h"
-#include "include/constraint.h"
+#include "include/diskcloth.h"
+#include "include/hookconstraint.h"
+#include "include/impulsionconstraint.h"
+#include "include/rectcloth.h"
+#include "include/sineimpulsionconstraint.h"
 #include "include/vector3d.h"
+#include "include/window.h"
 
 #include <vector>
 

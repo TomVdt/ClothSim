@@ -1,3 +1,4 @@
+#include "include/attractionconstraint.h"
 #include "include/cloth.h"
 #include "include/constraint.h"
 #include "include/integrator.h"

@@ -1,5 +1,5 @@
 #include "include/cloth.h"
-#include "include/constraint.h"
+#include "include/hookconstraint.h"
 #include "include/mass.h"
 #include "include/system.h"
 #include "include/vector3d.h"

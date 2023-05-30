@@ -1,3 +1,4 @@
+#include "include/attractionconstraint.h"
 #include "include/chaincloth.h"
 #include "include/cloth.h"
 #include "include/compositecloth.h"
@@ -5,6 +6,7 @@
 #include "include/constraint.h"
 #include "include/diskcloth.h"
 #include "include/exceptions.h"
+#include "include/hookconstraint.h"
 #include "include/mass.h"
 #include "include/rectcloth.h"
 #include "include/settings.h"

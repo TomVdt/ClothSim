@@ -1,6 +1,6 @@
 #include "include/cloth.h"
-#include "include/constraint.h"
 #include "include/integrator.h"
+#include "include/hookconstraint.h"
 #include "include/mass.h"
 #include "include/system.h"
 #include "include/textrenderer.h"
