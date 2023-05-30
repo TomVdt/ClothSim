@@ -1,48 +1,6 @@
 # Simulation de tissus
 
-Projet programmation OOP - PH BA2
-
-# Finalisation - TODO
-
-[x] Completer journal - M
-
-[x] Completer conception - M & T
-
-[x] Verifier réponses - M
-
-[x] Documenter code
-
-- [x] Partie physique - M 
-- [x] Partie graphique - T
-
-[x] Corriger tests - T
-
-[x] Rajouter tests nouveaux intégrateurs - M
-
-[x] Rajouter tests tissus complexes - T
-
-[x] Nettoyers includes - T
-
-[x] Nettoyer TODOs - M & T
-
-[x] Nettoyer shitposts extremes - M & T
-
-À LA FIN:
-
-[x] Passer un coup de formattage automatique
-
-[x] Completer README
-
-- [x] Questions
-- [x] Instructions d'utilisation
-- [x] Structure du projet
-- [x] Screenshots
-
-[x] NOMS.txt
-
-## Projet
-
-Ce projet simule des tissus en les modélisant par des ensembles de masses et ressorts.
+Ce projet simule des tissus en utilisant un modèle de masses et ressorts.
 
 ## Fonctionalités
 
