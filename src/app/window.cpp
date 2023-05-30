@@ -165,6 +165,7 @@ void Window::run() {
 
         ImGui::Begin("Cloth Simulation!");
         
+        // As it says, general information about the window and position
         ImGui::SeparatorText("General information");
         ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
         glm::vec3 pos(renderer.getPosition());
@@ -172,13 +173,16 @@ void Window::run() {
         glm::vec3 rot(renderer.getRotation());
         ImGui::Text("Pitch %.0f°, Yaw %.0f°, Roll %.0f°", rot.x * 180 / M_PI, rot.y * 180 / M_PI, rot.z * 180 / M_PI);
 
+        // Renderer control
         ImGui::SeparatorText("Appearance");
         renderer.drawControls();
         ImGui::Checkbox("Draw Axis?", &drawAxis);
 
+        // Physics control
         ImGui::SeparatorText("Simulation");
         ImGui::Text("Elapsed time: %.3fs", system.getTime());
 
+        // Only update energy while running
         if (not paused) {
             energy[energyOffset] = system.energy();
             energyMin = std::min(energyMin, energy[energyOffset]);
@@ -222,6 +226,7 @@ void Window::run() {
         ImGui::SliderFloat("Delta time", &deltaTime, 0.001, 0.1, "%.3f sec");
         ImGui::SliderInt("Speed", &iterationsPerFrame, 1, 100, "%dx speed", ImGuiSliderFlags_Logarithmic);
 
+        // Dynamic cloth and constraint addition
         if (ImGui::Button("Add Cloth")) showClothMenu = true;
         ImGui::SameLine();
         if (ImGui::Button("Add Constraint")) showConstraintMenu = true;
@@ -236,6 +241,7 @@ void Window::run() {
             energyMax = 0.0;
         }
 
+        // Cloth creation menu
         if (showClothMenu) {
             ImGui::Begin("Add new cloth", &showClothMenu);
             const char* options[] = { "Chain Cloth", "Rectangle Cloth", "Disk Cloth" };
@@ -258,7 +264,7 @@ void Window::run() {
             ImGui::PopItemWidth();
 
             switch (selected) {
-            case 0:
+            case 0: // Chain Cloths
                 {
                     static int count(2);
                     static float positions[100][3] = { {0.0} };
@@ -285,7 +291,7 @@ void Window::run() {
                     }
                 }
                 break;
-            case 1:
+            case 1: // Rectangle Cloths
                 {
                     static float origin[3] = { 0.0, 0.0, 0.0 };
                     ImGui::SetNextItemWidth(200);
@@ -313,7 +319,7 @@ void Window::run() {
                     }
                 }
                 break;
-            case 2: 
+            case 2: // Disk Cloth
                 {
                     static float origin[3] = { 0.0, 0.0, 0.0 };
                     ImGui::SetNextItemWidth(200);
@@ -353,6 +359,7 @@ void Window::run() {
             ImGui::End();
         }
 
+        // Constraint creation menu
         if (showConstraintMenu) {
             ImGui::Begin("Add new constraint", &showConstraintMenu);
             const char* options[] = { "Hook Constraint", "Gravity Constraint"};
@@ -368,7 +375,7 @@ void Window::run() {
             if (radius < 0.0) radius = 0.0;
 
             switch (selected) {
-            case 0:
+            case 0: // Hook
                 if (ImGui::Button("Add")) {
                     system.addConstraint(std::make_unique<HookConstraint>(
                         Vector3D(pos[0], pos[1], pos[2]),
@@ -376,7 +383,7 @@ void Window::run() {
                     ));
                 }
                 break;
-            case 1:
+            case 1: // Gravity
                 {
                     static float intensity(0.1);
                     ImGui::SetNextItemWidth(100);
