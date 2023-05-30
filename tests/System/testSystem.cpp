@@ -1,6 +1,6 @@
 #include "include/cloth.h"
 #include "include/integrator.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/system.h"
 
 #include <iostream>

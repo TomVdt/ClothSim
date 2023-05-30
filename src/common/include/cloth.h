@@ -1,7 +1,7 @@
 #pragma once
 #include "include/constants.h"
 #include "include/drawable.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/spring.h"
 
 #include <iostream>
@@ -17,7 +17,7 @@ protected:
     /**
      * Liste de unique_ptr sur les masses, le tissu stocke les masses
     */
-    std::vector<std::unique_ptr<Masse>> masses;
+    std::vector<std::unique_ptr<Mass>> masses;
     
     /**
      * Liste de unique_ptr sur les ressorts, le tissu stocke les ressorts
@@ -27,7 +27,7 @@ protected:
     /**
      * Récupère et prend possession les masses et ressorts d'un autre tissu
     */
-    virtual void lootCorpse(std::vector<std::unique_ptr<Masse>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring);
+    virtual void lootCorpse(std::vector<std::unique_ptr<Mass>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring);
 
 public:
     /** 
@@ -90,7 +90,7 @@ public:
     */
     template<class... Args>
     void addMass(Args&&... args) {
-        masses.emplace_back(new Masse(std::forward<Args>(args)...));
+        masses.emplace_back(new Mass(std::forward<Args>(args)...));
     }
 
     /**

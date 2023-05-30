@@ -5,7 +5,7 @@
 #include <iostream>
 #include <vector>
 
-class Masse;
+class Mass;
 
 class Spring: public Drawable {
 private:
@@ -22,12 +22,12 @@ private:
     /**
      * Masse de départ
     */
-    const Masse& mass1;
+    const Mass& mass1;
 
     /**
      * Masse d'arrivée
     */
-    const Masse& mass2;
+    const Mass& mass2;
 
     /**
      * Identificateur unique du ressort à partir de la variable de classe COUNT
@@ -47,7 +47,7 @@ public:
      * Les masses des extremités doivent être données et ne peuvent pas etre modifiées après
      * Pour supprimer une connection, simplement supprimer la référence à cette connection 
     */
-    Spring(double k, double l0, const Masse& mass1, const Masse& mass2): k(k), l0(l0), mass1(mass1), mass2(mass2), id(COUNT++) {}
+    Spring(double k, double l0, const Mass& mass1, const Mass& mass2): k(k), l0(l0), mass1(mass1), mass2(mass2), id(COUNT++) {}
 
     /**
      * Pas de copie de ressorts
@@ -94,7 +94,7 @@ public:
     /**
      * Retourne la force exercée par le ressort sur une masse
     */
-    Vector3D springForce(const Masse&) const;
+    Vector3D springForce(const Mass&) const;
 
     /**
      * Retourne l'énergie potentielle du ressort
@@ -109,7 +109,7 @@ public:
     /**
      * Test si la masse fournie est connectée au ressort
     */
-    bool massConnected(const Masse&) const;
+    bool massConnected(const Mass&) const;
 
     /**
      * Test si le ressort est valide, c'est-à-dire si ses extrêmités sont différentes

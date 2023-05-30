@@ -2,7 +2,7 @@
 #include "include/constraint.h"
 #include "include/exceptions.h"
 #include "include/integrator.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/renderer.h"
 #include "include/spring.h"
 #include "include/util.h"
@@ -42,7 +42,7 @@ double Cloth::energy() const {
     return sum;
 }
 
-void Cloth::lootCorpse(std::vector<std::unique_ptr<Masse>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring) {
+void Cloth::lootCorpse(std::vector<std::unique_ptr<Mass>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring) {
     // Combine mass lists
     for (auto& mass : manyMass) {
         masses.push_back(std::move(mass));
@@ -110,7 +110,7 @@ void Cloth::step(Integrator const& integratator, double dt, double time) {
     static unsigned int offset(1);
     const int N(getMassCount());
     for (int i(0); i < N; ++i) {
-        Masse& mass(*masses[(i + offset) % N]);
+        Mass& mass(*masses[(i + offset) % N]);
         integratator.integrate(mass, dt, time);
     }
     offset += N / 6;

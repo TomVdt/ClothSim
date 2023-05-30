@@ -23,7 +23,7 @@
 
 ## Semaine 4
 
-- Début de l'implémentation de la classe `Masse`
+- Début de l'implémentation de la classe `Mass`
 - Début de l'implémentation de la classe `Spring`
 - Correction de bugs dans `Vector3D`
 - Lecture de documentations de Qt5
@@ -31,9 +31,9 @@
 
 ## Semaine 5
 
-- Documentation de `Masse`
+- Documentation de `Mass`
 - Documentation de `Spring`
-- Tests de `Masse`
+- Tests de `Mass`
 - Tests de `Spring`
 - Début des `Integrator`
 
@@ -43,7 +43,7 @@
 - Tests intégrateurs
 - Visualisation et vérification de cohérence des tests avec `python` + `matplotlib`
 - Classe `Cloth` simple
-- Petits ajustements aux `Spring` et `Masse`
+- Petits ajustements aux `Spring` et `Mass`
 
 ## Semaine 7
 
@@ -72,7 +72,7 @@
 
 ## Semaine 9
 
-- REFACTORING  <sub>trois</sub> : `Cloth`, `Masse`, `Spring`...
+- REFACTORING  <sub>trois</sub> : `Cloth`, `Mass`, `Spring`...
 - Test du graphisme sur les VMs: ça fonctionne
 - Exercice P10
 - Exercice P11

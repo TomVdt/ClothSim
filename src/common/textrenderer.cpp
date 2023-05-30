@@ -1,13 +1,13 @@
 #include "include/cloth.h"
 #include "include/constraint.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/spring.h"
 #include "include/system.h"
 #include "include/textrenderer.h"
 #include "include/util.h"
 #include "include/vector3d.h"
 
-void TextRenderer::draw(const Masse& mass) {
+void TextRenderer::draw(const Mass& mass) {
     // out << mass << std::endl;
     Vector3D pos(mass.getPos());
     out << pos.getX() << "," << pos.getY() << "," << pos.getZ() << "\n";

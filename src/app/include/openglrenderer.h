@@ -223,7 +223,7 @@ public:
     /**
      * Dessine une masse
     */
-    virtual void draw(const Masse&) override;
+    virtual void draw(const Mass&) override;
     
     /**
      * Dessine un ressort

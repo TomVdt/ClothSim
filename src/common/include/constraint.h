@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 
-class Masse;
+class Mass;
 class Cloth;
 class Renderer;
 
@@ -45,7 +45,7 @@ public:
     /**
      * Retourne un booléen indiquant si la masse fournie est concernée par la contrainte ou non
     */
-    virtual bool isApplicable(const Masse& mass, double time) const;
+    virtual bool isApplicable(const Mass& mass, double time) const;
 
     /**
      * Applique sur toutes les masses d'un tissu cette contrainte
@@ -55,7 +55,7 @@ public:
     /**
      * Applique cette contrainte à la masse fournie
     */
-    virtual void apply(Masse& mass, double time) const = 0;
+    virtual void apply(Mass& mass, double time) const = 0;
 
     /**
      * Dessine cette contrainte dans le `Renderer` fourni
@@ -89,7 +89,7 @@ public:
     /**
      * Arrête la masse et mets sa force à 0
     */
-    virtual void apply(Masse& mass, double time) const override;
+    virtual void apply(Mass& mass, double time) const override;
 
     /**
      * Affichage spécifique à une `HookConstraint` dans un flot
@@ -108,7 +108,7 @@ private:
     /**
      * Détermine si une masse est dans la liste des masses concernées par cette contrainte
     */
-    bool isInList(const Masse& mass) const;
+    bool isInList(const Mass& mass) const;
 
     /**
      * Détermine si le temps fourni est inclu dans l'intervalle de temps où cette contrainte doit s'appliquer
@@ -141,12 +141,12 @@ public:
     /**
      * Détermine si la contrainte est applicable à la masse fournie à l'instant indiqué
     */
-    virtual bool isApplicable(const Masse& mass, double time) const override;
+    virtual bool isApplicable(const Mass& mass, double time) const override;
 
     /**
      * Annule le poids de la masse fournie et lui applique la force caractéristique de la contrainte
     */
-    virtual void apply(Masse& mass, double time) const override;
+    virtual void apply(Mass& mass, double time) const override;
 
     /**
      * Affichage spécifique à une `ImpulsionConstraint` dans un flot
@@ -173,7 +173,7 @@ public:
      * Applique l'impulsion en annulant le poids de la masse et en appliquant une force
      * de norme dépendante du temps selon une fonction sinusoïdale
     */
-    virtual void apply(Masse& mass, double time) const override;
+    virtual void apply(Mass& mass, double time) const override;
 
     /**
      * Affichage spécifique à une `SineImpulsionConstraint` dans un flot
@@ -204,7 +204,7 @@ public:
     /**
      * Applique à la masse l'attraction correspondante à sa position
     */
-    virtual void apply(Masse& mass, double time) const override;
+    virtual void apply(Mass& mass, double time) const override;
 
     /**
      * Affichage spécifique à une `AttractionConstraint` dans un flot

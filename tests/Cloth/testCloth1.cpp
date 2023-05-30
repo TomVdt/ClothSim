@@ -1,7 +1,7 @@
 #include "include/cloth.h"
 #include "include/constraint.h"
 #include "include/integrator.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/spring.h"
 #include "include/test.h"
 #include "include/vector3d.h"

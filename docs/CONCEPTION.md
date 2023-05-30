@@ -52,7 +52,7 @@ cout << vec;                    // affiche (1.0 4.2 2.0)
 
 Contrairement à ce qui avait été conseillé, nous avons choisi de rajouter les masses après avoir construit le tissu.
 Cela ne pose pas de problème avec notre moyen de stocker les masses, et nous trouvons que cela rend les tissus plus agréable à construire à la main, plutot que de passer un vecteur d'arguments permettant de tout contruire au départ, ce qui ne montre pas clairement ce que fait le constructeur et permet beaucoup d'erreurs.
-Les masses sont construites à l'interieur du tissu, à l'aide de `std::forward` (https://en.cppreference.com/w/cpp/utility/forward).
+Les masses sont construites à l'interieur du tissu, implémenté à l'aide de `std::forward` (https://en.cppreference.com/w/cpp/utility/forward).
 Les connections se font par la méthode `Cloth::connect()`.
 La validité du tissu peut être vérifiée avec `Cloth::check()`.
 Les tissus possèdent les masses et ressorts qu'ils contiennent.
@@ -66,7 +66,7 @@ Pour les tissus composés, il suffit donc de, pour connecter un tissu, d'appeler
 ## Contraintes
 
 Pour toutes nos `Constraint`, nous avons opté d'utiliser un double-dispatch sur le tissu donné à la méthode `Constraint::apply(Cloth&, )`.
-La méthode appelle une méthode sur le tissu `Cloth::applyConstraint()`, qui va elle iterer sur les masses, vérifier si la contrainte s'applique et si c'est le cas, l'appliquer par la méthode `Constraint::apply(Masse&, )`.
+La méthode appelle une méthode sur le tissu `Cloth::applyConstraint()`, qui va elle iterer sur les masses, vérifier si la contrainte s'applique et si c'est le cas, l'appliquer par la méthode `Constraint::apply(Mass&, )`.
 Cela permet de maintenir une bonne encapsulation en évitant un getter sur les masses.
 Nous considérons que, si la méthode `Constraint::apply()` est appelée, que la contrainte doit s'appliquer dans tous les cas, et que c'est à celui qui fait l'appel de vérifier si elle doit bien s'appliquer par la méthode `Constraint::isApplicable()`.
 

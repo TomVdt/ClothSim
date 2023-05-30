@@ -8,7 +8,7 @@
 class Spring;
 class Constraint;
 
-class Masse: public Drawable {
+class Mass: public Drawable {
 private:
     /**
      * Valeur de la masse de cette instance
@@ -64,32 +64,32 @@ public:
      * Constructeur masse nécesssaire ensuite lambda, pos et vel peuvent etre par defaut
      * N'est pas propriétaire des springs
     */
-    Masse(double mass, double lambda = 0.0, const Vector3D& pos = Vector3D(), const Vector3D& vel = Vector3D());
+    Mass(double mass, double lambda = 0.0, const Vector3D& pos = Vector3D(), const Vector3D& vel = Vector3D());
     
     /**
      * Pas de copie de masse: à quels ressorts connecter? 
     */
-    Masse(const Masse&) = delete;
+    Mass(const Mass&) = delete;
 
     /**
      * Pas de copie de masse: à quels ressorts connecter? 
     */
-    Masse& operator=(const Masse&) = delete;
+    Mass& operator=(const Mass&) = delete;
 
     /** 
      * Possible de déplacer les masses
     */
-    Masse(Masse&&) = default;
+    Mass(Mass&&) = default;
 
     /** 
      * Possible de déplacer les masses
     */
-    Masse& operator=(Masse&&) = default;
+    Mass& operator=(Mass&&) = default;
 
     /**
      * Destructeur par défaut pour les masses
     */
-    virtual ~Masse() = default;
+    virtual ~Mass() = default;
 
     /**
      * Vecteur position de la masse
@@ -212,4 +212,4 @@ public:
 /** 
  * Surcharge externe de l'opérateur << pour les masses 
 */
-std::ostream& operator<<(std::ostream& out, const Masse& mass);
+std::ostream& operator<<(std::ostream& out, const Mass& mass);

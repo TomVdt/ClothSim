@@ -1,5 +1,5 @@
 #include "include/exceptions.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/spring.h"
 #include "include/test.h"
 #include "include/vector3d.h"
@@ -8,12 +8,12 @@
 
 int main() {
     std::cout << "===== Test affichage =====\n";
-    Masse m1(12.2);
+    Mass m1(12.2);
     std::cout << m1 << "\n";
 
     // Les deux ressorts crée sont inactifs (les deux extrémités sur la même masse)
     // ils servent juste à vérifier le bon fonctionnement de l'affichage
-    Masse m2(4.5, 2.3, { 1.0, 1.0, 1.0 }, { 2.0, 2.0, 2.0 });
+    Mass m2(4.5, 2.3, { 1.0, 1.0, 1.0 }, { 2.0, 2.0, 2.0 });
     Spring s1(1.0, 1.0, m2, m2);
     Spring s2(2.0, 2.0, m2, m2);
     m2.connectSpring(s1);
@@ -62,9 +62,9 @@ int main() {
     std::cout << "ne devait rien afficher pour les ressorts" << "\n";
 
     std::cout << "\n===== Exceptions =====\n";
-    assertexception("Masse négative", Masse(-1), ValueError);
-    assertexception("Masse nulle", Masse(0), ValueError);
-    assertexception("Friction négative", Masse(1, -42), ValueError);
+    assertexception("Masse négative", Mass(-1), ValueError);
+    assertexception("Masse nulle", Mass(0), ValueError);
+    assertexception("Friction négative", Mass(1, -42), ValueError);
 
     return 0;
 }

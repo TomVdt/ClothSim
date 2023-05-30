@@ -5,7 +5,7 @@
 #include "include/constraint.h"
 #include "include/diskcloth.h"
 #include "include/exceptions.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/rectcloth.h"
 #include "include/settings.h"
 #include "include/util.h"

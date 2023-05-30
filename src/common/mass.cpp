@@ -1,7 +1,7 @@
 #include "include/constants.h"
 #include "include/constraint.h"
 #include "include/exceptions.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/spring.h"
 #include "include/renderer.h"
 #include "include/util.h"
@@ -14,9 +14,9 @@
 #include <utility>
 #include <vector>
 
-int Masse::COUNT(0);
+int Mass::COUNT(0);
 
-Masse::Masse(double mass, double lambda, const Vector3D& pos, const Vector3D& vel):
+Mass::Mass(double mass, double lambda, const Vector3D& pos, const Vector3D& vel):
     mass(mass),
     lambda(lambda),
     pos(pos),
@@ -34,11 +34,11 @@ Masse::Masse(double mass, double lambda, const Vector3D& pos, const Vector3D& ve
     }
 }
 
-Vector3D Masse::acceleration() const {
+Vector3D Mass::acceleration() const {
     return force / mass;
 }
 
-Vector3D Masse::acceleration(double time, const Vector3D& p, const Vector3D& v) {
+Vector3D Mass::acceleration(double time, const Vector3D& p, const Vector3D& v) {
     Vector3D posBackup(pos);
     Vector3D velBackup(vel);
 
@@ -53,31 +53,31 @@ Vector3D Masse::acceleration(double time, const Vector3D& p, const Vector3D& v) 
     return acceleration();
 }
 
-double Masse::energy() const {
+double Mass::energy() const {
     return 0.5 * mass * vel.normSq() + mass * CONSTANTS::g.norm() * pos.getY();
 }
 
-void Masse::addConstraint(const Constraint& constraint) {
+void Mass::addConstraint(const Constraint& constraint) {
     constraints.push_back(&constraint);
 }
 
-void Masse::clearConstraints() {
+void Mass::clearConstraints() {
     constraints.clear();
 }
 
-void Masse::applyConstraint(const Constraint& constraint, double time) {
+void Mass::applyConstraint(const Constraint& constraint, double time) {
     if (constraint.isApplicable(*this, time)) {
         constraint.apply(*this, time);
     }
 }
 
-void Masse::applyConstraints(double time) {
+void Mass::applyConstraints(double time) {
     for (const auto& constraint : constraints) {
         applyConstraint(*constraint, time);
     }
 }
 
-void Masse::updateForce() {
+void Mass::updateForce() {
     Vector3D springForce;
     for (const auto& spring : springs) {
         springForce += spring->springForce(*this);
@@ -85,17 +85,17 @@ void Masse::updateForce() {
     force = mass * CONSTANTS::g - lambda * vel + springForce;
 }
 
-void Masse::addForce(const Vector3D& df) {
+void Mass::addForce(const Vector3D& df) {
     force += df;
 }
 
-void Masse::connectSpring(Spring& spring) {
+void Mass::connectSpring(Spring& spring) {
     if (not springConnected(spring)) {
         springs.push_back(&spring);
     }
 }
 
-void Masse::disconnectSpring(const Spring& spring) {
+void Mass::disconnectSpring(const Spring& spring) {
     for (size_t i(0); i < springs.size(); ++i) {
         if (&spring == springs[i]) {
             std::swap(springs[i], springs.back());
@@ -105,11 +105,11 @@ void Masse::disconnectSpring(const Spring& spring) {
     }
 }
 
-void Masse::disconnect() {
+void Mass::disconnect() {
     springs.clear();
 }
 
-bool Masse::springConnected(const Spring& spring) const {
+bool Mass::springConnected(const Spring& spring) const {
     for (const auto& s : springs) {
         if (&spring == s) {
             return true;
@@ -118,12 +118,12 @@ bool Masse::springConnected(const Spring& spring) const {
     return false;
 }
 
-void Masse::draw(Renderer& dest) {
+void Mass::draw(Renderer& dest) {
     dest.draw(*this);
 }
 
-void Masse::display(std::ostream& out, size_t level) const {
-    out << indent(level) << "Masse " << this << " {"
+void Mass::display(std::ostream& out, size_t level) const {
+    out << indent(level) << "Mass " << this << " {"
         << "masse: " << mass << ", "
         << "lambda: " << lambda << ", "
         << "position: " << pos << ", "
@@ -142,7 +142,7 @@ void Masse::display(std::ostream& out, size_t level) const {
     out << "]}";
 }
 
-std::ostream& operator<<(std::ostream& out, const Masse& mass) {
+std::ostream& operator<<(std::ostream& out, const Mass& mass) {
     mass.display(out);
     return out;
 }

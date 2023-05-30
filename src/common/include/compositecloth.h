@@ -1,6 +1,6 @@
 #pragma once
 #include "include/cloth.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/spring.h"
 #include "include/vector3d.h"
 
@@ -26,7 +26,7 @@ protected:
      * Récupère les masses et ressorts passés en argument et relie les masses situées à la bonne distance 
      * afin de coudre les tissus entre eux
     */
-    virtual void lootCorpse(std::vector<std::unique_ptr<Masse>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring) override;
+    virtual void lootCorpse(std::vector<std::unique_ptr<Mass>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring) override;
 
 public:
     /**

@@ -1,7 +1,7 @@
 #pragma once
 #include "include/constants.h"
 
-class Masse;
+class Mass;
 
 class Integrator {
 public:
@@ -13,7 +13,7 @@ public:
     /**
      * Fonction pour intégrer pas définie dans la super classe
     */
-    virtual void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) const = 0;
+    virtual void integrate(Mass&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) const = 0;
 };
 
 
@@ -22,7 +22,7 @@ public:
     /**
      * Intègre les masses individuelles avec les formules pour l'intégrateur d'Euleur Cromer
     */
-    virtual void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) const override;
+    virtual void integrate(Mass&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) const override;
 };
 
 
@@ -31,7 +31,7 @@ public:
     /**
      * Intègre les masses individuelles avec les formules pour l'intégrateur de Runge-Kutta d'ordre 4
     */
-    virtual void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) const override;
+    virtual void integrate(Mass&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) const override;
 };
 
 
@@ -52,5 +52,5 @@ public:
     /**
      * Intègre les masses individuelles avec les formules pour l'intégrateur de Newmark
     */
-    virtual void integrate(Masse&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) const override;
+    virtual void integrate(Mass&, double dt = CONSTANTS::PHYSICS_DT, double time = 0) const override;
 };

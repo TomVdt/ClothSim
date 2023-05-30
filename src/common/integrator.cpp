@@ -1,9 +1,9 @@
 #include "include/integrator.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/util.h"
 #include "include/vector3d.h"
 
-void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) const {  
+void EulerCromerIntegrator::integrate(Mass& mass, double dt, double time) const {  
     UNUSED(time);  
     // Calcule le nouvel état
     const Vector3D vel(mass.getVel() + mass.acceleration() * dt);
@@ -14,7 +14,7 @@ void EulerCromerIntegrator::integrate(Masse& mass, double dt, double time) const
     mass.setVel(vel);
 }
 
-void RK4Integrator::integrate(Masse& mass, double dt, double time) const {    
+void RK4Integrator::integrate(Mass& mass, double dt, double time) const {    
     Vector3D OGPos(mass.getPos());
     Vector3D v1(mass.getVel());
     Vector3D a1(mass.acceleration());
@@ -33,7 +33,7 @@ void RK4Integrator::integrate(Masse& mass, double dt, double time) const {
 
 }
 
-void NewmarkIntegrator::integrate(Masse& mass, double dt, double time) const {
+void NewmarkIntegrator::integrate(Mass& mass, double dt, double time) const {
     const Vector3D OGPos(mass.getPos());
     const Vector3D OGVel(mass.getVel());
     Vector3D pos(OGPos);

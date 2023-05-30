@@ -1,4 +1,4 @@
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/spring.h"
 #include "include/test.h"
 #include "include/vector3d.h"
@@ -6,8 +6,8 @@
 #include <iostream>
 
 int main() {
-    Masse mass1(1, 0, { 0, 0, 0 });
-    Masse mass2(1, 0, { 1, 0, 0 });
+    Mass mass1(1, 0, { 0, 0, 0 });
+    Mass mass2(1, 0, { 1, 0, 0 });
     Spring spring1(1, 1, mass1, mass2);
 
     std::cout << "==== Pre-connection ====\n";
@@ -34,14 +34,14 @@ int main() {
     assertmsg("Ressort 3 étendu", spring3.springForce(mass1), Vector3D(0.5, 0, 0));
     assertmsg("Ressort 3 étendu", spring3.springForce(mass2), Vector3D(-0.5, 0, 0));
 
-    Masse mass3(1, 0, { 4, 3, 0 });
+    Mass mass3(1, 0, { 4, 3, 0 });
     Spring spring4(1, 10, mass1, mass3);
     mass1.connectSpring(spring4);
     mass3.connectSpring(spring4);
     assertmsg("Ressort 4 diagonal", spring4.springForce(mass1), Vector3D(-4, -3, 0));
     assertmsg("Ressort 4 diagonal", spring4.springForce(mass3), Vector3D(4, 3, 0));
 
-    Masse mass4(1, 0, { 0.000001, 0, 0 });
+    Mass mass4(1, 0, { 0.000001, 0, 0 });
     Spring spring5(1, 10, mass1, mass4);
     mass1.connectSpring(spring5);
     mass4.connectSpring(spring5);
@@ -53,8 +53,8 @@ int main() {
     assertmsg("Ressort correct", spring1.valid(), true);
 
     std::cout << "\n==== Changement des masses (pos, vel, etc) ====\n";
-    Masse mass5(1.0);
-    Masse mass6(2.0);
+    Mass mass5(1.0);
+    Mass mass6(2.0);
     Spring spring7(1, 1, mass5, mass6);
     mass5.connectSpring(spring7);
     mass6.connectSpring(spring7);

@@ -1,4 +1,4 @@
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/renderer.h"
 #include "include/spring.h"
 #include "include/util.h"
@@ -9,7 +9,7 @@
 
 int Spring::COUNT(0);
 
-Vector3D Spring::springForce(const Masse& mass) const {
+Vector3D Spring::springForce(const Mass& mass) const {
     if (not valid()) {
         // Le ressort est "inactif"
         return Vector3D();
@@ -50,7 +50,7 @@ double Spring::length() const {
     return Vector3D::dist(mass1.getPos(), mass2.getPos());
 }
 
-bool Spring::massConnected(const Masse& mass) const {
+bool Spring::massConnected(const Mass& mass) const {
     return &mass == &mass1 or &mass == &mass2;
 }
 
@@ -59,8 +59,8 @@ void Spring::display(std::ostream& out, size_t level) const
     out << indent(level) << "Spring " << this << " {" << std::endl
         << indent(level + 1) << "k: " << k << "," << std::endl
         << indent(level + 1) << "l0: " << l0 << "," << std::endl
-        << indent(level + 1) << "masse 1: " << mass1 << "," << std::endl
-        << indent(level + 1) << "masse 2: " << mass2 << std::endl
+        << indent(level + 1) << "mass 1: " << mass1 << "," << std::endl
+        << indent(level + 1) << "mass 2: " << mass2 << std::endl
         << indent(level) << "}";
 }
 

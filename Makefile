@@ -33,13 +33,13 @@ CXXFLAGS += -DVERTEX_PATH=\"$(ROOT_DIR)src/shaders/vert.glsl\" -DFRAGMENT_PATH=\
 
 # Common (backend)
 COMMON_DIR = src/common
-COMMON = vector3d.cpp masse.cpp spring.cpp integrator.cpp cloth.cpp system.cpp util.cpp textrenderer.cpp chaincloth.cpp rectcloth.cpp diskcloth.cpp compositecloth.cpp constraint.cpp
+COMMON = vector3d.cpp mass.cpp spring.cpp integrator.cpp cloth.cpp system.cpp util.cpp textrenderer.cpp chaincloth.cpp rectcloth.cpp diskcloth.cpp compositecloth.cpp constraint.cpp
 SOURCES += $(addprefix $(COMMON_DIR)/, $(COMMON))
 CXXFLAGS += -Ilibs -I$(COMMON_DIR)
 
 # Tests
 TESTS_DIR = tests
-TESTS = testVector3d testMasse testSpring testIntegrator1 testIntegrator2 testIntegrator3 testIntegrator4 testRK4Integrator testNewmarkIntegrator testCloth1 testCloth2 testCloth3 testSystem testConstraint1 testConstraint2 testConstraint3 testChainCloth testRectCloth testDiskCloth testCompositeCloth
+TESTS = testVector3d testMass testSpring testIntegrator1 testIntegrator2 testIntegrator3 testIntegrator4 testRK4Integrator testNewmarkIntegrator testCloth1 testCloth2 testCloth3 testSystem testConstraint1 testConstraint2 testConstraint3 testChainCloth testRectCloth testDiskCloth testCompositeCloth
 
 # Exercices
 EXERCICES_DIR = exercices

@@ -2,7 +2,7 @@
 #include "include/constants.h"
 #include "include/constraint.h"
 #include "include/exceptions.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/renderer.h"
 #include "include/util.h"
 #include "include/vector3d.h"
@@ -16,7 +16,7 @@
 
 Constraint::Constraint(const Vector3D& pos, double radius): pos(pos), radius(radius) {}
 
-bool Constraint::isApplicable(const Masse& masse, double time) const {
+bool Constraint::isApplicable(const Mass& masse, double time) const {
     UNUSED(time);
     return Vector3D::dist(masse.getPos(), pos) < radius;
 }
@@ -42,7 +42,7 @@ std::ostream& operator<<(std::ostream& out, const Constraint& constraint) {
 
 //// Captain Hook ////
 
-void HookConstraint::apply(Masse& mass, double time) const {
+void HookConstraint::apply(Mass& mass, double time) const {
     UNUSED(time);
     mass.setVel(Vector3D(0, 0, 0));
     mass.addForce(-mass.getForce());
@@ -75,7 +75,7 @@ ImpulsionConstraint::ImpulsionConstraint(const Vector3D& pos, double radius, dou
     }
 }
 
-bool ImpulsionConstraint::isInList(const Masse& mass) const {
+bool ImpulsionConstraint::isInList(const Mass& mass) const {
     return std::find(massIds.begin(), massIds.end(), mass.getId()) != massIds.end();
 }
 
@@ -83,11 +83,11 @@ bool ImpulsionConstraint::isInTime(double time) const {
     return startTime <= time and time <= endTime;
 }
 
-bool ImpulsionConstraint::isApplicable(const Masse& mass, double time) const {
+bool ImpulsionConstraint::isApplicable(const Mass& mass, double time) const {
     return isInList(mass) and isInTime(time);
 }
 
-void ImpulsionConstraint::apply(Masse& mass, double time) const {
+void ImpulsionConstraint::apply(Mass& mass, double time) const {
     UNUSED(time);
     mass.addForce(-CONSTANTS::g * mass.getMass());
     mass.addForce(force);
@@ -106,7 +106,7 @@ SineImpulsionConstraint::SineImpulsionConstraint(const Vector3D& pos, double rad
     frequency(frequency)
 {}
 
-void SineImpulsionConstraint::apply(Masse& mass, double time) const {
+void SineImpulsionConstraint::apply(Mass& mass, double time) const {
     Vector3D theRealForce(std::sin(2 * M_PI * frequency * (time - startTime)) * force);
     mass.addForce(-CONSTANTS::g * mass.getMass());
     mass.addForce(theRealForce);
@@ -126,7 +126,7 @@ AttractionConstraint::AttractionConstraint(const Vector3D& pos, double spherOfIn
     }
 }
 
-void AttractionConstraint::apply(Masse& mass, double time) const {
+void AttractionConstraint::apply(Mass& mass, double time) const {
     UNUSED(time);
     Vector3D dir;
     if (mass.getPos() == getPos()) {

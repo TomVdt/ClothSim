@@ -31,7 +31,7 @@ public:
     /**
      * Affiche une masse dans le flot
     */
-    virtual void draw(const Masse& mass);
+    virtual void draw(const Mass& mass);
     
     /**
      * Affiche un ressort dans le flot

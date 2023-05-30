@@ -1,5 +1,5 @@
 #include "include/integrator.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/vector3d.h"
 
 #include <fstream>
@@ -14,10 +14,10 @@ int main() {
     NewmarkIntegrator grator;
 
     // chute libre: vitesse initiale, vitesse initiale nulle, uniquement vers le haut, λ non nul
-    Masse mass1(0.127, 0, { 0, 1, 0 }, { 1, 2, 0 });
-    Masse mass2(0.127, 0, { 0, 1, 0 }, { 0, 0, 0 });
-    Masse mass3(0.127, 0, { 0, 1, 0 }, { 0, 2, 0 });
-    Masse mass4(0.127, 0.3, { 0, 1, 0 }, { 1, 2, 0 });
+    Mass mass1(0.127, 0, { 0, 1, 0 }, { 1, 2, 0 });
+    Mass mass2(0.127, 0, { 0, 1, 0 }, { 0, 0, 0 });
+    Mass mass3(0.127, 0, { 0, 1, 0 }, { 0, 2, 0 });
+    Mass mass4(0.127, 0.3, { 0, 1, 0 }, { 1, 2, 0 });
 
     std::ofstream file("output/testNewmarkIntegrator.txt", std::ofstream::out | std::ofstream::trunc);
 

@@ -1,5 +1,5 @@
 #include "include/integrator.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/spring.h"
 #include "include/vector3d.h"
 
@@ -11,7 +11,7 @@ void log(std::ostream& file, const Vector3D& vec) {
     file << vec.getX() << "," << vec.getY() << "," << vec.getZ();
 }
 
-void connectMassSpring(Masse& m1, Masse& m2, Spring& s) {
+void connectMassSpring(Mass& m1, Mass& m2, Spring& s) {
     m1.connectSpring(s);
     m2.connectSpring(s);
 }
@@ -20,8 +20,8 @@ int main() {
     EulerCromerIntegrator grator;
 
     // rotation autour d'un point
-    Masse mass1(1, 0.3, { 0, 0, 0 }, { 0, 0, 0 });
-    Masse mass2(1, 0.3, { 2, 0, 0 }, { 0, 0, -1 });
+    Mass mass1(1, 0.3, { 0, 0, 0 }, { 0, 0, 0 });
+    Mass mass2(1, 0.3, { 2, 0, 0 }, { 0, 0, -1 });
     Spring spring1(0.6, 3, mass1, mass2);
     connectMassSpring(mass1, mass2, spring1);
 

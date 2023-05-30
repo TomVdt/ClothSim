@@ -3,7 +3,7 @@
 #include "include/constraint.h"
 #include "include/exceptions.h"
 #include "include/geometry.h"
-#include "include/masse.h"
+#include "include/mass.h"
 #include "include/openglrenderer.h"
 #include "include/settings.h"
 #include "include/shaderprogram.h"
@@ -269,7 +269,7 @@ glm::vec4 hsvToRgba(double h, double s, double v){
 }
 #endif
 
-void OpenGLRenderer::draw(const Masse& mass) {
+void OpenGLRenderer::draw(const Mass& mass) {
     #ifdef PRIDE
     const float alpha(massColor.a);
     massColor = hsvToRgba(frameCount * 0.01 + mass.getId() * 0.1, 1.0, 1.0);

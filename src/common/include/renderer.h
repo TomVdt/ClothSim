@@ -1,6 +1,6 @@
 #pragma once
 
-class Masse;
+class Mass;
 class Spring;
 class Cloth;
 class System;
@@ -41,7 +41,7 @@ public:
     /**
      * Dessine une masse
     */
-    virtual void draw(const Masse&) = 0;
+    virtual void draw(const Mass&) = 0;
     
     /**
      * Dessine un ressort

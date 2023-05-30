@@ -46,14 +46,14 @@ Nous avons introduit les opérateurs `<<` et `==` pour faire le role de `affiche
 
 > Comment avez-vous implémenté l'ensemble de ressorts ?
 
-L'ensemble de ressorts est un `vector<const Spring*>`. On utilise des `Spring*`, pointeurs "a la C" vers des `Spring` et non des `unique_ptr` car un ressort connecte 2 masses ensemble, qui doivent chacune garder une référence vers leurs ressorts. On ne peut pas utiliser de références par limitation de la classe `vector`. Une autre option serait d'utiliser des `shared_ptr` mais ils pourraient poser des problèmes de référence circulaire entre `Spring` et `Masse`, même s'ils simplifiraient la gestion de mémoire.
+L'ensemble de ressorts est un `vector<const Spring*>`. On utilise des `Spring*`, pointeurs "a la C" vers des `Spring` et non des `unique_ptr` car un ressort connecte 2 masses ensemble, qui doivent chacune garder une référence vers leurs ressorts. On ne peut pas utiliser de références par limitation de la classe `vector`. Une autre option serait d'utiliser des `shared_ptr` mais ils pourraient poser des problèmes de référence circulaire entre `Spring` et `Mass`, même s'ils simplifiraient la gestion de mémoire.
 On utilise des `const` pointeurs car il ne revient pas à la masse de modifier les ressorts, cela sera fait au niveau du tissu.
 
 ## P7
 
 > Comment avez vous conçu votre classe `Integrateur` ?
 
-La classe `Integrator` est une classe abstraite. Elle contient seulement une méthode virtuelle pure publique `integrate` qui prend une référence à une `Masse` et un `dt` comme pas de temps afin de mettre à jour la position de la masse (avec cette méthode redéfinie dans les sous-classe).
+La classe `Integrator` est une classe abstraite. Elle contient seulement une méthode virtuelle pure publique `integrate` qui prend une référence à une `Mass` et un `dt` comme pas de temps afin de mettre à jour la position de la masse (avec cette méthode redéfinie dans les sous-classe).
 
 > Quelle est la relation entre les classes `Integrateur` et `IntegrateurEulerCromer` ?
 
@@ -69,7 +69,7 @@ Nous avons choisi de ne pas implémenter un constructeur recevant une liste de m
 
 La méthode `connect()` alloue un nouvel emplacement mémoire pour un ressort connecté aux deux masses dont l'indice est passé en argument. C'est une méthode publique pour permettre à l'utilisateur de créer des liens dans le tissu (après avoir fourni les masses).
 
-Notre implémentation garanti que les deux masses correspondantes sont connectées à chaque ressort quand il est crée au sein du tissu donc une méthode connecteMasse() ne nous serait pas utile.
+Notre implémentation garanti que les deux masses correspondantes sont connectées à chaque ressort quand il est crée (par l'utilisation de reférences) au sein du tissu, et les adresses de nos ressorts ne changent pas (car allocation dynamique) donc une méthode connecteMasse() ne nous serait pas utile.
 
 La méthode publique `check()` permet de vérifier la cohérence du ressort, elle doit donc être disponible à l'utilisateur.
 

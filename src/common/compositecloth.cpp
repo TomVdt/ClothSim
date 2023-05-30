@@ -10,7 +10,7 @@ void CompositeCloth::linkCloth(std::unique_ptr<Cloth>&& newCloth) {
     newCloth->giveGutsTo(*this);
 }
 
-void CompositeCloth::lootCorpse(std::vector<std::unique_ptr<Masse>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring) {
+void CompositeCloth::lootCorpse(std::vector<std::unique_ptr<Mass>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring) {
     std::vector<std::pair<size_t, size_t>> toConnect;
     for (size_t i(0); i < getMassCount(); ++i) {
         for (size_t j(0); j < manyMass.size(); ++j) {
