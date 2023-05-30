@@ -43,11 +43,16 @@ private:
     */
     double epsilon;
 
+    /**
+     * Distance par défaut
+    */
+    static constexpr double EPSILON = 0.05;
+
 public:
     /**
      * Constructeur d'un intégrateur de Newmark prenant le critère de convergence utilisé par celui-ci
     */
-    NewmarkIntegrator(double epsilon = CONSTANTS::PHYSICS_DPOS): epsilon(epsilon) {}
+    NewmarkIntegrator(double epsilon = EPSILON): epsilon(epsilon) {}
 
     /**
      * Intègre les masses individuelles avec les formules pour l'intégrateur de Newmark

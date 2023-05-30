@@ -17,9 +17,4 @@ namespace CONSTANTS {
      * Pas de temps par défaut
     */
     inline constexpr double PHYSICS_DT(0.01);
-
-    /**
-     * Distance par défaut (utilisée comme critère de convergence dans l'intégrateur de Newmark)
-    */
-    inline constexpr double PHYSICS_DPOS(0.05);
 }

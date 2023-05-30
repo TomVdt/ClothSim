@@ -209,7 +209,7 @@ void Window::run() {
         if (ImGui::IsItemHovered()) ImGui::SetTooltip("Newmark method, very unstable, please use low dt and epsilon values");
 
         if (integratorSelection == 2) {
-            static float epsilon(CONSTANTS::PHYSICS_DPOS);
+            static float epsilon(0.05);
             ImGui::SetNextItemWidth(100);
             ImGui::InputFloat("Epsilon", &epsilon, 0.001, 0.005, "%.3f");
             if (epsilon < 0.001) epsilon = 0.001;
