@@ -38,7 +38,7 @@ Projet programmation OOP - PH BA2
 - [x] Structure du projet
 - [x] Screenshots
 
-[ ] NOMS.txt
+[x] NOMS.txt
 
 ## Projet
 
