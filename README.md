@@ -29,7 +29,7 @@ Projet programmation OOP - PH BA2
 
 À LA FIN:
 
-[ ] Passer un coup de formattage automatique
+[x] Passer un coup de formattage automatique
 
 [x] Completer README
 
