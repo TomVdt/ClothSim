@@ -39,7 +39,7 @@ CXXFLAGS += -Ilibs -I$(COMMON_DIR)
 
 # Tests
 TESTS_DIR = tests
-TESTS = testVector3d testMasse testSpring testIntegrator1 testIntegrator2 testIntegrator3 testIntegrator4 testCloth1 testCloth2 testCloth3 testSystem testConstraint1 testConstraint2 testConstraint3 testChainCloth testRectCloth testDiskCloth testCompositeCloth
+TESTS = testVector3d testMasse testSpring testIntegrator1 testIntegrator2 testIntegrator3 testIntegrator4 testRK4Integrator testNewmarkIntegrator testCloth1 testCloth2 testCloth3 testSystem testConstraint1 testConstraint2 testConstraint3 testChainCloth testRectCloth testDiskCloth testCompositeCloth
 
 # Exercices
 EXERCICES_DIR = exercices
@@ -116,6 +116,10 @@ run_tests: tests
 		do echo "[TEST] Running $$i"; \
 		$$i; \
 		done
+
+run_test%: test%
+	@echo "[TEST] Running test$*"
+	@bin/tests/test$*
 
 dir:
 	@echo "[MAKE] Creating build directories"
