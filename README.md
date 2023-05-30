@@ -4,7 +4,7 @@ Projet programmation OOP - PH BA2
 
 # Finalisation - TODO
 
-[ ] Completer journal - M
+[x] Completer journal - M
 
 [x] Completer conception - M & T
 
@@ -17,7 +17,7 @@ Projet programmation OOP - PH BA2
 
 [x] Corriger tests - T
 
-[ ] Rajouter tests nouveaux intégrateurs - M
+[x] Rajouter tests nouveaux intégrateurs - M
 
 [x] Rajouter tests tissus complexes - T
 
@@ -25,7 +25,7 @@ Projet programmation OOP - PH BA2
 
 [x] Nettoyer TODOs - M & T
 
-[ ] Nettoyer shitposts extremes - M & T
+[x] Nettoyer shitposts extremes - M & T
 
 À LA FIN:
 
@@ -115,6 +115,12 @@ Compiler les tests
 
 ```bash
 make tests
+```
+
+Compiler et exécuter un test individuel (run_test'nom-du-test' exemple pour le `testIntegrator1`)
+
+```bash
+make run_testIntegrator1
 ```
 
 Compiler les exercices

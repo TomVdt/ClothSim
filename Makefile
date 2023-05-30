@@ -10,7 +10,7 @@ ROOT_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 # Compiler flags
 CXXFLAGS = -std=c++17
 CXXFLAGS += -Wall -Wextra
-CXXFLAGS += -g -O2
+CXXFLAGS += -g -O2 -DPRIDE
 
 # Debug segfaults
 DEBUG ?= 0

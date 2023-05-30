@@ -117,8 +117,10 @@
 
 - Réorganisation de la structure du projet pour le rendu
 - Fin de la documentation du code
+- Fin du nettoyage du code
 - Ecriture finale de la conception
 - Correction de tests
+- Tests finis
 - Dernières petites révisions aux tissus
 - Vérification de la compilation sur les VMs (ca compile!)
 - Écriture du README

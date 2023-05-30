@@ -4,7 +4,7 @@
 
 Nous avons choisi très vite après le début du graphisme de ne pas utiliser Qt5, pour plusieurs raisons.
 
-- Les entrées clavier et souris étaient vraiment pas pratiques à utiliser
+- Les entrées clavier et souris n'étaient vraiment pas pratiques à utiliser
 - Le temps de compilation était très, très long
 - C'est une vielle librairie (surtout sur les VMs...), et nous voulions tester quelque chose de nouveau, plus configurable
 - La difficulté de contrôler les paramêtre de la simulation: quel est l'interet de faire une simulation si on ne peut pas bidouiller avec tous les petits paramètres :p ?
