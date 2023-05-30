@@ -23,7 +23,7 @@ private:
 
 protected:
     /**
-     * Récupère les masses et ressorts passés en argument et relie les masses situées à la bonne distance 
+     * Récupère les masses et ressorts passés en argument et relie les masses situées à la bonne distance
      * afin de coudre les tissus entre eux
     */
     virtual void lootCorpse(std::vector<std::unique_ptr<Mass>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring) override;
@@ -35,28 +35,28 @@ public:
     */
     CompositeCloth(double k, double delta = DELTA): k(k), delta(delta) {}
 
-    /** 
-     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire 
+    /**
+     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire
     */
     CompositeCloth(const CompositeCloth&) = delete;
 
-    /** 
-     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire 
+    /**
+     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire
     */
     CompositeCloth& operator=(const CompositeCloth&) = delete;
-    
+
     /**
-     * On peut (et doit!) déplacer les tissus 
+     * On peut (et doit!) déplacer les tissus
     */
     CompositeCloth(CompositeCloth&&) = default;
-    
+
     /**
-     * On peut (et doit!) déplacer les tissus 
+     * On peut (et doit!) déplacer les tissus
     */
     CompositeCloth& operator=(CompositeCloth&&) = default;
 
     /**
-     * Destructeur par défaut suffisant car nous utilisons des `unique_ptr` 
+     * Destructeur par défaut suffisant car nous utilisons des `unique_ptr`
     */
     virtual ~CompositeCloth() = default;
 

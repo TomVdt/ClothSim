@@ -4,7 +4,7 @@
 
 /**
  * Classe simple pour indenter une sortie dans cout
- * Avec: `std::cout << indent(...) << ...;` 
+ * Avec: `std::cout << indent(...) << ...;`
  * Plus élégant que de faire `std::cout << "  " << std::setw(...) << ...;`
 */
 class indent {

@@ -120,7 +120,7 @@ public:
      * Déplace la caméra
     */
     void translate(double dx, double dy, double dz) { translate(glm::vec3(dx, dy, dz)); }
-    
+
     /**
      * Tourne la caméra
     */
@@ -135,7 +135,7 @@ public:
      * Met la position de la caméra
     */
     void setPosition(double x, double y, double z) { setPosition(glm::vec3(x, y, z)); }
-    
+
     /**
      * Met la rotation de la caméra
     */
@@ -203,7 +203,7 @@ public:
 
     // Queries
     // With help from https://stackoverflow.com/questions/1568568/how-to-convert-euler-angles-to-directional-vector
-    
+
     /**
      * Vecteur avant de la caméra
     */

@@ -15,7 +15,7 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
     if (std::abs(angularStep) < CONSTANTS::EPSILON) {
         ERROR(ValueError, "Angular step must not be 0");
     }
-    
+
     // Central mass
     addMass(mass, lambda, center);
 
@@ -51,7 +51,7 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
         for (unsigned int r(0); r < diskCount; ++r) {
             // Weird because 1st circle has a single mass.
             unsigned int index(1 + a * diskCount + r);
-            
+
             unsigned int right(index + diskCount);
             // Edge case
             if (right > masses.size() - 1) {
@@ -63,7 +63,7 @@ DiskCloth::DiskCloth(double mass, const Vector3D& center, const Vector3D& radius
                 )
             );
             connect(index, right, k, dist);
-            
+
             unsigned int inner(index - 1);
             // Inner ring
             if (index % diskCount == 1) {

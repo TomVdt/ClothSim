@@ -10,7 +10,7 @@ RectCloth::RectCloth(double mass, Vector3D width, Vector3D length, const Vector3
     const double lengthNorm(length.norm());
     width.normalize();
     length.normalize();
-    
+
     // Colinéaires
     if (width == length or width == -length) {
         ERROR(ValueError, "Width and length vectors must not be colinear");

@@ -80,7 +80,7 @@ public:
      * Constructeur d'une contrainte "crochet" prenant sa position et son rayon d'action
     */
     HookConstraint(const Vector3D& pos, double radius): Constraint(pos, radius) {}
-    
+
     /**
      * Destructeur par défaut suffisant pour une contrainte "crochet"
     */

@@ -42,7 +42,7 @@ void Window::init() {
 
     // Enable vsync
     glfwSwapInterval(1);
-    
+
     // Set resize callback
     glfwSetFramebufferSizeCallback(window, fbResizeCallback);
 
@@ -148,7 +148,7 @@ void Window::run() {
     while (!glfwWindowShouldClose(window)) {
         // Update system and handle inputs
         update();
-        
+
         // Resize window before rendering
         if (needsResize) {
             int display_w, display_h;
@@ -164,7 +164,7 @@ void Window::run() {
         ImGui::NewFrame();
 
         ImGui::Begin("Cloth Simulation!");
-        
+
         // As it says, general information about the window and position
         ImGui::SeparatorText("General information");
         ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);

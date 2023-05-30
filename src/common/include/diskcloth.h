@@ -13,28 +13,28 @@ public:
     */
     DiskCloth(double mass, const Vector3D& center, const Vector3D& radius, double radialStep, double lambda, double k, double angularStep = M_PI / 9.0);
 
-    /** 
-     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire 
+    /**
+     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire
     */
     DiskCloth(const DiskCloth&) = delete;
-    
-    /** 
-     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire 
+
+    /**
+     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire
     */
     DiskCloth& operator=(const DiskCloth&) = delete;
-    
+
     /**
-     * On peut (et doit!) déplacer les tissus 
+     * On peut (et doit!) déplacer les tissus
     */
     DiskCloth(DiskCloth&&) = default;
-    
+
     /**
-     * On peut (et doit!) déplacer les tissus 
+     * On peut (et doit!) déplacer les tissus
     */
     DiskCloth& operator=(DiskCloth&&) = default;
 
     /**
-     * Destructeur par défaut suffisant car nous utilisons des `unique_ptr` 
+     * Destructeur par défaut suffisant car nous utilisons des `unique_ptr`
     */
     virtual ~DiskCloth() = default;
 };

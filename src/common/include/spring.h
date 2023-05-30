@@ -35,29 +35,29 @@ private:
     int id;
 
     /**
-     * Variable de classe permettant de donner des identificateurs uniques aux ressorts 
+     * Variable de classe permettant de donner des identificateurs uniques aux ressorts
      * en comptant le nombre de ressorts crées
     */
     static int COUNT;
 
 public:
-    /** 
+    /**
      * Constructeur de ressort
      * Initialise la constante de raideur et la longueur à vide
      * Les masses des extremités doivent être données et ne peuvent pas etre modifiées après
-     * Pour supprimer une connection, simplement supprimer la référence à cette connection 
+     * Pour supprimer une connection, simplement supprimer la référence à cette connection
     */
     Spring(double k, double l0, const Mass& mass1, const Mass& mass2): k(k), l0(l0), mass1(mass1), mass2(mass2), id(COUNT++) {}
 
     /**
      * Pas de copie de ressorts
-     * Un autre ressort agissant sur les même masses n'a pas trop de sens 
+     * Un autre ressort agissant sur les même masses n'a pas trop de sens
     */
     Spring(const Spring&) = delete;
 
     /**
      * Pas de copie de ressorts
-     * Un autre ressort agissant sur les même masses n'a pas trop de sens 
+     * Un autre ressort agissant sur les même masses n'a pas trop de sens
     */
     Spring& operator=(const Spring&) = delete;
 
@@ -67,7 +67,7 @@ public:
     virtual ~Spring() = default;
 
     /**
-     * Constante de raideur k 
+     * Constante de raideur k
     */
     double getK() const { return k; }
 
@@ -115,7 +115,7 @@ public:
      * Test si le ressort est valide, c'est-à-dire si ses extrêmités sont différentes
     */
     bool valid() const;
-    
+
     /**
      * Vérifie que les extremités soient connectées au ressort
     */

@@ -32,7 +32,7 @@ public:
      * Possible de déplacer des supports de dessin
     */
     Renderer(Renderer&&) = default;
-    
+
     /**
      * Possible de déplacer des supports de dessin
     */
@@ -42,22 +42,22 @@ public:
      * Dessine une masse
     */
     virtual void draw(const Mass&) = 0;
-    
+
     /**
      * Dessine un ressort
     */
     virtual void draw(const Spring&) = 0;
-    
+
     /**
      * Dessine un tissu
     */
     virtual void draw(const Cloth&) = 0;
-    
+
     /**
      * Dessine un système
     */
     virtual void draw(const System&) = 0;
-    
+
     /**
      * Dessine une contrainte
     */

@@ -18,7 +18,7 @@ protected:
      * Liste de unique_ptr sur les masses, le tissu stocke les masses
     */
     std::vector<std::unique_ptr<Mass>> masses;
-    
+
     /**
      * Liste de unique_ptr sur les ressorts, le tissu stocke les ressorts
     */
@@ -30,46 +30,46 @@ protected:
     virtual void lootCorpse(std::vector<std::unique_ptr<Mass>>&& manyMass, std::vector<std::unique_ptr<Spring>>&& manySpring);
 
 public:
-    /** 
+    /**
      * Constructeur par défaut, initialise les listes des composants du tissu à des listes vides
     */
     Cloth();
 
-    /** 
-     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire 
+    /**
+     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire
     */
     Cloth(const Cloth&) = delete;
 
-    /** 
-     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire 
+    /**
+     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire
     */
     Cloth& operator=(const Cloth&) = delete;
 
     /**
-     * On peut (et doit!) déplacer les tissus 
+     * On peut (et doit!) déplacer les tissus
     */
     Cloth(Cloth&&) = default;
 
     /**
-     * On peut (et doit!) déplacer les tissus 
+     * On peut (et doit!) déplacer les tissus
     */
     Cloth& operator=(Cloth&&) = default;
 
     /**
-     * Destructeur par défaut virtuel suffisant car nous utilisons des `unique_ptr` 
+     * Destructeur par défaut virtuel suffisant car nous utilisons des `unique_ptr`
     */
     virtual ~Cloth() = default;
 
     /**
-     * Nombre de masses dans le tissu 
+     * Nombre de masses dans le tissu
     */
     unsigned int getMassCount() const { return masses.size(); };
 
     /**
-     * Nombre de ressorts dans le tissu 
+     * Nombre de ressorts dans le tissu
     */
     unsigned int getSpringCount() const { return springs.size(); };
-    
+
     /**
      * Retourne la position de la masse d'indice fourni dans la liste de masses
     */
@@ -94,12 +94,12 @@ public:
     }
 
     /**
-     * Crée un ressort entre deux masses d'indices m1 et m2, de raideur k et longueur au repos l0 
+     * Crée un ressort entre deux masses d'indices m1 et m2, de raideur k et longueur au repos l0
     */
     void connect(size_t m1, size_t m2, double k = 0.1, double l0 = 1);
 
     /**
-     * Vérifie pour tous les ressorts et toutes les masses que les connections sont valides 
+     * Vérifie pour tous les ressorts et toutes les masses que les connections sont valides
     */
     bool check() const;
 
@@ -110,7 +110,7 @@ public:
     void giveGutsTo(Cloth& cloth);
 
     /**
-     * Met à jour les forces sur les masses 
+     * Met à jour les forces sur les masses
     */
     void updateForce();
 
@@ -130,7 +130,7 @@ public:
     void applyConstraints(double time);
 
     /**
-     * Utilise l'intégrateur pour mettre à jour les masses du tissu 
+     * Utilise l'intégrateur pour mettre à jour les masses du tissu
     */
     void step(Integrator const& integratator, double dt = CONSTANTS::PHYSICS_DT, double time = 0);
 

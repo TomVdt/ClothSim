@@ -10,28 +10,28 @@ public:
     */
     RectCloth(double mass, Vector3D width, Vector3D height, const Vector3D& origin, double lambda, double step, double k, double l0);
 
-    /** 
-     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire 
+    /**
+     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire
     */
     RectCloth(const RectCloth&) = delete;
-    
-    /** 
-     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire 
+
+    /**
+     * Pas de copie de tissu: complexe de refaire toutes les connections et nécessite beaucoup de mémoire
     */
     RectCloth& operator=(const RectCloth&) = delete;
-    
+
     /**
-     * On peut (et doit!) déplacer les tissus 
+     * On peut (et doit!) déplacer les tissus
     */
     RectCloth(RectCloth&&) = default;
-    
+
     /**
-     * On peut (et doit!) déplacer les tissus 
+     * On peut (et doit!) déplacer les tissus
     */
     RectCloth& operator=(RectCloth&&) = default;
 
     /**
-     * Destructeur par défaut suffisant car nous utilisons des `unique_ptr` 
+     * Destructeur par défaut suffisant car nous utilisons des `unique_ptr`
     */
     virtual ~RectCloth() = default;
 };

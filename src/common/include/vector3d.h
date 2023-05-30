@@ -33,7 +33,7 @@ public:
      * Coordonnée y du vecteur
     */
     double getY() const { return y; }
-    
+
     /**
      * Coordonnée z du vecteur
     */
@@ -128,7 +128,7 @@ public:
      * Renvoie le produit scalaire entre ce vecteur et celui fourni
     */
     double dot(const Vector3D&) const;
-    
+
     /**
      * Renvoie le produit vectoriel entre ce vecteur et celui fourni
     */

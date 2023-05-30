@@ -12,7 +12,7 @@
 
 int main() {
     System system;
-    
+
     Cloth* cloth(new Cloth());
 
     cloth->addMass(0.33, 0.3, Vector3D(0, -3, 0), Vector3D(0, 0, 0));

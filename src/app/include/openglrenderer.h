@@ -17,7 +17,7 @@ private:
      * OpenGL shader program
     */
     ShaderProgram program;
-    
+
     /**
      * Vertex buffer
     */
@@ -224,17 +224,17 @@ public:
      * Dessine une masse
     */
     virtual void draw(const Mass&) override;
-    
+
     /**
      * Dessine un ressort
     */
     virtual void draw(const Spring&) override;
-    
+
     /**
      * Dessine un tissu
     */
     virtual void draw(const Cloth&) override;
-    
+
     /**
      * Dessine un système
     */
@@ -254,7 +254,7 @@ public:
      * Dessine une ligne
     */
     void drawLine(const Vector3D& pos1, const Vector3D& pos2, const glm::vec4& color = glm::vec4(1.0));
-    
+
     /**
      * Dessine un cube
     */

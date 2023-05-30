@@ -6,7 +6,7 @@ namespace CONSTANTS {
      * Comparaison entre double
     */
     inline constexpr double EPSILON(1e-10);
-    
+
     // Physique
     /**
      * Vecteur du champ de pesanteur terrestre

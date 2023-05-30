@@ -3,8 +3,8 @@
 #include "include/util.h"
 #include "include/vector3d.h"
 
-void EulerCromerIntegrator::integrate(Mass& mass, double dt, double time) const {  
-    UNUSED(time);  
+void EulerCromerIntegrator::integrate(Mass& mass, double dt, double time) const {
+    UNUSED(time);
     // Calcule le nouvel état
     const Vector3D vel(mass.getVel() + mass.acceleration() * dt);
     const Vector3D pos(mass.getPos() + vel * dt);
@@ -14,7 +14,7 @@ void EulerCromerIntegrator::integrate(Mass& mass, double dt, double time) const 
     mass.setVel(vel);
 }
 
-void RK4Integrator::integrate(Mass& mass, double dt, double time) const {    
+void RK4Integrator::integrate(Mass& mass, double dt, double time) const {
     Vector3D OGPos(mass.getPos());
     Vector3D v1(mass.getVel());
     Vector3D a1(mass.acceleration());

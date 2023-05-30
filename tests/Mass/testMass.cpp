@@ -48,13 +48,13 @@ int main() {
     assertmsg("connections", m1.springConnected(s2), true);
     std::cout << "affiche : " << m1 << "\n";
     std::cout << "devait afficher pour les ressorts: " << &s1 << " et " << &s2 << "\n";
-    
+
     m1.disconnectSpring(s1);
     assertmsg("connections", m1.springConnected(s1), false);
     assertmsg("connections", m1.springConnected(s2), true);
     std::cout << "affiche : " << m1 << "\n";
     std::cout << "devait afficher pour les ressorts: " << &s2 << "\n";
-    
+
     m2.disconnect();
     assertmsg("connections", m2.springConnected(s1), false);
     assertmsg("connections", m2.springConnected(s2), false);

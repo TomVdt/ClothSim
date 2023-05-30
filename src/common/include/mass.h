@@ -54,34 +54,34 @@ private:
     int id;
 
     /**
-     * Variable de classe permettant de donner des identificateurs uniques aux masses 
+     * Variable de classe permettant de donner des identificateurs uniques aux masses
      * en comptant le nombre de masses crées
     */
     static int COUNT;
 
 public:
-    /** 
+    /**
      * Constructeur masse nécesssaire ensuite lambda, pos et vel peuvent etre par defaut
      * N'est pas propriétaire des springs
     */
     Mass(double mass, double lambda = 0.0, const Vector3D& pos = Vector3D(), const Vector3D& vel = Vector3D());
-    
+
     /**
-     * Pas de copie de masse: à quels ressorts connecter? 
+     * Pas de copie de masse: à quels ressorts connecter?
     */
     Mass(const Mass&) = delete;
 
     /**
-     * Pas de copie de masse: à quels ressorts connecter? 
+     * Pas de copie de masse: à quels ressorts connecter?
     */
     Mass& operator=(const Mass&) = delete;
 
-    /** 
+    /**
      * Possible de déplacer les masses
     */
     Mass(Mass&&) = default;
 
-    /** 
+    /**
      * Possible de déplacer les masses
     */
     Mass& operator=(Mass&&) = default;
@@ -96,22 +96,22 @@ public:
     */
     const Vector3D& getPos() const { return pos; }
 
-    /** 
+    /**
      * Vecteur vitesse de la masse
     */
     const Vector3D& getVel() const { return vel; }
-    
-    /** 
+
+    /**
      * Vecteur de la force actuelle sur la masse
     */
     const Vector3D& getForce() const { return force; }
-    
-    /** 
-     * Renvoie la valeur de la masse de cette instance 
+
+    /**
+     * Renvoie la valeur de la masse de cette instance
     */
     double getMass() const { return mass; }
-    
-    /** 
+
+    /**
      * Coefficient de frottement
     */
     double getLambda() const { return lambda; }
@@ -125,13 +125,13 @@ public:
      * Modifie la position de la masse
     */
     void setPos(const Vector3D& vec) { pos = vec; }
-    
-    /** 
+
+    /**
      * Modifie la vitesse de la masse
     */
     void setVel(const Vector3D& vec) { vel = vec; }
 
-    /** 
+    /**
      * Vecteur accélération de la masse
     */
     Vector3D acceleration() const;
@@ -150,7 +150,7 @@ public:
      * Rajoute une contrainte à la masse
     */
     void addConstraint(const Constraint& constraint);
-    
+
     /**
      * Supprime toutes les contraintes sur la masse
     */
@@ -166,35 +166,35 @@ public:
     */
     void applyConstraints(double time);
 
-    /** 
-     * Rajoute une force à cette masse 
+    /**
+     * Rajoute une force à cette masse
     */
     void addForce(const Vector3D& df);
 
-    /** 
+    /**
      * Met à jour la force sur la masse avec
-     * mg, -lambda*v et la somme des forces de rappel 
+     * mg, -lambda*v et la somme des forces de rappel
     */
     void updateForce();
 
-    /** 
-     * Connecte un nouveau ressort à la masse en 
-     * vérifiant s'il n'est pas déjà connecté 
+    /**
+     * Connecte un nouveau ressort à la masse en
+     * vérifiant s'il n'est pas déjà connecté
     */
     void connectSpring(Spring& spring);
 
-    /** 
-     * Déconnecte la masse du ressort donné 
+    /**
+     * Déconnecte la masse du ressort donné
     */
     void disconnectSpring(const Spring& spring);
-    
-    /** 
-     * Déconnecte tous les ressorts 
+
+    /**
+     * Déconnecte tous les ressorts
     */
     void disconnect();
 
-    /** 
-     * Vérifie si le ressort est connecté 
+    /**
+     * Vérifie si le ressort est connecté
     */
     bool springConnected(const Spring& spring) const;
 
@@ -203,13 +203,13 @@ public:
     */
     virtual void draw(Renderer& dest) override;
 
-    /** 
-     * Représentation de la masse dans un flot 
+    /**
+     * Représentation de la masse dans un flot
     */
     void display(std::ostream& out, size_t level = 0) const;
 };
 
-/** 
- * Surcharge externe de l'opérateur << pour les masses 
+/**
+ * Surcharge externe de l'opérateur << pour les masses
 */
 std::ostream& operator<<(std::ostream& out, const Mass& mass);

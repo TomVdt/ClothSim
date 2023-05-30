@@ -22,7 +22,7 @@ int main() {
         0.3,
         100.0
     ));
-    
+
     system.addConstraint(std::make_unique<HookConstraint>(
         Vector3D(),
         0.1
@@ -112,7 +112,7 @@ int main() {
     CompositeCloth* cloth3(new CompositeCloth(100, 0.2));
     cloth3->linkCloth(std::unique_ptr<Cloth>(cloth1));
     cloth3->linkCloth(std::unique_ptr<Cloth>(cloth2));
-    
+
     system.addCloth(std::unique_ptr<Cloth>(cloth3));
 
     system.addConstraint(std::make_unique<ImpulsionConstraint>(

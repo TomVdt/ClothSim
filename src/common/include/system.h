@@ -35,13 +35,13 @@ public:
     System(): cloths(), constraints(), time(0.0) {}
 
     /**
-     * Pas de copie de systèmes, trop coûteux en mémoire et 
+     * Pas de copie de systèmes, trop coûteux en mémoire et
      * ses composants lui appartiennent uniquement
     */
     System(const System&) = delete;
-    
+
     /**
-     * Pas de copie de systèmes, trop coûteux en mémoire et 
+     * Pas de copie de systèmes, trop coûteux en mémoire et
      * ses composants lui appartiennent uniquement
     */
     System& operator=(const System&) = delete;
@@ -50,7 +50,7 @@ public:
      * On peut déplacer des systèmes
     */
     System(System&&) = default;
-    
+
     /**
      * On peut déplacer des systèmes
     */
@@ -95,7 +95,7 @@ public:
      * Dessine le système, surcharge de draw pour la classe Drawable
     */
     virtual void draw(Renderer& dest) override;
-    
+
     /**
      * Dessine tous les éléments du système
     */

@@ -12,7 +12,7 @@ private:
      * Renderer
     */
     OpenGLRenderer renderer;
-    
+
     /**
      * Système à dessiner et simuler
     */
@@ -100,7 +100,7 @@ public:
      * Crée une fenetre avec optionnellement un système à dessiner et simuler
     */
     Window(System&& system = System());
-    
+
     /**
      * Destructeur virtual, par défaut (en cas d'héritage)
     */

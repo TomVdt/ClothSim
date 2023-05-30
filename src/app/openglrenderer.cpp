@@ -127,7 +127,7 @@ void OpenGLRenderer::init() {
 
     ebo.create();
     ebo.bind();
-    
+
     lineSize = Geometry::lineIndices.size() * sizeof(Geometry::lineIndices[0]);
     cubeSize = Geometry::cubeIndices.size() * sizeof(Geometry::cubeIndices[0]);
     sphereSize = Geometry::sphereIndices.size() * sizeof(Geometry::sphereIndices[0]);
@@ -339,7 +339,7 @@ void OpenGLRenderer::drawControls() {
     ImGui::Checkbox("Draw Speed Vectors?", &drawSpeedVectors);
     ImGui::Checkbox("Draw Springs?", &drawSprings);
     ImGui::Checkbox("Draw Constraints?", &drawConstraints);
-    
+
     if (ImGui::Button("Reset Camera")) reset();
 }
 
