@@ -1,7 +1,7 @@
 #include "include/cloth.h"
 #include "include/constraint.h"
+#include "include/eulercromerintegrator.h"
 #include "include/hookconstraint.h"
-#include "include/integrator.h"
 #include "include/rectcloth.h"
 #include "include/sineimpulsionconstraint.h"
 #include "include/system.h"

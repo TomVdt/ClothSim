@@ -1,4 +1,4 @@
-#include "include/integrator.h"
+#include "include/eulercromerintegrator.h"
 #include "include/mass.h"
 #include "include/vector3d.h"
 

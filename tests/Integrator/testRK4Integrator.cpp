@@ -1,4 +1,4 @@
-#include "include/integrator.h"
+#include "include/rk4integrator.h"
 #include "include/mass.h"
 #include "include/vector3d.h"
 

@@ -1,6 +1,6 @@
 #include "include/cloth.h"
+#include "include/eulercromerintegrator.h"
 #include "include/exceptions.h"
-#include "include/integrator.h"
 #include "include/mass.h"
 #include "include/spring.h"
 #include "include/test.h"

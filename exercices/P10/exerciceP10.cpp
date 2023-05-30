@@ -1,5 +1,5 @@
 #include "include/cloth.h"
-#include "include/integrator.h"
+#include "include/eulercromerintegrator.h"
 #include "include/hookconstraint.h"
 #include "include/mass.h"
 #include "include/system.h"

@@ -1,7 +1,7 @@
 #include "include/attractionconstraint.h"
 #include "include/cloth.h"
 #include "include/constraint.h"
-#include "include/integrator.h"
+#include "include/eulercromerintegrator.h"
 #include "include/rectcloth.h"
 #include "include/system.h"
 #include "include/textrenderer.h"
