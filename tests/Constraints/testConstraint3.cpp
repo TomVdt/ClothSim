@@ -22,22 +22,14 @@ int main() {
 
     Constraint* constraint1(new AttractionConstraint(
         Vector3D(-1, -5, -1),
-        5,
+        25,
         50,
-        0.01
-    ));
-
-    Constraint* constraint2(new AttractionConstraint(
-        Vector3D(-6, -9, -6),
-        5,
-        -50,
-        0.01
+        5
     ));
 
     System system;
     system.addCloth(std::unique_ptr<Cloth>(cloth1));
     system.addConstraint(std::unique_ptr<Constraint>(constraint1));
-    system.addConstraint(std::unique_ptr<Constraint>(constraint2));
 
     std::ofstream file("output/testConstraint3.txt");
     TextRenderer renderer(file);

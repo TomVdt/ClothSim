@@ -13,9 +13,11 @@ SineImpulsionConstraint::SineImpulsionConstraint(const Vector3D& pos, double rad
 {}
 
 void SineImpulsionConstraint::apply(Mass& mass, double time) const {
-    Vector3D theRealForce(std::sin(2 * M_PI * frequency * (time - startTime)) * force);
-    mass.addForce(-CONSTANTS::g * mass.getMass());
-    mass.addForce(theRealForce);
+    if (isInList(mass) and isInTime(time)) {
+        Vector3D theRealForce(std::sin(2 * M_PI * frequency * (time - startTime)) * force);
+        mass.addForce(-CONSTANTS::g * mass.getMass());
+        mass.addForce(theRealForce);
+    }
 }
 
 void SineImpulsionConstraint::display(std::ostream& out, size_t level) const {
