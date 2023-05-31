@@ -45,6 +45,18 @@ Voir `GRAPHISME.md` pour plus d'informations sur nos choix de librairies.
 
 Nous estimons avoir passé environ 6-8h par personne sur le projet.
 
+## Contrôles
+
+| Touche                     | Action                  |
+|----------------------------|-------------------------|
+| W                          | Avancer                 |
+| S                          | Reculer                 |
+| A                          | Gauche                  |
+| D                          | Droite                  |
+| Espace                     | Monter                  |
+| LShift                     | Descendre               |
+| Click + deplacement souris | Changer angle de camera |
+
 ## Dépendences
 
 - Inclus: [GLFW](https://github.com/glfw/glfw) (license ZLIB) pour la fenêtre OpenGL
