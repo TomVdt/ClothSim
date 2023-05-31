@@ -134,7 +134,7 @@ int main() {
         ));
     }
 
-    // Ejection par aide gravitationelle
+    // Aimant
     system.addCloth(std::make_unique<ChainCloth>(
         1.0, 0.3, 100, 1.0,
         std::vector<Vector3D>({
@@ -153,7 +153,7 @@ int main() {
     ));
 
     system.addConstraint(std::make_unique<AttractionConstraint>(
-        Vector3D(-28, 21, 20), 10, 666, 0.01
+        Vector3D(-28, 28, 20), 10, 666, 2.76
     ));
 
     // Charges opposées
@@ -167,7 +167,7 @@ int main() {
     ));
 
     system.addConstraint(std::make_unique<AttractionConstraint>(
-        Vector3D(0, -10, -30), 10, -666, 0.01
+        Vector3D(0, -5, -30), 10, -666, 0.01
     ));
 
     // Create window

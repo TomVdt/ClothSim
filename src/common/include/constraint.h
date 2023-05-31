@@ -44,7 +44,7 @@ public:
     /**
      * Retourne un booléen indiquant si la masse fournie est concernée par la contrainte ou non
     */
-    virtual bool isApplicable(const Mass& mass, double time) const;
+    virtual bool isInRange(const Mass& mass) const;
 
     /**
      * Applique sur toutes les masses d'un tissu cette contrainte

@@ -34,14 +34,11 @@ bool ImpulsionConstraint::isInTime(double time) const {
     return startTime <= time and time <= endTime;
 }
 
-bool ImpulsionConstraint::isApplicable(const Mass& mass, double time) const {
-    return isInList(mass) and isInTime(time);
-}
-
 void ImpulsionConstraint::apply(Mass& mass, double time) const {
-    UNUSED(time);
-    mass.addForce(-CONSTANTS::g * mass.getMass());
-    mass.addForce(force);
+    if (isInList(mass) and isInTime(time)) {
+        mass.addForce(-CONSTANTS::g * mass.getMass());
+        mass.addForce(force);
+    }
 }
 
 void ImpulsionConstraint::display(std::ostream& out, size_t level) const {

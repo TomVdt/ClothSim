@@ -9,8 +9,7 @@
 
 Constraint::Constraint(const Vector3D& pos, double radius): pos(pos), radius(radius) {}
 
-bool Constraint::isApplicable(const Mass& masse, double time) const {
-    UNUSED(time);
+bool Constraint::isInRange(const Mass& masse) const {
     return Vector3D::dist(masse.getPos(), pos) < radius;
 }
 

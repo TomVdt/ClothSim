@@ -90,7 +90,9 @@ void Cloth::updateForce() {
 
 void Cloth::addConstraint(const Constraint& constraint) {
     for (auto& mass : masses) {
-        mass->addConstraint(constraint);
+        if (constraint.isInRange(*mass)) {
+            mass->addConstraint(constraint);
+        }
     }
 }
 

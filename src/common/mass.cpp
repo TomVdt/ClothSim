@@ -66,9 +66,7 @@ void Mass::clearConstraints() {
 }
 
 void Mass::applyConstraint(const Constraint& constraint, double time) {
-    if (constraint.isApplicable(*this, time)) {
-        constraint.apply(*this, time);
-    }
+    constraint.apply(*this, time);
 }
 
 void Mass::applyConstraints(double time) {

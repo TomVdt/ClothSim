@@ -65,10 +65,10 @@ Pour les tissus composés, il suffit donc de, pour connecter un tissu, d'appeler
 
 ## Contraintes
 
-Pour toutes nos `Constraint`, nous avons opté d'utiliser un double-dispatch sur le tissu donné à la méthode `Constraint::apply(Cloth&, )`.
-La méthode appelle une méthode sur le tissu `Cloth::applyConstraint()`, qui va elle iterer sur les masses, vérifier si la contrainte s'applique et si c'est le cas, l'appliquer par la méthode `Constraint::apply(Mass&, )`.
+Pour toutes nos `Constraint`, nous avons opté d'utiliser un double-dispatch sur le tissu donné à la méthode `Constraint::apply(Cloth&)`.
+La méthode appelle une méthode sur le tissu `Cloth::applyConstraint()`, qui va elle va appliquer les contraintes sur toutes les masses avec `Constraint::apply(Mass&, )`. La méthode `Cloth::applyConstraint()` d'appliquer une contrainte non enregistrée dans la liste des contraintes des masse.
 Cela permet de maintenir une bonne encapsulation en évitant un getter sur les masses.
-Nous considérons que, si la méthode `Constraint::apply()` est appelée, que la contrainte doit s'appliquer dans tous les cas, et que c'est à celui qui fait l'appel de vérifier si elle doit bien s'appliquer par la méthode `Constraint::isApplicable()`.
+Lors de l'ajout d'une contrainte au système, la contrainte va être rajoutée à toutes les masses concernées par son champ d'action. Elles sont appliquées par la méthode `Mass::applyConstraints()`.
 
 Nos `ImpulsionConstraint` utilisent pour mémoriser à quelles masses elles doivent s'appliquer une liste d'identifiant unique pour toutes les masses concernées, sans enregistrer leur addresse, ce qui briserait l'encapsulation.
 Pour ce faire, nous attribuons automatiquement à chaque masse un entier unique, accessible en lecture seule depuis l'exterieur. Les tissus possèdent une méthode `Cloth::getMassIdsInRange()` qui, comme le nom l'indique, permet d'obtenir tous les identifiants des masses dans un certain rayon. Les contraintes enregistrent donc cette liste, pour chacun des tissus donnés.

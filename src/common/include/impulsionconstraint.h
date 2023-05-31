@@ -15,6 +15,7 @@ private:
     */
     std::vector<int> massIds;
 
+protected:
     /**
      * Détermine si une masse est dans la liste des masses concernées par cette contrainte
     */
@@ -25,7 +26,6 @@ private:
     */
     bool isInTime(double time) const;
 
-protected:
     /**
      * Temps de début d'application de la contrainte
     */
@@ -47,11 +47,6 @@ public:
      * sa force caractéristique et tous les tissus concernés afin de trouver dans ces tissus toutes les masse concernées
     */
     ImpulsionConstraint(const Vector3D& pos, double radius, double start, double end, const Vector3D& force, std::vector<Cloth*> targetCloths);
-
-    /**
-     * Détermine si la contrainte est applicable à la masse fournie à l'instant indiqué
-    */
-    virtual bool isApplicable(const Mass& mass, double time) const override;
 
     /**
      * Annule le poids de la masse fournie et lui applique la force caractéristique de la contrainte
