@@ -5,7 +5,7 @@
 > Comment représentez-vous ces vecteurs ? Comment sont-ils organisés : quels attributs ? quelles méthodes ? quels droits d'accès ?
 
 Les vecteurs sont représentés avec 3 `double` privés `x`, `y` et `z`. Ce sont les seuls attributs de la classe.
-Nous aurions bien sur aussi pu utiliser un array de taille 3 (`std::array` ou array à la C), mais notre choix semble plus naturel et plus ergonomique à utiliser.
+Nous aurions bien sûr aussi pu utiliser un array de taille 3 (`std::array` ou array à la C), mais notre choix semble plus naturel et plus ergonomique à utiliser.
 Utiliser un array serait probablement mieux si nous voulions pouvoir étendre la classe à N-dimensions.
 
 Nous avons des méthodes publiques:
@@ -22,7 +22,7 @@ Aucune méthode privée n'est nécessaire pour nous.
 
 ## P4
 
-> 	Avez-vous ajouté un constructeur de copie ? Pourquoi (justifiez votre choix) ?
+>     Avez-vous ajouté un constructeur de copie ? Pourquoi (justifiez votre choix) ?
 
 Nous n'avons pas rajouté de constructeur de copie car la copie par défaut (copie de surface) suffit, nous n'avons pas d'allocation dynamique.
 
@@ -38,26 +38,26 @@ Cependant, si nous voulions majoritairement utiliser les vecteurs avec la repré
 
 Pour notre utilisation des vecteurs, les `Vector3D` en coordonnées cartésiennes sont préférables, car on a surtout des mouvements de translation et non de rotation.
 
-> Quels opérateurs avez vous introduits ?
+> Quels opérateurs avez-vous introduits ?
 
-Nous avons introduit les opérateurs `<<` et `==` pour faire le role de `affiche` et `compare`, ainsi que d'autre opérateurs, qui sont documentés dans `CONCEPTION.md` (en résumé: opérateurs arithmétiques, normalisation `~`, produit scalaire et vectoriel).
+Nous avons introduit les opérateurs `<<` et `==` pour faire le rôle de `affiche` et `compare`, ainsi que d'autre opérateurs, qui sont documentés dans `CONCEPTION.md` (en résumé: opérateurs arithmétiques, normalisation `~`, produit scalaire et vectoriel).
 
 ## P5
 
 > Comment avez-vous implémenté l'ensemble de ressorts ?
 
-L'ensemble de ressorts est un `vector<const Spring*>`. On utilise des `Spring*`, pointeurs "a la C" vers des `Spring` et non des `unique_ptr` car un ressort connecte 2 masses ensemble, qui doivent chacune garder une référence vers leurs ressorts. On ne peut pas utiliser de références par limitation de la classe `vector`. Une autre option serait d'utiliser des `shared_ptr` mais ils pourraient poser des problèmes de référence circulaire entre `Spring` et `Mass`, même s'ils simplifiraient la gestion de mémoire.
+L'ensemble de ressorts est un `vector<const Spring*>`. On utilise des `Spring*`, pointeurs "a la C" vers des `Spring` et non des `unique_ptr` car un ressort connecte 2 masses ensemble, qui doivent chacune garder une référence vers leurs ressorts. On ne peut pas utiliser de références par limitation de la classe `vector`. Une autre option serait d'utiliser des `shared_ptr` mais ils pourraient poser des problèmes de référence circulaire entre `Spring` et `Mass`, même s'ils simplifieraient la gestion de mémoire.
 On utilise des `const` pointeurs car il ne revient pas à la masse de modifier les ressorts, cela sera fait au niveau du tissu.
 
 ## P7
 
-> Comment avez vous conçu votre classe `Integrateur` ?
+> Comment avez-vous conçu votre classe `Integrateur` ?
 
 La classe `Integrator` est une classe abstraite. Elle contient seulement une méthode virtuelle pure publique `integrate` qui prend une référence à une `Mass` et un `dt` comme pas de temps afin de mettre à jour la position de la masse (avec cette méthode redéfinie dans les sous-classe).
 
 > Quelle est la relation entre les classes `Integrateur` et `IntegrateurEulerCromer` ?
 
-`EulerCromerIntegrator` "est un" `Integrator`, c'est à dire qu'il hérite des méthodes d'`Integrator`. Cette relation d'héritage avec `Integrator` comme super-classe permettra du polymorphisme entre les différents intégrateurs qui pourront être implémentés plus tard.
+`EulerCromerIntegrator` "est un" `Integrator`, c'est-à-dire qu'il hérite des méthodes d'`Integrator`. Cette relation d'héritage avec `Integrator` comme super-classe permettra du polymorphisme entre les différents intégrateurs qui pourront être implémentés plus tard.
 
 Nous définissons la méthode `integrate` pour `EulerCromerIntegrator` afin que ça ne soit plus une classe abstraite mais bien un intégrateur fonctionnel.
 
@@ -69,17 +69,17 @@ Nous avons choisi de ne pas implémenter un constructeur recevant une liste de m
 
 La méthode `connect()` alloue un nouvel emplacement mémoire pour un ressort connecté aux deux masses dont l'indice est passé en argument. C'est une méthode publique pour permettre à l'utilisateur de créer des liens dans le tissu (après avoir fourni les masses).
 
-Notre implémentation garanti que les deux masses correspondantes sont connectées à chaque ressort quand il est crée (par l'utilisation de reférences) au sein du tissu, et les adresses de nos ressorts ne changent pas (car allocation dynamique) donc une méthode connecteMasse() ne nous serait pas utile.
+Notre implémentation garantit que les deux masses correspondantes sont connectées à chaque ressort quand il est créé (par l'utilisation de références) au sein du tissu, et les adresses de nos ressorts ne changent pas (car allocation dynamique) donc une méthode connecteMasse() ne nous serait pas utile.
 
 La méthode publique `check()` permet de vérifier la cohérence du ressort, elle doit donc être disponible à l'utilisateur.
 
 ## P9
 
-> En termes de POO, quelle est donc la nature de la méthode `dessine_sur()` ? 
+> En termes de POO, quelle est donc la nature de la méthode `dessine_sur()` ?
 
 Notre méthode `draw()` est une méthode virtuelle pure, rendant la classe `Drawable` abstraite
 
-> Comment représentez vous la classe `Systeme` ?
+> Comment représentez-vous la classe `Systeme` ?
 
 La classe `System` contient 3 attributs privés:
 - Un tableau dynamique de `unique_ptr<Cloth>` pour permettre une collection hétérogène de différents tissus plus tard dans le projet. Les tissus appartiennent au système qui est seul à s'occuper de leur évolution ce qui explique l'utilisation de `unique_ptr`.
@@ -101,10 +101,10 @@ Ainsi un `System` contient tous les éléments physiques et reçoit les informat
 
 > Où cela s'intègre-t-il dans votre projet/conception ? Quels changements cela engendre-t-il (ou pas) ?
 
-Nous allons créer deux nouvelles sous-classe de `Integrator` pour lesquelles il faudra redéfinir la méthode virtuelle `integrate` avec les formules correspondantes. 
+Nous allons créer deux nouvelles sous-classe de `Integrator` pour lesquelles il faudra redéfinir la méthode virtuelle `integrate` avec les formules correspondantes.
 
-Le polymorphisme permet une compatibilités entre ces nouveaux intégrateurs et notre conception jusqu'ici. Cependant comme ces nouveaux intégrateurs nécessitent de pouvoir calculer des accélérations intermédiaires nous avons dû modifier légèrement notre implémentation:
+Le polymorphisme permet une compatibilité entre ces nouveaux intégrateurs et notre conception jusqu'ici. Cependant comme ces nouveaux intégrateurs nécessitent de pouvoir calculer des accélérations intermédiaires nous avons dû modifier légèrement notre implémentation:
 - Surcharger la méthode `acceleration` des masses afin qu'elle puisse prendre un temps, une position et une vitesse. Elle calcule l'accélération correspondante à ces paramètres sans modifier la masse elle-même (hors de la méthode).
-- Rajouter une variable `time` à la méthode `integrate` dans la classe abstraite `Integrator` et toutes ses sous-classes (cette variable n'est pas utilisée par Euler-Cromer) afin de pouvoir la fournir à la nouvelle méthode `acceleration`.
+- Ajouter une variable `time` à la méthode `integrate` dans la classe abstraite `Integrator` et toutes ses sous-classes (cette variable n'est pas utilisée par Euler-Cromer) afin de pouvoir la fournir à la nouvelle méthode `acceleration`.
 
 Ainsi nous pouvons à l'aide du polymorphisme changer dynamiquement l'intégrateur utilisé pour faire évoluer le système.

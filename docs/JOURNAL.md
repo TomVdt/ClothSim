@@ -27,7 +27,7 @@
 - Début de l'implémentation de la classe `Spring`
 - Correction de bugs dans `Vector3D`
 - Lecture de documentations de Qt5
-- Début de travail sur la partie graphique (fenetre, 3d, caméra)
+- Début de travail sur la partie graphique (fenêtre, 3d, caméra)
 
 ## Semaine 5
 
@@ -106,8 +106,8 @@
 - Troisième implémentation des intégrateurs: RK4 et Newmark stables et fonctionnels
 - Rectification d'erreurs d'intégration
 - Modification dynamique du paramètre de convergence `epsilon` de l'intégrateur de Newmark
-- Nouvelle conception des contraintes et rajout de la contrainte `AttractionConstraint`
-- Création d'une TODOList pour la fin du projet (nettoyage, finalisation de la conception, readme ...)
+- Nouvelle conception des contraintes et ajout de la contrainte `AttractionConstraint`
+- Création d'une TODO List pour la fin du projet (nettoyage, finalisation de la conception, readme ...)
 - Début du nettoyage final du code
 - Amélioration du système de tests et rajouts de tests manquants
 - Gestion des warnings
@@ -122,5 +122,5 @@
 - Correction de tests
 - Tests finis
 - Dernières petites révisions aux tissus
-- Vérification de la compilation sur les VMs (ca compile!)
+- Vérification de la compilation sur les VMs (ça compile!)
 - Écriture du README
