@@ -95,11 +95,11 @@ int main() {
 
     // Flag
     Cloth* cloth1(new RectCloth(
-        1.0,
+        0.42,
         Vector3D(30, 0, 0),
         Vector3D(0, 20, 0),
         Vector3D(0, 40, 20),
-        0.3, 1.0, 200, 1.0
+        0.3, 1.0, 666, 1.0
     ));
 
     std::vector<Vector3D> pos;
@@ -118,14 +118,28 @@ int main() {
 
     system.addCloth(std::unique_ptr<Cloth>(cloth3));
 
-    system.addConstraint(std::make_unique<ImpulsionConstraint>(
-        Vector3D(15, 50, 20),
-        20, 0.0, 10.0,
-        Vector3D(2, -1, 0.5),
+    system.addConstraint(std::make_unique<SineImpulsionConstraint>(
+        Vector3D(5, 50, 20),
+        15, 0.0, 69.0,
+        Vector3D(0, 0, 4), 0.3,
         std::vector<Cloth*>({ cloth3 })
     ));
 
-    for (int i(0); i < 30; ++i) {
+    system.addConstraint(std::make_unique<SineImpulsionConstraint>(
+        Vector3D(18.42, 50, 20),
+        15, 0.0, 69.0,
+        Vector3D(0, 0, -2), 0.3,
+        std::vector<Cloth*>({ cloth3 })
+    ));
+
+    system.addConstraint(std::make_unique<ImpulsionConstraint>(
+        Vector3D(15, 50, 20),
+        20, 0.0, 69.0,
+        Vector3D(1, -9.6, 0),
+        std::vector<Cloth*>({ cloth3 })
+    ));
+
+    for (int i(0); i < 31; ++i) {
         system.addConstraint(std::make_unique<HookConstraint>(
             Vector3D(i, 60, 20), 0.1
         ));
