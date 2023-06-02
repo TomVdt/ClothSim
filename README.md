@@ -1,13 +1,13 @@
 # Simulation de tissus
 
-Ce projet simule des tissus en utilisant un modèle de masses et ressorts.
+Ce projet simule des tissus en utilisant un modèle de masses et de ressorts.
 
-## Fonctionalités
+## Fonctionnalités
 
-- Partie Phyisque
+- Partie Physique
   - Masses qu'on peut relier par des ressorts
   - Tissus simples à composer soi-même
-  - Tissus complexes: chaine, rectangle, disque et composé
+  - Tissus complexes: chaîne, rectangle, disque et composé
   - Système contenant des tissus et contraintes, capable de calculer son énergie
   - Différents intégrateurs numériques: Euler-Cromer, Runge-Kutta, Newmark
   - Contraintes: crochets, impulsions, impulsions sinusoïdales, attraction / répulsion
@@ -17,22 +17,22 @@ Ce projet simule des tissus en utilisant un modèle de masses et ressorts.
   - Dessin des vecteurs vitesse des masses
   - Dessin des sphères d'influences des contraintes
   - Transparence
-  - Mouvement independant de la vitesse de rafraichissement
+  - Mouvement indépendant de la vitesse de rafraîchissement
   - Caméra avec contrôles configurables, dans le style des contrôles Minecraft
   - Vsync (ne fonctionne pas sur les VMs)
 - Application (ImGui)
   - Affichage des FPS
-  - Controle du rendu graphique
-    - Couleur des objets
-    - Taille des masses
-    - Controle de ce qui est dessiné
-  - Controle de la simulation physique
-    - Affichage de l'énergie du système
-    - Mise en pause / avancement d'un pas
-    - Selection de l'intégrateur `EulerCromer`, `RK4`, `Newmark`
-    - Selection du pas de temps et vitesse de la simulation
-    - Ajout dynamique de tissus et de contraintes
-- Developpement
+  - Contrôle du rendu graphique
+  - Couleur des objets
+  - Taille des masses
+  - Contrôle de ce qui est dessiné
+  - Contrôle de la simulation physique
+  - Affichage de l'énergie du système
+  - Mise en pause / avancement d'un pas
+  - Sélection de l'intégrateur `EulerCromer`, `RK4`, `Newmark`
+  - Sélection du pas de temps et vitesse de la simulation
+  - Ajout dynamique de tissus et de contraintes
+- Développement
   - Option pour compiler en mode debug `make DEBUG=1`
   - Option pour changer les touches en fonction de la disposition du clavier `make LAYOUT=AZERTY`, `make LAYOUT=QWERTY`, autres cas avec les touches de direction
   - `TextRenderer` pour afficher la simulation dans un flot
@@ -55,9 +55,9 @@ Nous estimons avoir passé environ 6-8h par personne sur le projet.
 | D                          | Droite                  |
 | Espace                     | Monter                  |
 | LShift                     | Descendre               |
-| Click + deplacement souris | Changer angle de camera |
+| Click + déplacement souris | Changer angle de caméra |
 
-## Dépendences
+## Dépendances
 
 - Inclus: [GLFW](https://github.com/glfw/glfw) (license ZLIB) pour la fenêtre OpenGL
 - Inclus: [glm](https://github.com/g-truc/glm) (license MIT) pour les calculs matriciels
@@ -65,7 +65,7 @@ Nous estimons avoir passé environ 6-8h par personne sur le projet.
 - Inclus: [doxygen-awesome-css](https://github.com/jothepro/doxygen-awesome-css) (license MIT) pour une belle documentation
 - Optionel, externe: [doxygen](https://github.com/doxygen/doxygen) pour générer la documentation
 
-Puisque GLFW n'est pas installé sur les VMs, nous avons inclu une version précompilée de la librairie dans notre projet: `libs/GLFW/libglfw.a`.
+Puisque GLFW n'est pas installé sur les VMs, nous avons inclus une version précompilée de la librairie dans notre projet: `libs/GLFW/libglfw.a`.
 
 ## Compilation
 
@@ -75,7 +75,7 @@ Tout compiler
 make all
 ```
 
-Compiler et executer la partie graphique
+Compiler et exécuter la partie graphique
 
 ```bash
 make run
@@ -99,13 +99,13 @@ Compiler les exercices
 make exercices
 ```
 
-Pour executer les tests manuellement, faire, depuis la racine du projet, `./bin/test/<nom du test>`. Pour les exercices, `./bin/exercices/exerciceP<numero>`. Pour le programme principal, `./bin/clothSimulation`.
+Pour exécuter les tests manuellement, faire, depuis la racine du projet, `./bin/test/<nom du test>`. Pour les exercices, `./bin/exercices/exerciceP<numero>`. Pour le programme principal, `./bin/clothSimulation`.
 
-Pour voir les résultats des tests, executer `jupyter-notebook output/plotTestResults.ipynb`
+Pour voir les résultats des tests, exécuter `jupyter-notebook output/plotTestResults.ipynb`
 
 ## Documentation
 
-Pour générer la documentation, executer
+Pour générer la documentation, exécuter
 
 ```bash
 make docs
@@ -131,7 +131,7 @@ Voir `docs/` pour la documentation en format texte simple
 
 ## Screenshots
 
-![Grand tissu circulaire multicolore, avec un menu permettant de controler la simulation](docs/imgs/big_cloth.webp)
+![Grand tissu circulaire multicolore, avec un menu permettant de contrôler la simulation](docs/imgs/big_cloth.webp)
 
 ![Tous les tissus dans différentes configurations, avec différentes contraintes](docs/imgs/many_cloths.webp)
 
